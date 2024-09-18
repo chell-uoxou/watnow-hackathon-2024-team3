@@ -1,4 +1,4 @@
-import { Hamburger } from "@/components/hamburger";
+import { Hamburger } from "@/components/Hamburger";
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 
