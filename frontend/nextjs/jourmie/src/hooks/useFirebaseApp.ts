@@ -1,5 +1,5 @@
 
-import { FirebaseContext } from "@/routes/_app"
+import { FirebaseContext } from "~/routes/_app";
 import { useContext } from "react"
 
 export const useFirebaseApp = () => {

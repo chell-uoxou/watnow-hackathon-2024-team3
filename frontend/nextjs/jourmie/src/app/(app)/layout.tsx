@@ -1,8 +1,7 @@
 import { json, Outlet, useLoaderData } from "@remix-run/react";
-import { AppTopBar } from "@/components/common/AppTopBar";
-import initFirebase from "@/lib/initFirebase";
-import { FirebaseApp, FirebaseOptions } from "firebase/app";
-import { createContext } from "react";
+import { AppTopBar } from "~/components/common/AppTopBar";
+// import initFirebase from "~/lib/initFirebase";
+import { FirebaseOptions } from "firebase/app";
 export async function loader() {
   const config: FirebaseOptions = {
     apiKey: process.env.API_KEY,
@@ -17,17 +16,13 @@ export async function loader() {
   return json({ firebaseOptions: config });
 }
 
-export const FirebaseContext = createContext<FirebaseApp | null>(null);
-
 const app = () => {
   const config = useLoaderData<typeof loader>();
-  const firebaseApp = initFirebase(config.firebaseOptions);
+  // const firebaseApp = initFirebase(config.firebaseOptions);
   return (
     <div className="bg-slate-50 h-svh">
       <AppTopBar />
-      <FirebaseContext.Provider value={firebaseApp}>
-        <Outlet />
-      </FirebaseContext.Provider>
+      <Outlet />
     </div>
   );
 };
