@@ -1,7 +1,6 @@
+import Link from "next/link";
 import * as React from "react";
-import { Link } from "@remix-run/react";
-
-import { Button } from "@/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,16 +8,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+} from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 
 export const Register = () => {
   return (
@@ -26,7 +18,7 @@ export const Register = () => {
       <CardHeader>
         <CardTitle>アカウント登録をしてください</CardTitle>
         <CardDescription>
-          <Link to="/account/login">アカウントをお持ちの場合はこちら</Link>
+          <Link href="/account/login">アカウントをお持ちの場合はこちら</Link>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -53,10 +45,10 @@ export const Register = () => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant="outline">
-          <Link to="/">Cancel</Link>
+          <Link href="/">Cancel</Link>
         </Button>
         <Button>
-          <Link to="/">登録</Link>
+          <Link href="/">登録</Link>
         </Button>
       </CardFooter>
     </Card>

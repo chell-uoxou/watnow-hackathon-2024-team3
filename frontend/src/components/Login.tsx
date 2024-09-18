@@ -1,6 +1,6 @@
+import Link from "next/link";
 import * as React from "react";
-import { Link } from "@remix-run/react";
-import { Button } from "@/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,10 +8,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
+} from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 
 export const Login = () => {
   return (
@@ -19,7 +18,7 @@ export const Login = () => {
       <CardHeader>
         <CardTitle>ログインしてください</CardTitle>
         <CardDescription>
-          <Link to="/account/register">
+          <Link href="/account/register">
             アカウントをお持ちでない場合はこちら
           </Link>
         </CardDescription>
@@ -40,7 +39,7 @@ export const Login = () => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant="outline">
-          <Link to="/">Cancel</Link>
+          <Link href="/">Cancel</Link>
         </Button>
         <Button>Log In</Button>
       </CardFooter>
