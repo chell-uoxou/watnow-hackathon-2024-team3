@@ -1,5 +1,5 @@
+import Link from "next/link";
 import * as React from "react";
-import { Link } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -12,14 +12,13 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 
-
 export const Login = () => {
   return (
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>ログインしてください</CardTitle>
         <CardDescription>
-          <Link to="/account/register">
+          <Link href="/account/register">
             アカウントをお持ちでない場合はこちら
           </Link>
         </CardDescription>
@@ -40,7 +39,7 @@ export const Login = () => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant="outline">
-          <Link to="/">Cancel</Link>
+          <Link href="/">Cancel</Link>
         </Button>
         <Button>Log In</Button>
       </CardFooter>
