@@ -1,16 +1,18 @@
 "use client";
-import { useEffect } from "react";
+import useCurrentAccount from "~/hooks/useCurrentAccount";
 import useCurrentGroup from "~/hooks/useCurrentGroup";
 
 export default function Page() {
   const dbGroup = useCurrentGroup();
+  const dbAccount = useCurrentAccount();
+  console.log(dbGroup, dbAccount);
 
-  useEffect(() => {
-    if (dbGroup === "loading") return;
-    if (dbGroup) {
-      console.log(dbGroup);
-    }
-  }, [dbGroup]);
+  const message =
+    dbGroup === "loading"
+      ? "Loading..."
+      : dbGroup === null
+      ? "Group not found"
+      : "Welcome to " + dbGroup.name;
 
-  return <></>;
+  return <div>{message}</div>;
 }

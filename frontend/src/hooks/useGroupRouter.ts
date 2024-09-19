@@ -4,6 +4,9 @@ import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
+
+// TODO: ログイン中のユーザーがメンバーとして所属しているのか確認してから取得する
+// なんならFirestoreのセキュリティルールでチェックする
 export default function useGroupRouter() {
   const nextRouter = useRouter();
   const pathname = usePathname();
