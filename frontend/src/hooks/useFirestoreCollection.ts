@@ -13,11 +13,13 @@ import { useMemo } from "react";
 import { createConverter, defaultConverter } from "~/lib/firestore";
 
 export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
-  collection: CollectionReference
+  collection: CollectionReference | null
 ) => {
   const add = useMemo(
     () =>
-      async function (data: T) {
+      async function (data: Omit<T, "uid">) {
+        if (collection === null) return null;
+
         return await addDoc(
           collection.withConverter(createConverter<T>()),
           data
@@ -29,6 +31,8 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
   const set = useMemo(
     () =>
       async function (docId: string, data: T) {
+        if (collection === null) return null;
+
         const newDoc = doc(collection, docId).withConverter(
           defaultConverter<T>()
         );
@@ -40,6 +44,8 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
   const update = useMemo(
     () =>
       async function (docId: string, data: Partial<T>) {
+        if (collection === null) return null;
+
         const newDoc = doc(collection, docId).withConverter(
           defaultConverter<T>()
         );
@@ -51,6 +57,8 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
   const get = useMemo(
     () =>
       async function (docId: string) {
+        if (collection === null) return null;
+
         const docRef = doc(
           collection.withConverter(defaultConverter<T>()),
           docId
@@ -64,6 +72,8 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
   const list = useMemo(
     () =>
       async function () {
+        if (collection === null) return null;
+
         const snapshot = await getDocs(
           collection.withConverter(defaultConverter<T>())
         );
@@ -75,11 +85,29 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
   const del = useMemo(
     () =>
       async function (docId: string) {
+        if (collection === null) return null;
+
         const docRef = doc(collection, docId);
         return await deleteDoc(docRef);
       },
     [collection]
   );
 
-  return { add, set, update, get, list, del };
+  const exists = useMemo(
+    () =>
+      async function (docId: string) {
+        if (collection === null) return null;
+
+        const docRef = doc(collection, docId);
+        const snapshot = await getDoc(docRef);
+        return snapshot.exists();
+      },
+    [collection]
+  );
+
+  if (collection === null) {
+    return null;
+  }
+
+  return { add, set, update, get, list, del, exists };
 };
