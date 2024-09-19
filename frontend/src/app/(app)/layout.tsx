@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { AppTopBar } from "~/components/common/AppTopBar";
 import { LeftSideBar } from "~/components/common/LeftSideBar";
-import MapDrawer from "~/features/googleMap/MapDrawer";
+// import MapDrawer from "~/features/googleMap/MapDrawer";
 // import initFirebase from "~/lib/initFirebase";
 
 // export async function loader() {
@@ -18,17 +18,27 @@ import MapDrawer from "~/features/googleMap/MapDrawer";
 //   return json({ firebaseOptions: config });
 // }
 
-const app = ({ children }: PropsWithChildren) => {
+export const App = ({ children }: PropsWithChildren) => {
   // const config = useLoaderData<typeof loader>();
   // const firebaseApp = initFirebase(config.firebaseOptions);
   return (
-    <div className="bg-slate-50 h-svh">
-      <AppTopBar />
-      <LeftSideBar />
-      <MapDrawer />
-      {children}
-    </div>
+    // <div className="bg-slate-50 h-svh">
+    //   <AppTopBar />
+    //   <LeftSideBar />
+    //   <MapDrawer />
+    //   {children}
+    // </div>
+    <main className="flex flex-row min-h-screen">
+      <div className="flex bg-brand-color-3 h-screen border-brand-border-color border">
+        <LeftSideBar />
+      </div>
+
+      {/* <MapDrawer /> */}
+
+      <div className="w-screen h-10 bg-slate-950 text-white ">
+        <AppTopBar />
+        {children}
+      </div>
+    </main>
   );
 };
-
-export default app;
