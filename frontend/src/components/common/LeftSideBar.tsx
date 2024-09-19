@@ -18,8 +18,8 @@ export const LeftSideBar = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button>
-          <Menu />
+        <Button className="bg-brand-color-3 p-auto">
+          <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>
       <SheetContent

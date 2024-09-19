@@ -12,6 +12,7 @@ const config: Config = {
         "brand-color-2": "#7ac1d2",
         "brand-color-3": "#609aa5",
         "brand-color-4": "#54878f",
+        "brand-border-color": "#E2E8F0",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
