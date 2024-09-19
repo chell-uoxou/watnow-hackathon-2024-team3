@@ -1,30 +1,22 @@
-import { Button } from "~/components/ui/button";
-import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from "lucide-react";
-import { Link } from "@remix-run/react";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetFooter,
-} from "~/components/ui/sheet";
+"use client";
 
 import { Menu } from "lucide-react";
+import React from "react";
+import {
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetTrigger,
+  Sheet,
+} from "../ui/sheet";
+import { Button } from "../ui/button";
 
-export function Hamburger() {
+export const LeftSideBar = () => {
   const side = "left";
+
   return (
-    <Sheet key={side}>
+    <Sheet>
       <SheetTrigger asChild>
         <Button>
           <Menu />
@@ -38,10 +30,7 @@ export function Hamburger() {
           <SheetTitle>a</SheetTitle>
           <SheetDescription>メンバ一覧</SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4 "></div>
-        <SheetFooter></SheetFooter>
       </SheetContent>
     </Sheet>
   );
-}
-
+};

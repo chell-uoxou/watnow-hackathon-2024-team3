@@ -1,5 +1,5 @@
-import * as React from "react";
 import { Check, Hourglass, Map, PiggyBank, Text } from "lucide-react";
+import { useCallback } from "react";
 import {
   Card,
   CardContent,
@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Label } from "~/components/ui/label";
 
 type Props = {
   title: string;
@@ -28,15 +27,15 @@ export function EventDetail({
   preparation_task = "未記入",
   notes = " ",
 }: Props) {
-  // TODO　現状は開始時間と終了時間から時間帯を表示しているが、今後は平日は何時やいつは何時と表形式にしたい。
-  const formatTimes = (times: Array<string>) => {
+  /**
+   * 開館時間をいい感じに書き換えてくれるやつ
+   */
+  const formatTimes = useCallback((times: Array<string>) => {
+    // TODO　現状は開始時間と終了時間から時間帯を表示しているが、今後は平日は何時やいつは何時と表形式にしたい。
     const [startTime, endTime] = times;
-
     const startDate = new Date(startTime);
     const endDate = new Date(endTime);
-
     const sameDay = startDate.toDateString() === endDate.toDateString();
-
     const startFormatted = startDate.toLocaleString("ja-JP", {
       year: "numeric",
       month: "numeric",
@@ -48,9 +47,7 @@ export function EventDetail({
     const endFormatted = endDate.toLocaleString("ja-JP", {
       hour: "2-digit",
       minute: "2-digit",
-      ...(sameDay
-        ? {} // Keep the date the same for the same day
-        : { year: "numeric", month: "numeric", day: "numeric" }), // Add full date if different day
+      ...(sameDay ? {} : { year: "numeric", month: "numeric", day: "numeric" }),
     });
 
     if (sameDay) {
@@ -58,7 +55,7 @@ export function EventDetail({
     } else {
       return `${startFormatted} ~ ${endFormatted}`;
     }
-  };
+  }, []);
 
   return (
     <Card className="w-[350px]">
@@ -72,19 +69,19 @@ export function EventDetail({
             <Hourglass className="w-3.5 h-3.5 mt-1" />
             {formatTimes(available_times)}
           </div>
-          <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1 text-sm">
+          <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1">
             <Map className="w-3.5 h-3.5" />
             {location}
           </div>
-          <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1 text-sm">
+          <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1">
             <PiggyBank className="w-3.5 h-3.5" />
             {value}円
           </div>
-          <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1 text-sm">
+          <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1">
             <Check className="w-3.5 h-3.5" />
             {preparation_task}
           </div>
-          <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1 text-sm">
+          <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1">
             <Text className="w-3.5 h-3.5" />
             {notes}
           </div>

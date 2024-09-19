@@ -1,31 +1,21 @@
 "use client"; // これを最初に追加
-import React, { useState, useEffect } from "react";
-import { LoadScript, GoogleMap, InfoWindow } from "@react-google-maps/api";
-import { Button } from "~/components/ui/button";
-import { Menu } from "lucide-react";
+import { useState, useEffect } from "react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
-  SheetFooter,
 } from "~/components/ui/sheet";
+import { Menu } from "lucide-react";
+import { Button } from "./ui/button";
+import Map from "~/features/googleMap/map";
 
 interface Location {
   lat: number | null;
   lng: number | null;
 }
 
-const containerStyle = {
-  width: "100%",
-  height: "100%",
-  borderRadius: "0.5rem",  // Fixed camelCase
-};
-
-const MakeMap: React.FC = () => {
+const MapDrawer = () => {
   const [currentLocation, setCurrentLocation] = useState<Location>({
     lat: null,
     lng: null,
@@ -60,42 +50,12 @@ const MakeMap: React.FC = () => {
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent
-        side={side}
-        className="flex flex-col min-w-screen h-3/4 "
-      >
-        <SheetHeader>
-          {/* <SheetTitle>a</SheetTitle>
-          <SheetDescription>メンバ一覧</SheetDescription> */}
-        </SheetHeader>
-        <div className="grow rounded-lg bg-clip-border">
-          <LoadScript googleMapsApiKey="AIzaSyAkePaK5Cef7L8zD-A59U2dxk0t2jFEExg">
-            <GoogleMap
-              mapContainerStyle={containerStyle}
-              center={
-                currentLocation.lat !== null && currentLocation.lng !== null
-                  ? { lat: currentLocation.lat, lng: currentLocation.lng }
-                  : defaultCenter
-              }
-              zoom={17}
-            >
-              {currentLocation.lat !== null && currentLocation.lng !== null && (
-                <InfoWindow
-                  position={{
-                    lat: currentLocation.lat,
-                    lng: currentLocation.lng,
-                  }}
-                >
-                  <div>You are here!</div>
-                </InfoWindow>
-              )}
-            </GoogleMap>
-          </LoadScript>
-        </div>
-        <SheetFooter></SheetFooter>
+      <SheetContent side={side} className="flex flex-col min-w-screen h-3/4 ">
+        <SheetHeader>地図</SheetHeader>
+        <Map currentLocation={currentLocation} defaultCenter={defaultCenter} />
       </SheetContent>
     </Sheet>
   );
 };
 
-export default MakeMap;
+export default MapDrawer;

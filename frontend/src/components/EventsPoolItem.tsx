@@ -1,15 +1,9 @@
 "use client";
 import * as React from "react";
 import { useState } from "react";
-import { Check, Hourglass, Map, PiggyBank, Text } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { EventDetail } from "./EventDetail";  // Import the EventDetail component
+import { Hourglass, Map } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { EventDetail } from "./EventDetail"; // Import the EventDetail component
 
 type Props = {
   title: string;
@@ -21,7 +15,7 @@ type Props = {
   notes?: string;
 };
 
-export function EventsForList({
+export default function EventPoolItem({
   title,
   description = "未記入",
   location = "未記入",
@@ -30,8 +24,8 @@ export function EventsForList({
   preparation_task = "未記入",
   notes = " ",
 }: Props) {
-  const [showDetail, setShowDetail] = useState(false);  // State to track if popup is visible
-// TODO　現状は開始時間と終了時間から時間帯を表示しているが、今後は平日は何時やいつは何時と表形式にしたい。
+  const [showDetail, setShowDetail] = useState(false); // State to track if popup is visible
+  // TODO　現状は開始時間と終了時間から時間帯を表示しているが、今後は平日は何時やいつは何時と表形式にしたい。
   const formatTimes = (times: Array<string>) => {
     const [startTime, endTime] = times;
 
@@ -51,18 +45,18 @@ export function EventsForList({
     const endFormatted = endDate.toLocaleString("ja-JP", {
       hour: "2-digit",
       minute: "2-digit",
-      ...(sameDay
-        ? {}
-        : { year: "numeric", month: "numeric", day: "numeric" }), 
+      ...(sameDay ? {} : { year: "numeric", month: "numeric", day: "numeric" }),
     });
 
-    return sameDay ? `${startFormatted} ~ ${endFormatted}` : `${startFormatted} ~ ${endFormatted}`;
+    return sameDay
+      ? `${startFormatted} ~ ${endFormatted}`
+      : `${startFormatted} ~ ${endFormatted}`;
   };
 
   return (
     <div
-      onMouseEnter={() => setShowDetail(true)}  // Show popup on hover
-      onMouseLeave={() => setShowDetail(false)}  // Hide popup when hover ends
+      onMouseEnter={() => setShowDetail(true)} // Show popup on hover
+      onMouseLeave={() => setShowDetail(false)} // Hide popup when hover ends
       className="relative w-[350px]"
     >
       <Card className="w-[350px]">
@@ -75,7 +69,7 @@ export function EventsForList({
               <Hourglass className="w-3.5 h-3.5 mt-1" />
               {formatTimes(available_times)}
             </div>
-            <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1 text-sm">
+            <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1">
               <Map className="w-3.5 h-3.5" />
               {location}
             </div>
