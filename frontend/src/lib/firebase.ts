@@ -1,7 +1,6 @@
-"use client"
+"use client";
 
 import { FirebaseOptions, initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig: FirebaseOptions = {
@@ -14,7 +13,5 @@ const firebaseConfig: FirebaseOptions = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 };
 
-
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-
