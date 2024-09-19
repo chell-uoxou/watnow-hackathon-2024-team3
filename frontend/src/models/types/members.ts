@@ -1,6 +1,6 @@
 import { EditingPermissionScope } from "./common";
 import { DocumentReference } from "firebase/firestore";
-import Account from "./account";
+import { Account } from "./account";
 
 export default interface Member {
   account_reference: DocumentReference<Account>;

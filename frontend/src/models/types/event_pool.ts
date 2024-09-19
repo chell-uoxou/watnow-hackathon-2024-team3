@@ -1,6 +1,7 @@
+import { WithUid } from "~/lib/firestore";
 import { BudgetMode, TimeRange } from "./common";
 
-export default interface EventPool {
+export type EventPool = WithUid<{
   title: string;
   description: string;
   location: string;
@@ -15,4 +16,4 @@ export default interface EventPool {
   preparation_task: string;
   max_participants: number;
   notes: string;
-}
+}>;

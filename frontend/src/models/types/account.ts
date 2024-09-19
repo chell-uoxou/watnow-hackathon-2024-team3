@@ -1,4 +1,6 @@
-export default interface Account {
+import { WithUid } from "~/lib/firestore";
+
+export type Account = WithUid<{
   email: string;
   default_display_name: string;
   avatar_url: string;
@@ -7,4 +9,4 @@ export default interface Account {
   first_name: string;
   phone_number: string;
   address: string;
-}
+}>;

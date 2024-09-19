@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 "use client";
 import { collection, getDocs, DocumentData } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -9,7 +11,7 @@ export default function Page() {
 
   useEffect(() => {
     const accountsData = collection(db, "accounts");
-    const  accounts_eventData = collection(db, "event_pool");
+    const accounts_eventData = collection(db, "event_pool");
     getDocs(accountsData).then((snapshot) => {
       const accounts = snapshot.docs.map((doc) => doc.data());
       console.log("取得したよ");
@@ -19,7 +21,7 @@ export default function Page() {
     getDocs(accounts_eventData).then((snapshot) => {
       const accounts = snapshot.docs.map((doc) => doc.data());
       console.log("取得したよ");
-      setEvents(accounts_eventData);
+      // setEvents(accounts_eventData);
     });
   }, []);
 
