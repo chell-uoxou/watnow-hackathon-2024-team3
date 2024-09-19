@@ -16,7 +16,7 @@ export default function Page() {
 
   const handleClickAddEventPool = async () => {
     console.log(currentAccount, currentEventPool);
-    if (isReady(currentAccount) && currentEventPool !== null) {
+    if (isReady(currentAccount) && currentEventPool.add !== null) {
       console.log("つくるかね");
 
       await currentEventPool.add({
