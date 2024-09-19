@@ -27,6 +27,7 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
     async function (data: Omit<T, "uid">) {
       if (memoizedCollection === null) return null;
 
+      console.log("adding document in useFirestoreCollection...");
       return await addDoc(
         memoizedCollection.withConverter(createConverter<Omit<T, "uid">>()),
         data
@@ -42,6 +43,7 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
       const newDoc = doc(memoizedCollection, docId).withConverter(
         defaultConverter<Omit<T, "uid">>()
       );
+      console.log("setting document in useFirestoreCollection...", docId);
       return await setDoc(newDoc, data);
     },
     [memoizedCollection]
@@ -54,6 +56,7 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
       const newDoc = doc(memoizedCollection, docId).withConverter(
         defaultConverter<T>()
       );
+      console.log("updating document in useFirestoreCollection...", docId);
       return await setDoc(newDoc, data, { merge: true });
     },
     [memoizedCollection]
@@ -67,6 +70,7 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
         memoizedCollection.withConverter(defaultConverter<T>()),
         docId
       );
+      console.log("getting document in useFirestoreCollection...");
       const snapshot = await getDoc(docRef);
       return snapshot.data();
     },
@@ -76,7 +80,7 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
   const list = useCallback(
     async function () {
       if (memoizedCollection === null) return null;
-
+      console.log("getting document in useFirestoreCollection...");
       const snapshot = await getDocs(
         memoizedCollection.withConverter(defaultConverter<T>())
       );
@@ -90,6 +94,7 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
       if (memoizedCollection === null) return null;
 
       const docRef = doc(memoizedCollection, docId);
+      console.log("deleting document in useFirestoreCollection...", docId);
       return await deleteDoc(docRef);
     },
     [memoizedCollection]
@@ -100,6 +105,10 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
       if (memoizedCollection === null) return null;
 
       const docRef = doc(memoizedCollection, docId);
+      console.log(
+        "checking if document exists in useFirestoreCollection...",
+        docId
+      );
       const snapshot = await getDoc(docRef);
       return snapshot.exists();
     },
