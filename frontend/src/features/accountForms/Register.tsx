@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { Button } from "~/components/ui/button";
 import {
@@ -11,8 +14,24 @@ import {
 } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+// import useSignInWithGoogle from "../hooks/useSignInWithGoogle";
+import { signInWithPopup } from "firebase/auth";
+import { provider } from "../utils/googleSignInProvider";
+import { auth } from "~/lib/firebase";
 
 export const Register = () => {
+  const navigate = useRouter();
+  // const signInWithGoogle = useSignInWithGoogle();
+
+  const handleLoginWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(() => {
+        navigate.push("/calendar");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <Card className="w-[350px]">
       <CardHeader className="flex flex-col gap-2">
