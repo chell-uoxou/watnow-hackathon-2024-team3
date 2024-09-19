@@ -7,8 +7,8 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { Button } from "./ui/button";
-import Map from "~/features/googleMap/map";
+import { Button } from "~/components/ui/button";
+import Map from "~/features/googleMap/Map";
 
 interface Location {
   lat: number | null;
