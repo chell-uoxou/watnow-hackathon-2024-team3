@@ -2,6 +2,10 @@ import * as React from "react"
 
 import { cn } from "~/lib/utils"
 
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode
+}
+
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -41,7 +45,7 @@ const CardTitle = React.forwardRef<
     )}
     {...props}
   />
-))
+));
 CardTitle.displayName = "CardTitle"
 
 const CardDescription = React.forwardRef<
@@ -50,7 +54,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-sm text-muted-foreground pt-2", className)}
     {...props}
   />
 ))
