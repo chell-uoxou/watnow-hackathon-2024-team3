@@ -12,10 +12,12 @@ import {
 import { useMemo } from "react";
 import { createConverter, defaultConverter } from "~/lib/firestore";
 
-export const useFirestore = (collection: CollectionReference) => {
+export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
+  collection: CollectionReference
+) => {
   const add = useMemo(
     () =>
-      async function <T extends WithFieldValue<DocumentData>>(data: T) {
+      async function (data: T) {
         return await addDoc(
           collection.withConverter(createConverter<T>()),
           data
@@ -26,10 +28,7 @@ export const useFirestore = (collection: CollectionReference) => {
 
   const set = useMemo(
     () =>
-      async function <T extends WithFieldValue<DocumentData>>(
-        docId: string,
-        data: T
-      ) {
+      async function (docId: string, data: T) {
         const newDoc = doc(collection, docId).withConverter(
           defaultConverter<T>()
         );
@@ -40,10 +39,7 @@ export const useFirestore = (collection: CollectionReference) => {
 
   const update = useMemo(
     () =>
-      async function <T extends WithFieldValue<DocumentData>>(
-        docId: string,
-        data: Partial<T>
-      ) {
+      async function (docId: string, data: Partial<T>) {
         const newDoc = doc(collection, docId).withConverter(
           defaultConverter<T>()
         );
@@ -54,7 +50,7 @@ export const useFirestore = (collection: CollectionReference) => {
 
   const get = useMemo(
     () =>
-      async function <T extends DocumentData>(docId: string) {
+      async function (docId: string) {
         const docRef = doc(
           collection.withConverter(defaultConverter<T>()),
           docId
@@ -67,7 +63,7 @@ export const useFirestore = (collection: CollectionReference) => {
 
   const list = useMemo(
     () =>
-      async function <T extends DocumentData>() {
+      async function () {
         const snapshot = await getDocs(
           collection.withConverter(defaultConverter<T>())
         );
