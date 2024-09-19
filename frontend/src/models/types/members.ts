@@ -1,10 +1,10 @@
-import { Reference } from "react";
-
-export type EditingPermissionScope = "common_schedules" | "open_schedules" | "event_pool" | "group_settings"
+import { EditingPermissionScope } from "./common";
+import { DocumentReference } from "firebase/firestore";
+import Account from "./account";
 
 export default interface Member {
-  account_reference:Reference;
-  display_name:string;
-  editing_permission_scopes : EditingPermissionScope[];
-  notes:string;
+  account_reference: DocumentReference<Account>;
+  display_name: string;
+  editing_permission_scopes: EditingPermissionScope[];
+  notes: string;
 }

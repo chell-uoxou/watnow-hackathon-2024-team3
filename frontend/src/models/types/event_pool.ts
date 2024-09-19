@@ -1,17 +1,14 @@
-import { Timestamp } from "firebase/firestore";
+import { BudgetMode, TimeRange } from "./common";
 
 export default interface EventPool {
   title: string;
   description: string;
   location: string;
   attached_image: string;
-  available_times: {
-    start_time: Timestamp;
-    end_time: Timestamp;
-  };
+  available_times: TimeRange[];
   default_duration: number;
   default_budget: {
-    mode: string;
+    mode: BudgetMode;
     value: number;
   };
   needs_preparation: boolean;
