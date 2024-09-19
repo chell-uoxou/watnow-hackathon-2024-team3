@@ -1,5 +1,5 @@
 "use client";
-import { Login } from "~/components/Login";
+import { Login } from "~/features/accountForms/Login";
 
 export default function CardWithForm() {
   return <Login />;
