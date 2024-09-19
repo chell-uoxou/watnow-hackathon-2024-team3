@@ -54,7 +54,9 @@ export default function Page() {
     return (
       <div>
         <div>Welcome {currentAccount.default_display_name}</div>
-        <Button onClick={handleClickAddEventPool}>Add Event Pool</Button>
+        <Button onClick={handleClickAddEventPool} className="hidden">
+          Add Event Pool
+        </Button>
       </div>
     );
   }
