@@ -6,7 +6,6 @@ import { Button } from "~/components/ui/button";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
 import { Account } from "~/models/types/account";
-import { EventPool } from "~/models/types/event_pool";
 
 export default function Page() {
   const accountDB = useFirestoreCollection<Account>(

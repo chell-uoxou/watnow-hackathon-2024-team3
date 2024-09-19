@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEventHandler, useState } from "react";
+import React, { useState } from "react";
 import { Input } from "~/components/ui/input";
 import { DateTimePicker } from "~/components/ui/datetimepicker";
 import {
@@ -9,13 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { Textarea } from "~/components/ui/textarea"
+import { Textarea } from "~/components/ui/textarea";
 import { Checkbox } from "~/components/ui/checkbox";
-import { Button } from "~/components/ui/button"
-import { X } from 'lucide-react';
+import { Button } from "~/components/ui/button";
+import { X } from "lucide-react";
 
-
-function page() {
+function Page() {
   const [dateTime, setDateTime] = useState(new Date());
   const [isPreparationChecked, setIsPreparationChecked] = useState(false);
 
@@ -26,7 +25,7 @@ function page() {
   return (
     <div className="max-w-{size} py-5">
       <header className="flex flex-row-reverse">
-        <Button  onClick={() => window.close()} className="ml-2"> 
+        <Button onClick={() => window.close()} className="ml-2">
           <X className="h-4 w-4" />
         </Button>
         <header className="text-lg my-90 absolute left-0">イベント追加</header>
@@ -97,7 +96,8 @@ function page() {
           <Checkbox
             id="preparation"
             checked={isPreparationChecked}
-            onCheckedChange={handleCheckboxChange}/>
+            onCheckedChange={handleCheckboxChange}
+          />
           <label
             htmlFor="preparation"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -123,11 +123,13 @@ function page() {
         </div>
         <div className="flex flex-row-reverse pr-5">
           <Button className="">追加</Button>
-          <Button variant="destructive" className="mr-4">キャンセル</Button>
+          <Button variant="destructive" className="mr-4">
+            キャンセル
+          </Button>
         </div>
       </div>
     </div>
   );
 }
 
-export default page;
+export default Page;

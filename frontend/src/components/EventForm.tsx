@@ -17,12 +17,9 @@ import { X } from "lucide-react";
 import { collection, Timestamp } from "firebase/firestore";
 import { db } from "~/lib/firebase";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
-import { Account } from "~/models/types/account";
 import { EventPool } from "~/models/types/event_pool";
 import { BudgetMode } from "~/models/types/common";
 import useCurrentAccount, { isReady } from "~/hooks/useCurrentAccount";
-
-// const eventsCollection = collection(db, "event_pool");
 
 function EventForm() {
   const currentAccount = useCurrentAccount();
@@ -54,20 +51,6 @@ function EventForm() {
   // ステップ2: フォームの送信処理
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-
-    const eventData = {
-      name,
-      description,
-      location,
-      startDateTime,
-      endDateTime,
-      duration,
-      budgetType,
-      budget: Number(budget),
-      preparationDetails: isPreparationChecked ? preparationDetails : "",
-      participants: Number(participants),
-      memo,
-    };
 
     const sendData = {
       title: name,
