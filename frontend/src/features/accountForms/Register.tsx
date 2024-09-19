@@ -15,41 +15,49 @@ import { Label } from "~/components/ui/label";
 export const Register = () => {
   return (
     <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle>アカウント登録をしてください</CardTitle>
+      <CardHeader className="flex flex-col gap-2">
+        <CardTitle>アカウント登録</CardTitle>
         <CardDescription>
-          <Link href="/account/login">アカウントをお持ちの場合はこちら</Link>
+          すでにアカウントをお持ちの場合は
+          <Link href="/account/login" className="underline">
+            ログイン
+          </Link>
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="mailAddress">ニックネーム</Label>
+          <div className="flex flex-col w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5 w-full">
+              <Label htmlFor="displayName">ニックネーム</Label>
               <Input id="displayName" />
             </div>
-            {/* <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">電話番号</Label>
-              <Input id="phonNumber" />
-            </div> */}
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex flex-col space-y-1.5 w-full">
               <Label htmlFor="mailAddress">メールアドレス</Label>
-              <Input id="mailAddress" />
+              <Input id="mailAddress" type="email" />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">パスワード</Label>
-              <Input id="password" />
+            <div className="flex flex-col space-y-1.5 w-full">
+              <Label htmlFor="password">パスワード</Label>
+              <Input id="password" type="password" />
             </div>
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline">
-          <Link href="/">Cancel</Link>
+      <CardFooter className="flex flex-col gap-4">
+        <Button
+          onClick={handleLoginWithGoogle}
+          className="w-full"
+          variant={"secondary"}
+        >
+          Googleで登録
         </Button>
-        <Button>
-          <Link href="/">登録</Link>
-        </Button>
+        <div className="flex justify-between w-full">
+          <Button variant="outline" onClick={() => navigate.push("/")}>
+            Cancel
+          </Button>
+          <Button>
+            <Link href="/">登録</Link>
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );
