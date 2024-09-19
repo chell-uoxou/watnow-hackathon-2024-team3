@@ -1,15 +1,40 @@
-import { collection, DocumentReference } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  DocumentReference,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { Account } from "~/models/types/account";
-import { Group } from "~/models/types/groups";
 import Member from "~/models/types/members";
 import { useFirestoreCollection } from "./useFirestoreCollection";
 import useFirestoreRefMemo from "./useFirestoreRefMemo";
 import { useCallback } from "react";
+import { db } from "~/lib/firebase";
 
-export default function useDBGroup(groupRef: DocumentReference<Group>) {
+export const getGroupDocRef = (groupId: string) => {
+  return doc(db, "groups", groupId);
+};
+
+export default function useDBGroup(groupRef: DocumentReference) {
   const memoizedGroup = useFirestoreRefMemo(groupRef);
   const { add: addMember } = useFirestoreCollection(
     collection(memoizedGroup!, "members")
+  );
+
+  const existAccount = useCallback(
+    async (accountRef: DocumentReference<Account>) => {
+      const snapshot = await getDocs(
+        query(
+          collection(groupRef, "members"),
+          where("account_reference", "==", accountRef)
+        )
+      );
+      console.log(snapshot);
+      return snapshot.size > 0;
+    },
+    [groupRef]
   );
 
   const addMemberToGroup = useCallback(
@@ -35,5 +60,5 @@ export default function useDBGroup(groupRef: DocumentReference<Group>) {
     [addMember]
   );
 
-  return { addMemberToGroup };
+  return { existAccount, addMemberToGroup };
 }
