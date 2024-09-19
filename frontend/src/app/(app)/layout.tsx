@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { AppTopBar } from "~/components/common/AppTopBar";
 import { LeftSideBar } from "~/components/common/LeftSideBar";
-import MapDrawer from "~/components/MapDrawer";
+import MapDrawer from "~/features/googleMap/MapDrawer";
 // import initFirebase from "~/lib/initFirebase";
 
 // export async function loader() {
