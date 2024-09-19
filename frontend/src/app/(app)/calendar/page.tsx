@@ -6,6 +6,7 @@ import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
 import { EventPool } from "~/models/types/event_pool";
 
+
 export default function Page() {
   const currentAccount = useCurrentAccount();
   const currentEventPool = useFirestoreCollection<EventPool>(
