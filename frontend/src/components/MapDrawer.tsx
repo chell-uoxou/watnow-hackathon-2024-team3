@@ -21,7 +21,8 @@ interface Location {
 
 const containerStyle = {
   width: "100%",
-  height: "400px",
+  height: "100%",
+  borderRadius: "0.5rem",  // Fixed camelCase
 };
 
 const MakeMap: React.FC = () => {
@@ -61,13 +62,13 @@ const MakeMap: React.FC = () => {
       </SheetTrigger>
       <SheetContent
         side={side}
-        className="flex flex-col min-w-screen h-[500ox] "
+        className="flex flex-col min-w-screen h-3/4 "
       >
         <SheetHeader>
-          <SheetTitle>a</SheetTitle>
-          <SheetDescription>メンバ一覧</SheetDescription>
+          {/* <SheetTitle>a</SheetTitle>
+          <SheetDescription>メンバ一覧</SheetDescription> */}
         </SheetHeader>
-        <div className="rounded-lg bg-clip-border">
+        <div className="grow rounded-lg bg-clip-border">
           <LoadScript googleMapsApiKey="AIzaSyAkePaK5Cef7L8zD-A59U2dxk0t2jFEExg">
             <GoogleMap
               mapContainerStyle={containerStyle}
