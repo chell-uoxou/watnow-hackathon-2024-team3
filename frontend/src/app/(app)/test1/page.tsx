@@ -1,6 +1,6 @@
-import EventPoolItem from "~/components/EventsPoolItem";
+import EventPoolItem from "~/features/eventPool/EventsPoolItem";
 
-export default function test() {
+export default function Test1Page() {
   return (
     <div>
       <EventPoolItem
@@ -11,7 +11,7 @@ export default function test() {
         value={0}
         preparation_task="予習"
         notes="notes"
-      ></EventPoolItem>
+      />
       <EventPoolItem
         title="京都国立博物館"
         description="特別展を見学adsdgnslnflnslfglsnfgnsldfngljsflgnlsnfglslgnl"
@@ -19,7 +19,7 @@ export default function test() {
         available_times={["2024-10-20T09:00:00", "2024-10-22T18:00:00"]}
         value={0}
         notes="notes"
-      ></EventPoolItem>
+      />
     </div>
   );
 }
