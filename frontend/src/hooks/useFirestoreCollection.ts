@@ -9,8 +9,9 @@ import {
   setDoc,
   WithFieldValue,
 } from "firebase/firestore";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { createConverter, defaultConverter } from "~/lib/firestore";
+import useFirestoreRefMemo from "./useFirestoreRefMemo";
 
 /**
  * FirestoreのCollectionReferenceを受け取り、そのコレクションに対する操作を行うフックを返す
@@ -20,75 +21,90 @@ import { createConverter, defaultConverter } from "~/lib/firestore";
 export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
   collection: CollectionReference | null
 ) => {
-  const collectionOnLastRender = useRef<CollectionReference | null>(null);
+  const memoizedCollection = useFirestoreRefMemo(collection);
 
-  if (collection?.path !== collectionOnLastRender.current?.path) {
-    collectionOnLastRender.current = collection;
-  }
+  const add = useCallback(
+    async function (data: Omit<T, "uid">) {
+      if (memoizedCollection === null) return null;
 
-  const add = useCallback(async function (data: Omit<T, "uid">) {
-    if (collectionOnLastRender.current === null) return null;
+      return await addDoc(
+        memoizedCollection.withConverter(createConverter<Omit<T, "uid">>()),
+        data
+      );
+    },
+    [memoizedCollection]
+  );
 
-    return await addDoc(
-      collectionOnLastRender.current.withConverter(
-        createConverter<Omit<T, "uid">>()
-      ),
-      data
-    );
-  }, []);
+  const set = useCallback(
+    async function (docId: string, data: Omit<T, "uid">) {
+      if (memoizedCollection === null) return null;
 
-  const set = useCallback(async function (docId: string, data: Omit<T, "uid">) {
-    if (collectionOnLastRender.current === null) return null;
+      const newDoc = doc(memoizedCollection, docId).withConverter(
+        defaultConverter<Omit<T, "uid">>()
+      );
+      return await setDoc(newDoc, data);
+    },
+    [memoizedCollection]
+  );
 
-    const newDoc = doc(collectionOnLastRender.current, docId).withConverter(
-      defaultConverter<Omit<T, "uid">>()
-    );
-    return await setDoc(newDoc, data);
-  }, []);
+  const update = useCallback(
+    async function (docId: string, data: Partial<T>) {
+      if (memoizedCollection === null) return null;
 
-  const update = useCallback(async function (docId: string, data: Partial<T>) {
-    if (collectionOnLastRender.current === null) return null;
+      const newDoc = doc(memoizedCollection, docId).withConverter(
+        defaultConverter<T>()
+      );
+      return await setDoc(newDoc, data, { merge: true });
+    },
+    [memoizedCollection]
+  );
 
-    const newDoc = doc(collectionOnLastRender.current, docId).withConverter(
-      defaultConverter<T>()
-    );
-    return await setDoc(newDoc, data, { merge: true });
-  }, []);
+  const get = useCallback(
+    async function (docId: string) {
+      if (memoizedCollection === null) return null;
 
-  const get = useCallback(async function (docId: string) {
-    if (collectionOnLastRender.current === null) return null;
+      const docRef = doc(
+        memoizedCollection.withConverter(defaultConverter<T>()),
+        docId
+      );
+      const snapshot = await getDoc(docRef);
+      return snapshot.data();
+    },
+    [memoizedCollection]
+  );
 
-    const docRef = doc(
-      collectionOnLastRender.current.withConverter(defaultConverter<T>()),
-      docId
-    );
-    const snapshot = await getDoc(docRef);
-    return snapshot.data();
-  }, []);
+  const list = useCallback(
+    async function () {
+      if (memoizedCollection === null) return null;
 
-  const list = useCallback(async function () {
-    if (collectionOnLastRender.current === null) return null;
+      const snapshot = await getDocs(
+        memoizedCollection.withConverter(defaultConverter<T>())
+      );
+      return snapshot.docs.map((doc) => doc.data());
+    },
+    [memoizedCollection]
+  );
 
-    const snapshot = await getDocs(
-      collectionOnLastRender.current.withConverter(defaultConverter<T>())
-    );
-    return snapshot.docs.map((doc) => doc.data());
-  }, []);
+  const del = useCallback(
+    async function (docId: string) {
+      if (memoizedCollection === null) return null;
 
-  const del = useCallback(async function (docId: string) {
-    if (collectionOnLastRender.current === null) return null;
+      const docRef = doc(memoizedCollection, docId);
+      return await deleteDoc(docRef);
+    },
+    [memoizedCollection]
+  );
 
-    const docRef = doc(collectionOnLastRender.current, docId);
-    return await deleteDoc(docRef);
-  }, []);
+  const exists = useCallback(
+    async function (docId: string) {
+      if (memoizedCollection === null) return null;
 
-  const exists = useCallback(async function (docId: string) {
-    if (collectionOnLastRender.current === null) return null;
-
-    const docRef = doc(collectionOnLastRender.current, docId);
-    const snapshot = await getDoc(docRef);
-    return snapshot.exists();
-  }, []);
+      const docRef = doc(memoizedCollection, docId);
+      const snapshot = await getDoc(docRef);
+      return snapshot.exists();
+    },
+    [memoizedCollection]
+  );
 
   return { add, set, update, get, list, del, exists };
 };
