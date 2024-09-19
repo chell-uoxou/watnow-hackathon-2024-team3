@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
@@ -17,4 +17,3 @@ const firebaseConfig: FirebaseOptions = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const db = getFirestore(app);
-
