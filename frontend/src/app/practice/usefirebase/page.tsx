@@ -3,20 +3,21 @@
 import { collection } from "firebase/firestore";
 import React from "react";
 import { Button } from "~/components/ui/button";
-import { useFirestore } from "~/hooks/useFirestore";
+import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
 import Account from "~/models/types/account";
 
 export default function Page() {
-  const { add, list } = useFirestore(collection(db, "accounts"));
+  const accountDB = useFirestoreCollection<Account>(collection(db, "accounts"));
 
   const handleClick = async () => {
-    const accounts = await list<Account>();
-    await add(accounts[0]);
+    const accounts = await accountDB.list();
+    console.log(accounts);
+
   };
   return (
     <div>
-      <Button onClick={handleClick}>複製</Button>
+      <Button onClick={handleClick}>取得</Button>
     </div>
   );
 }
