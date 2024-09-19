@@ -8,6 +8,10 @@ const config: Config = {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        "brand-color-1": "#fcf5e4",
+        "brand-color-2": "#7ac1d2",
+        "brand-color-3": "#609aa5",
+        "brand-color-4": "#54878f",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
