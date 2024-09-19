@@ -1,50 +1,47 @@
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
+import {
+  Calculator,
+  Calendar,
+  CreditCard,
+  Settings,
+  Smile,
+  User,
+} from "lucide-react";
+import { Link } from "@remix-run/react";
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetFooter,
 } from "~/components/ui/sheet";
 
+import { Menu } from "lucide-react";
+
 export function Hamburger() {
+  const side = "left";
   return (
-    <Sheet>
+    <Sheet key={side}>
       <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
+        <Button>
+          <Menu />
+        </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent
+        side={side}
+        className="flex flex-col min-h-screen w-[100px] sm:w-[140px] "
+      >
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
+          <SheetTitle>a</SheetTitle>
+          <SheetDescription>メンバ一覧</SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
+        <div className="grid gap-4 py-4 "></div>
+        <SheetFooter></SheetFooter>
       </SheetContent>
     </Sheet>
   );
 }
+
