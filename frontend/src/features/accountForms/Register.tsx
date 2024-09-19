@@ -16,7 +16,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 // import useSignInWithGoogle from "../hooks/useSignInWithGoogle";
 import { signInWithPopup } from "firebase/auth";
-import { provider } from "../utils/googleSignInProvider";
+import { provider } from "./utils/googleSignInProvider";
 import { auth } from "~/lib/firebase";
 
 export const Register = () => {
