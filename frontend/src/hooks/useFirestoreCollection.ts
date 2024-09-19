@@ -21,7 +21,7 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
         if (collection === null) return null;
 
         return await addDoc(
-          collection.withConverter(createConverter<T>()),
+          collection.withConverter(createConverter<Omit<T, "uid">>()),
           data
         );
       },
@@ -30,11 +30,11 @@ export const useFirestoreCollection = <T extends WithFieldValue<DocumentData>>(
 
   const set = useMemo(
     () =>
-      async function (docId: string, data: T) {
+      async function (docId: string, data: Omit<T, "uid">) {
         if (collection === null) return null;
 
         const newDoc = doc(collection, docId).withConverter(
-          defaultConverter<T>()
+          defaultConverter<Omit<T, "uid">>()
         );
         return await setDoc(newDoc, data);
       },

@@ -1,4 +1,4 @@
-import Account from "~/models/types/account";
+import { Account } from "~/models/types/account";
 import { useFirestoreCollection } from "./useFirestoreCollection";
 import { collection } from "firebase/firestore";
 import { db } from "~/lib/firebase";

@@ -4,7 +4,7 @@ import {
   WithFieldValue,
 } from "firebase/firestore";
 
-type WithUid<T> = {
+export type WithUid<T> = {
   uid: string;
 } & T;
 

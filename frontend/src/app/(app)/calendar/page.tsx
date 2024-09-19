@@ -4,12 +4,12 @@ import { Button } from "~/components/ui/button";
 import useCurrentAccount, { isReady } from "~/hooks/useCurrentAccount";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
-import EventPool from "~/models/types/event_pool";
+import { EventPool } from "~/models/types/event_pool";
 
 export default function Page() {
   const currentAccount = useCurrentAccount();
   const currentEventPool = useFirestoreCollection<EventPool>(
-    currentAccount?.uid
+    currentAccount !== "loading" && currentAccount?.uid
       ? collection(doc(db, "accounts", currentAccount.uid), "event_pool")
       : null
   );
