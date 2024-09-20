@@ -4,7 +4,7 @@ import useCurrentGroup from "~/hooks/useCurrentGroup";
 
 export default function Page() {
   const dbGroup = useCurrentGroup();
-  const dbAccount = useCurrentAccount();
+  const { currentDBAccount: dbAccount } = useCurrentAccount();
   console.log(dbGroup, dbAccount);
 
   const message =

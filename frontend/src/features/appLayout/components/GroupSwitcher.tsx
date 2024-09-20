@@ -10,7 +10,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "~/components/ui/command";
@@ -19,31 +18,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-
-type Framework = {
-  value: string;
-  name: string;
-  icon_url: string;
-};
+import { Group } from "~/models/types/groups";
+import { LoadingSpinner } from "~/components/ui/spinner";
 
 type Props = {
   current_icon_url?: string;
   current_name?: string;
+  groups: Group[];
+  isLoading: boolean;
 };
 
-const frameworks: Framework[] = Array.from({ length: 50 }).map((_, i, a) => ({
-  value: `v1.2.0-beta.${a.length - i}`,
-  name: `Framework ${a.length - i}`,
-  icon_url: `/images/defaultIcon.png`, // 実際のアイコンURLに変更
-}));
-
 export function GroupSwitcher({
-  current_icon_url = "/images/defaultIcon.png",
+  current_icon_url = "",
   current_name = "プライベート",
+  isLoading,
+  groups,
 }: Props) {
   const [openGroupSwitcher, setOpenGroupSwitcher] = React.useState(false);
-  const [selectedFramework, setSelectedFramework] =
-    React.useState<Framework | null>(null);
+  const [selectedGroup, setSelectedGroup] = React.useState<Group | null>(null);
 
   return (
     <Popover open={openGroupSwitcher} onOpenChange={setOpenGroupSwitcher}>
@@ -54,53 +46,58 @@ export function GroupSwitcher({
           aria-expanded={openGroupSwitcher}
           className="w-[200px] justify-between rounded-full"
         >
-          <div className="flex items-center">
-            {/* 常に selectedFramework のアイコンと名前を表示、選択されていない場合はデフォルト */}
-            <Image
-              src={selectedFramework?.icon_url || current_icon_url}
-              alt="Selected Icon"
-              width={24}
-              height={24}
-              className="mr-2"
-            />
-            {selectedFramework ? selectedFramework.name : current_name}
-          </div>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <div className="flex items-center">
+                {/* 常に selectedFramework のアイコンと名前を表示、選択されていない場合はデフォルト */}
+                <Image
+                  src={selectedGroup?.icon_url || current_icon_url}
+                  alt="Selected Icon"
+                  width={24}
+                  height={24}
+                  className="mr-2"
+                />
+                {selectedGroup ? selectedGroup.name : current_name}
+              </div>
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          {/* <CommandInput placeholder="Search framework..." /> */}
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>まだどこのグループにも属していません。</CommandEmpty>
             <ScrollArea className="h-72 w-full">
               <CommandGroup>
-                {frameworks.map((framework) => (
+                {groups.map((group) => (
                   <CommandItem
-                    key={framework.value}
-                    value={framework.value}
+                    key={group.uid}
+                    value={group.name}
                     onSelect={() => {
-                      setSelectedFramework(framework);
+                      setSelectedGroup(group);
                       setOpenGroupSwitcher(false);
                     }}
                   >
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        selectedFramework?.value === framework.value
+                        selectedGroup?.uid === group.uid
                           ? "opacity-100"
                           : "opacity-0"
                       )}
                     />
-                    {/* 各フレームワークのアイコンと名前を表示 */}
                     <Image
-                      src={framework.icon_url}
-                      alt={framework.name}
+                      src={group.icon_url}
+                      alt={group.name}
                       width={24}
                       height={24}
                       className="mr-2"
                     />
-                    {framework.name}
+                    {group.name}
                   </CommandItem>
                 ))}
               </CommandGroup>

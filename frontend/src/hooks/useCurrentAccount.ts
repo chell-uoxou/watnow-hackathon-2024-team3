@@ -1,10 +1,18 @@
 import { Account } from "~/models/types/account";
 import { useFirestoreCollection } from "./useFirestoreCollection";
-import { collection, doc, DocumentReference } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  DocumentReference,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "~/lib/firebase";
 import useAuthUser from "./useAuthUser";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useDBGroup, { getGroupDocRef } from "./useDBGroup";
+import { Group } from "~/models/types/groups";
 
 const undefinedDefaultName = "名無しさん";
 const temporaryGroupIdForDemo = "YqPvZW6JKURIcTjCR9FA"; // デモ用に新規登録したアカウントを放り込むグループのID
@@ -85,13 +93,21 @@ export default function useCurrentAccount() {
     addMemberToGroup,
   ]);
 
-  useEffect(() => {}, [currentDBAccount, existAccount, addMemberToGroup]);
+  const getGroupsByAccount = useCallback(async () => {
+    const snapshot = await getDocs(
+      query(
+        collection(db, "groups"),
+        where("members", "array-contains", currentDBAccount)
+      )
+    );
+    return snapshot.docs.map((doc) => doc.data()) as Group[];
+  }, [currentDBAccount]);
 
-  return currentDBAccount;
+  return { currentDBAccount, getGroupsByAccount };
 }
 
 export const isReady = (
-  currentAccount: ReturnType<typeof useCurrentAccount>
+  currentAccount: ReturnType<typeof useCurrentAccount>["currentDBAccount"]
 ): currentAccount is Account => {
   return currentAccount !== "loading" && currentAccount !== null;
 };

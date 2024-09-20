@@ -9,17 +9,17 @@ import { db } from "~/lib/firebase";
 import { EventPool } from "~/models/types/event_pool";
 
 export default function Page() {
-  const currentAccount = useCurrentAccount();
+  const { currentDBAccount } = useCurrentAccount();
   const currentEventPool = useFirestoreCollection<EventPool>(
-    currentAccount !== "loading" && currentAccount?.uid
-      ? collection(doc(db, "accounts", currentAccount.uid), "event_pool")
+    currentDBAccount !== "loading" && currentDBAccount?.uid
+      ? collection(doc(db, "accounts", currentDBAccount.uid), "event_pool")
       : null
   );
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleClickAddEventPool = async () => {
-    console.log(currentAccount, currentEventPool);
-    if (isReady(currentAccount) && currentEventPool.add !== null) {
+    console.log(currentDBAccount, currentEventPool);
+    if (isReady(currentDBAccount) && currentEventPool.add !== null) {
       console.log("つくるかね");
 
       await currentEventPool.add({
@@ -49,14 +49,14 @@ export default function Page() {
     }
   };
 
-  if (currentAccount === "loading") {
+  if (currentDBAccount === "loading") {
     return <div>Loading...</div>;
-  } else if (!currentAccount) {
+  } else if (!currentDBAccount) {
     return <div>Not logged in</div>;
   } else {
     return (
       <div>
-        <div>Welcome {currentAccount.default_display_name}</div>
+        <div>Welcome {currentDBAccount.default_display_name}</div>
         <Button onClick={handleClickAddEventPool} className="hidden">
           Add Event Pool
         </Button>
