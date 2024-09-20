@@ -60,10 +60,8 @@ export default function EventPoolItem({
       className="relative w-[350px]"
     >
       <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
         <CardContent>
+          <h1 className="text-xl font-bold mt-6 mb-4">{title}</h1>
           <div className="col-auto flex flex-col gap-x-0 gap-y-3">
             <div className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-start justify-start gap-x-1 text-sm">
               <Hourglass className="w-3.5 h-3.5 mt-1" />
