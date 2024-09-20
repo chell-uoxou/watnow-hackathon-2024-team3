@@ -1,11 +1,12 @@
 "use client";
 import { collection, doc, Timestamp } from "firebase/firestore";
+import { useState } from "react";
 import { Button } from "~/components/ui/button";
+import { EventInputDialog } from "~/features/eventPool/EventInputDialog";
 import useCurrentAccount, { isReady } from "~/hooks/useCurrentAccount";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
 import { EventPool } from "~/models/types/event_pool";
-
 
 export default function Page() {
   const currentAccount = useCurrentAccount();
@@ -14,6 +15,7 @@ export default function Page() {
       ? collection(doc(db, "accounts", currentAccount.uid), "event_pool")
       : null
   );
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleClickAddEventPool = async () => {
     console.log(currentAccount, currentEventPool);
@@ -58,6 +60,8 @@ export default function Page() {
         <Button onClick={handleClickAddEventPool} className="hidden">
           Add Event Pool
         </Button>
+        <Button onClick={() => setOpenDialog(true)}>イベント候補を追加</Button>
+        <EventInputDialog isOpen={openDialog} onOpenChange={setOpenDialog} />
       </div>
     );
   }
