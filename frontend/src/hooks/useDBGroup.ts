@@ -25,16 +25,17 @@ export default function useDBGroup(groupRef: DocumentReference) {
 
   const existAccount = useCallback(
     async (accountRef: DocumentReference<Account>) => {
+      if (!memoizedGroup) return false;
       const snapshot = await getDocs(
         query(
-          collection(groupRef, "members"),
+          collection(memoizedGroup, "members"),
           where("account_reference", "==", accountRef)
         )
       );
       console.log(snapshot);
       return snapshot.size > 0;
     },
-    [groupRef]
+    [memoizedGroup]
   );
 
   const addMemberToGroup = useCallback(
