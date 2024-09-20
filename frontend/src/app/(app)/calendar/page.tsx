@@ -77,7 +77,6 @@ export default function Page() {
         </Button> */}
         <div className="flex">
           <div className=" p-6 flex flex-col gap-6 h-svh border-r border-brand-border-color w-[402px]">
-            <div>Welcome {currentDBAccount.default_display_name}</div>
             <div className="flex items-start gap-4 text-slate-900 text-sm justify-between">
               <div className="flex flex-col gap-2">
                 <h1 className="flex-1 text-2xl font-bold">イベント候補</h1>
