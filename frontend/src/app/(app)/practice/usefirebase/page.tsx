@@ -5,10 +5,10 @@ import React from "react";
 import { Button } from "~/components/ui/button";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
-import { EventPool } from "~/models/types/event_pool";
+import { Account } from "~/models/types/account";
 
 export default function Page() {
-  const accountDB = useFirestoreCollection<EventPool>(
+  const accountDB = useFirestoreCollection<Account>(
     collection(db, "accounts")
   );
 

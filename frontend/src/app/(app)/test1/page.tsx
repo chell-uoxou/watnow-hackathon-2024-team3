@@ -1,4 +1,4 @@
-import EventPoolItem from "~/components/EventsPoolItem";
+import EventPoolItem from "~/features/eventPool/EventsPoolItem";
 
 export default function test() {
   return (

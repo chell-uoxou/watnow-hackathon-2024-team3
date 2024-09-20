@@ -76,7 +76,14 @@ export default function useCurrentAccount() {
         }
       });
     }
-  }, [currentAuthUser, accountExists, getAccount, setAccount]);
+  }, [
+    currentAuthUser,
+    accountExists,
+    getAccount,
+    setAccount,
+    existAccount,
+    addMemberToGroup,
+  ]);
 
   useEffect(() => {}, [currentDBAccount, existAccount, addMemberToGroup]);
 
