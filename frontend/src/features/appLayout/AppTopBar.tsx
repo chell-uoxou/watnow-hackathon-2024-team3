@@ -18,7 +18,7 @@ export const AppTopBar = () => {
   }, [getGroupsByAccount]);
 
   return (
-    <div className="flex justify-between items-center h-14 px-8">
+    <div className="flex justify-between items-center h-14 px-8 border-b border-brand-border-color">
       <div className="flex w-22 h-5.5">
         <LogoIcon />
       </div>
