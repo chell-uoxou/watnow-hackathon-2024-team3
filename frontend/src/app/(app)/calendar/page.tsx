@@ -1,5 +1,6 @@
 "use client";
 import { collection, doc, Timestamp } from "firebase/firestore";
+import { Pen, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { EventInputDialog } from "~/features/eventPool/EventInputDialog";
@@ -71,13 +72,46 @@ export default function Page() {
   } else {
     return (
       <div>
-        <div>Welcome {currentDBAccount.default_display_name}</div>
         {/* <Button onClick={handleClickAddEventPool} className="hidden">
           Add Event Pool
         </Button> */}
-        <EventPoolList events={events} />
-        <Button onClick={() => setOpenDialog(true)}>イベント候補を追加</Button>
-        <EventInputDialog isOpen={openDialog} onOpenChange={setOpenDialog} />
+        <div className="flex">
+          <div className=" p-6 flex flex-col gap-6 h-svh border-r border-brand-border-color w-[402px]">
+            <div>Welcome {currentDBAccount.default_display_name}</div>
+            <div className="flex items-start gap-4 text-slate-900 text-sm justify-between">
+              <div className="flex flex-col gap-2">
+                <h1 className="flex-1 text-2xl font-bold">イベント候補</h1>
+              </div>
+              <div className="flex gap-2 flex-row-reverse">
+                <Button
+                  onClick={() => setOpenDialog(true)}
+                  className="flex items-center gap-1 pr-4 h-8"
+                  size={"sm"}
+                >
+                  <Plus strokeWidth={"1.5px"} size={20} />
+                  追加
+                </Button>
+                <Button
+                  className="flex items-center gap-1 pr-4 h-8"
+                  size={"sm"}
+                  variant={"outline"}
+                >
+                  <Pen strokeWidth={"1.5px"} size={16} />
+                  編集
+                </Button>
+              </div>
+            </div>
+            <p>
+              予定タイムラインにイベントをドラッグ&ドロップして、予定を組むことができます。
+            </p>
+            <EventPoolList events={events} />
+            <EventInputDialog
+              isOpen={openDialog}
+              onOpenChange={setOpenDialog}
+            />
+          </div>
+          <div className="flex-1"></div>
+        </div>
       </div>
     );
   }

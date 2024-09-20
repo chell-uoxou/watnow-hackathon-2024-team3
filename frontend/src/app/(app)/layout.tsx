@@ -20,7 +20,7 @@ export default function App({ children }: PropsWithChildren) {
       </div>
       <div className="flex-1">
         <AppTopBar />
-        <div className="p-8">{children}</div>
+        <div className="">{children}</div>
       </div>
       {/* <LeftSideBar open={open} onOpenChange={setOpen} /> */}
     </main>
