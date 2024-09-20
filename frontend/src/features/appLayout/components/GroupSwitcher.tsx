@@ -29,7 +29,7 @@ type Props = {
 };
 
 export function GroupSwitcher({
-  current_icon_url = "",
+  current_icon_url = "/images/defaultIcon.png",
   current_name = "プライベート",
   isLoading,
   groups,
