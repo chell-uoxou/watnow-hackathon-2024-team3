@@ -37,22 +37,22 @@ const frameworks: Framework[] = Array.from({ length: 50 }).map((_, i, a) => ({
   icon_url: `/images/defaultIcon.png`, // 実際のアイコンURLに変更
 }));
 
-export function Groups({
+export function GroupSwitcher({
   current_icon_url = "/images/defaultIcon.png",
   current_name = "プライベート",
 }: Props) {
-  const [open, setOpen] = React.useState(false);
+  const [openGroupSwitcher, setOpenGroupSwitcher] = React.useState(false);
   const [selectedFramework, setSelectedFramework] =
     React.useState<Framework | null>(null);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={openGroupSwitcher} onOpenChange={setOpenGroupSwitcher}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
+          aria-expanded={openGroupSwitcher}
+          className="w-[200px] justify-between rounded-full"
         >
           <div className="flex items-center">
             {/* 常に selectedFramework のアイコンと名前を表示、選択されていない場合はデフォルト */}
@@ -81,7 +81,7 @@ export function Groups({
                     value={framework.value}
                     onSelect={() => {
                       setSelectedFramework(framework);
-                      setOpen(false);
+                      setOpenGroupSwitcher(false);
                     }}
                   >
                     <Check
