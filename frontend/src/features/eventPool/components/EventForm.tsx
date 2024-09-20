@@ -22,11 +22,11 @@ import { InputWithLabel } from "~/components/common/InputWithLabel";
 import { WithLabel } from "~/components/common/WithLabel";
 
 function EventForm() {
-  const currentAccount = useCurrentAccount();
-  console.log(currentAccount);
+  const { currentDBAccount } = useCurrentAccount();
+  console.log(currentDBAccount);
 
-  const eventsCollection = isReady(currentAccount)
-    ? collection(db, "accounts", currentAccount.uid, "event_pool")
+  const eventsCollection = isReady(currentDBAccount)
+    ? collection(db, "accounts", currentDBAccount.uid, "event_pool")
     : null;
   const { add } = useFirestoreCollection<EventPool>(eventsCollection);
 
