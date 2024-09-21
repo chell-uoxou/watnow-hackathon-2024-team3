@@ -75,42 +75,37 @@ export default function Page() {
         {/* <Button onClick={handleClickAddEventPool} className="hidden">
           Add Event Pool
         </Button> */}
-        <div className="flex">
-          <div className=" p-6 flex flex-col gap-6 h-svh border-r border-brand-border-color w-[402px]">
-            <div className="flex items-start gap-4 text-slate-900 text-sm justify-between">
-              <div className="flex flex-col gap-2">
-                <h1 className="flex-1 text-2xl font-bold">イベント候補</h1>
-              </div>
-              <div className="flex gap-2 flex-row-reverse">
-                <Button
-                  onClick={() => setOpenDialog(true)}
-                  className="flex items-center gap-1 pr-4 h-8"
-                  size={"sm"}
-                >
-                  <Plus strokeWidth={"1.5px"} size={20} />
-                  追加
-                </Button>
-                <Button
-                  className="flex items-center gap-1 pr-4 h-8"
-                  size={"sm"}
-                  variant={"outline"}
-                >
-                  <Pen strokeWidth={"1.5px"} size={16} />
-                  編集
-                </Button>
-              </div>
+        <div className=" p-6 flex flex-col gap-6 h-svh border-r border-brand-border-color w-[402px]">
+          <div className="flex items-start gap-4 text-slate-900 text-sm justify-between">
+            <div className="flex flex-col gap-2">
+              <h1 className="flex-1 text-2xl font-bold">イベント候補</h1>
             </div>
-            <p>
-              予定タイムラインにイベントをドラッグ&ドロップして、予定を組むことができます。
-            </p>
-            <EventPoolList events={events} />
-            <EventInputDialog
-              isOpen={openDialog}
-              onOpenChange={setOpenDialog}
-            />
+            <div className="flex gap-2 flex-row-reverse">
+              <Button
+                onClick={() => setOpenDialog(true)}
+                className="flex items-center gap-1 pr-4 h-8"
+                size={"sm"}
+              >
+                <Plus strokeWidth={"1.5px"} size={20} />
+                追加
+              </Button>
+              <Button
+                className="flex items-center gap-1 pr-4 h-8"
+                size={"sm"}
+                variant={"outline"}
+              >
+                <Pen strokeWidth={"1.5px"} size={16} />
+                編集
+              </Button>
+            </div>
           </div>
-          <div className="flex-1"></div>
+          <p>
+            予定タイムラインにイベントをドラッグ&ドロップして、予定を組むことができます。
+          </p>
+          <EventPoolList events={events} />
+          <EventInputDialog isOpen={openDialog} onOpenChange={setOpenDialog} />
         </div>
+        <div className="flex-1"></div>
       </div>
     );
   }

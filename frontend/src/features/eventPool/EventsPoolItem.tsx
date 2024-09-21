@@ -1,8 +1,7 @@
 "use client";
-import * as React from "react";
-import { useState } from "react";
+import { forwardRef, HTMLAttributes, useState } from "react";
 import { Hourglass, Map } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent } from "~/components/ui/card";
 import { EventDetail } from "./EventDetail"; // Import the EventDetail component
 
 type Props = {
@@ -13,17 +12,21 @@ type Props = {
   value?: number;
   preparation_task?: string;
   notes?: string;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
-export default function EventPoolItem({
-  title,
-  description = "未記入",
-  location = "未記入",
-  available_times,
-  value = 0,
-  preparation_task = "未記入",
-  notes = " ",
-}: Props) {
+export default forwardRef<HTMLDivElement, Props>(function EventPoolItem(
+  {
+    title,
+    description = "未記入",
+    location = "未記入",
+    available_times,
+    value = 0,
+    preparation_task = "未記入",
+    notes = " ",
+    ...rest
+  }: Props,
+  ref
+) {
   const [showDetail, setShowDetail] = useState(false); // State to track if popup is visible
   // TODO　現状は開始時間と終了時間から時間帯を表示しているが、今後は平日は何時やいつは何時と表形式にしたい。
   const formatTimes = (times: Array<string>) => {
@@ -58,6 +61,8 @@ export default function EventPoolItem({
       onMouseEnter={() => setShowDetail(true)} // Show popup on hover
       onMouseLeave={() => setShowDetail(false)} // Hide popup when hover ends
       className="relative w-[350px]"
+      ref={ref}
+      {...rest}
     >
       <Card className="w-[350px]">
         <CardContent>
@@ -91,4 +96,4 @@ export default function EventPoolItem({
       )}
     </div>
   );
-}
+});
