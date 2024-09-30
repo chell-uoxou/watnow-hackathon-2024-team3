@@ -1,10 +1,13 @@
 "use client";
-import { forwardRef, HTMLAttributes, useState } from "react";
+import { forwardRef, HTMLAttributes } from "react";
 import { Hourglass, Map } from "lucide-react";
 import { Card, CardContent } from "~/components/ui/card";
 import { EventDetail } from "./EventDetail"; // Import the EventDetail component
+import { useDraggable } from "@dnd-kit/core";
+import clsx from "clsx";
 
 type Props = {
+  id: string;
   title: string;
   description?: string;
   location?: string;
@@ -14,7 +17,7 @@ type Props = {
   notes?: string;
 } & HTMLAttributes<HTMLDivElement>;
 
-export default forwardRef<HTMLDivElement, Props>(function EventPoolItem(
+const Component = forwardRef<HTMLDivElement, Props>(function EventPoolItem(
   {
     title,
     description = "未記入",
@@ -27,7 +30,7 @@ export default forwardRef<HTMLDivElement, Props>(function EventPoolItem(
   }: Props,
   ref
 ) {
-  const [showDetail, setShowDetail] = useState(false); // State to track if popup is visible
+  // const [showDetail, setShowDetail] = useState(false); // State to track if popup is visible
   // TODO　現状は開始時間と終了時間から時間帯を表示しているが、今後は平日は何時やいつは何時と表形式にしたい。
   const formatTimes = (times: Array<string>) => {
     const [startTime, endTime] = times;
@@ -58,8 +61,8 @@ export default forwardRef<HTMLDivElement, Props>(function EventPoolItem(
 
   return (
     <div
-      onMouseEnter={() => setShowDetail(true)} // Show popup on hover
-      onMouseLeave={() => setShowDetail(false)} // Hide popup when hover ends
+      // onMouseEnter={() => setShowDetail(true)} // Show popup on hover
+      // onMouseLeave={() => setShowDetail(false)} // Hide popup when hover ends
       className="relative w-[350px]"
       ref={ref}
       {...rest}
@@ -81,19 +84,34 @@ export default forwardRef<HTMLDivElement, Props>(function EventPoolItem(
       </Card>
 
       {/* Conditionally render the EventDetail popup */}
-      {showDetail && (
-        <div className="absolute top-0 left-0 z-10 w-[350px] bg-white shadow-lg rounded-lg">
-          <EventDetail
-            title={title}
-            description={description}
-            location={location}
-            available_times={available_times}
-            value={value}
-            preparation_task={preparation_task}
-            notes={notes}
-          />
-        </div>
-      )}
+      {
+        // TODO: 説明しながら排除
+        false && (
+          <div className="absolute top-0 left-0 z-10 w-[350px] bg-white shadow-lg rounded-lg">
+            <EventDetail
+              title={title}
+              description={description}
+              location={location}
+              available_times={available_times}
+              value={value}
+              preparation_task={preparation_task}
+              notes={notes}
+            />
+          </div>
+        )
+      }
     </div>
   );
 });
+
+export default function Draggable(props: Props) {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: props.id,
+  });
+
+  return (
+    <div className={clsx(isDragging && "opacity-50")}>
+      <Component ref={setNodeRef} {...attributes} {...listeners} {...props} />
+    </div>
+  );
+}

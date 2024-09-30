@@ -4,6 +4,7 @@ export default function test() {
   return (
     <div>
       <EventPoolItem
+        id="1"
         title="京都国立博物館"
         description="特別展を見学"
         location="京都府京都市東山区"
@@ -13,6 +14,7 @@ export default function test() {
         notes="notes"
       ></EventPoolItem>
       <EventPoolItem
+        id="2"
         title="京都国立博物館"
         description="特別展を見学adsdgnslnflnslfglsnfgnsldfngljsflgnlsnfglslgnl"
         location="京都府京都市東山区"

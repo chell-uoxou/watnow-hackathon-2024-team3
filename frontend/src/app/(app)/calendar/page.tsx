@@ -1,11 +1,18 @@
 "use client";
-import { collection, doc, Timestamp } from "firebase/firestore";
+import {
+  defaultDropAnimationSideEffects,
+  DndContext,
+  DragOverlay,
+  DragStartEvent,
+} from "@dnd-kit/core";
+import { collection, doc } from "firebase/firestore";
 import { Pen, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
+import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import { EventInputDialog } from "~/features/eventPool/EventInputDialog";
 import { EventPoolList } from "~/features/eventPool/EventPoolList";
-import useCurrentAccount, { isReady } from "~/hooks/useCurrentAccount";
+import useCurrentAccount from "~/hooks/useCurrentAccount";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
 import { EventPool } from "~/models/types/event_pool";
@@ -19,6 +26,7 @@ export default function Page() {
   );
   const [openDialog, setOpenDialog] = useState(false);
   const [events, setEvents] = useState<EventPool[]>([]);
+  const [activeId, setActiveId] = useState<string | number | null>(null);
 
   // const handleClickAddEventPool = async () => {
   //   console.log(currentDBAccount, currentEventPool);
@@ -65,13 +73,17 @@ export default function Page() {
     }
   }, [listEventPool]);
 
+  const handleStartDrag = (event: DragStartEvent) => {
+    setActiveId(event.active.id);
+  };
+
   if (currentDBAccount === "loading") {
     return <div>Loading...</div>;
   } else if (!currentDBAccount) {
     return <div>Not logged in</div>;
   } else {
     return (
-      <div>
+      <DndContext onDragStart={handleStartDrag}>
         {/* <Button onClick={handleClickAddEventPool} className="hidden">
           Add Event Pool
         </Button> */}
@@ -103,10 +115,25 @@ export default function Page() {
             予定タイムラインにイベントをドラッグ&ドロップして、予定を組むことができます。
           </p>
           <EventPoolList events={events} />
+          <DragOverlay
+            dropAnimation={{
+              sideEffects: defaultDropAnimationSideEffects({}),
+              duration: 0,
+            }}
+          >
+            {activeId ? (
+              <DayTimelineEvent
+                isDragging
+                event={
+                  events.find((event) => event.uid === activeId) as EventPool
+                }
+              />
+            ) : null}
+          </DragOverlay>
           <EventInputDialog isOpen={openDialog} onOpenChange={setOpenDialog} />
         </div>
         <div className="flex-1"></div>
-      </div>
+      </DndContext>
     );
   }
 }

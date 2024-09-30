@@ -11,6 +11,7 @@ export const EventPoolList = ({ events }: EventPoolProps) => {
     <div className="flex flex-col gap-4">
       {events.map((event: EventPool) => (
         <EventPoolItem
+          id={event.uid}
           key={event.uid}
           title={event.title}
           description={event.description}

@@ -1,7 +1,7 @@
 "use client";
 
 import { DndContext, useDraggable } from "@dnd-kit/core";
-import EventsPoolItem from "~/features/eventPool/EventsPoolItem";
+import { Button } from "~/components/ui/button";
 
 const Draggable = () => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -13,18 +13,9 @@ const Draggable = () => {
   };
 
   return (
-    <EventsPoolItem
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      title="京都国立博物館"
-      description="特別展を見学adsdgnslnflnslfglsnfgnsldfngljsflgnlsnfglslgnl"
-      location="京都府京都市東山区"
-      available_times={["2024-10-20T09:00:00", "2024-10-22T18:00:00"]}
-      value={0}
-      notes="notes"
-    />
+    <Button ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      Drag me
+    </Button>
   );
 };
 
