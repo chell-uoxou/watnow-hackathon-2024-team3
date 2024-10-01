@@ -28,38 +28,6 @@ export default function Page() {
   const [events, setEvents] = useState<EventPool[]>([]);
   const [activeId, setActiveId] = useState<string | number | null>(null);
 
-  // const handleClickAddEventPool = async () => {
-  //   console.log(currentDBAccount, currentEventPool);
-  //   if (isReady(currentDBAccount) && currentEventPool.add !== null) {
-  //     console.log("つくるかね");
-
-  //     await currentEventPool.add({
-  //       title: "散歩しよう",
-  //       description: "",
-  //       location: "",
-  //       attached_image: "",
-  //       available_times: [
-  //         {
-  //           start_time: Timestamp.fromDate(new Date()),
-  //           end_time: Timestamp.fromDate(
-  //             new Date(Date.now() + 4 * 60 * 60 * 1000)
-  //           ),
-  //         },
-  //       ],
-  //       default_duration: 60,
-  //       default_budget: {
-  //         mode: "per_person",
-  //         value: 0,
-  //       },
-  //       needs_preparation: false,
-  //       preparation_task: "",
-  //       max_participants: 1,
-  //       notes: "",
-  //     });
-  //     console.log("つくった");
-  //   }
-  // };
-
   useEffect(() => {
     if (listEventPool) {
       listEventPool().then((events) => {
@@ -84,9 +52,6 @@ export default function Page() {
   } else {
     return (
       <DndContext onDragStart={handleStartDrag}>
-        {/* <Button onClick={handleClickAddEventPool} className="hidden">
-          Add Event Pool
-        </Button> */}
         <div className=" p-6 flex flex-col gap-6 h-svh border-r border-brand-border-color w-[402px]">
           <div className="flex items-start gap-4 text-slate-900 text-sm justify-between">
             <div className="flex flex-col gap-2">
