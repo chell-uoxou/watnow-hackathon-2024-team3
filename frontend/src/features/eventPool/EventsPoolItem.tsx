@@ -1,36 +1,34 @@
 "use client";
-import * as React from "react";
-import { useState } from "react";
+import { forwardRef, HTMLAttributes } from "react";
 import { Hourglass, Map } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { EventDetail } from "./EventDetail"; // Import the EventDetail component
+import { Card, CardContent } from "~/components/ui/card";
+import { useDraggable } from "@dnd-kit/core";
+import clsx from "clsx";
+import { EventPool } from "~/models/types/event_pool";
+import { TimeRange } from "~/models/types/common";
+import { Timestamp } from "firebase/firestore";
 
 type Props = {
-  title: string;
-  description?: string;
-  location?: string;
-  available_times: Array<string>;
-  value?: number;
-  preparation_task?: string;
-  notes?: string;
-};
+  id: string;
+  eventPool: EventPool;
+} & HTMLAttributes<HTMLDivElement>;
 
-export default function EventPoolItem({
-  title,
-  description = "未記入",
-  location = "未記入",
-  available_times,
-  value = 0,
-  preparation_task = "未記入",
-  notes = " ",
-}: Props) {
-  const [showDetail, setShowDetail] = useState(false); // State to track if popup is visible
+const Component = forwardRef<HTMLDivElement, Props>(function EventPoolItem(
+  { eventPool, ...rest }: Props,
+  ref
+) {
   // TODO　現状は開始時間と終了時間から時間帯を表示しているが、今後は平日は何時やいつは何時と表形式にしたい。
-  const formatTimes = (times: Array<string>) => {
-    const [startTime, endTime] = times;
+  const formatTimes = (times: TimeRange[]) => {
+    console.log(times);
+    const { start_time, end_time } = times[0] ?? {
+      start_time: Timestamp.now(),
+      end_time: Timestamp.now(),
+    };
 
-    const startDate = new Date(startTime);
-    const endDate = new Date(endTime);
+    console.log(start_time);
+
+    const startDate = start_time.toDate();
+    const endDate = end_time.toDate();
 
     const sameDay = startDate.toDateString() === endDate.toDateString();
 
@@ -54,41 +52,34 @@ export default function EventPoolItem({
   };
 
   return (
-    <div
-      onMouseEnter={() => setShowDetail(true)} // Show popup on hover
-      onMouseLeave={() => setShowDetail(false)} // Hide popup when hover ends
-      className="relative w-[350px]"
-    >
+    <div className="relative w-[350px]" ref={ref} {...rest}>
       <Card className="w-[350px]">
         <CardContent>
-          <h1 className="text-xl font-bold mt-6 mb-4">{title}</h1>
+          <h1 className="text-xl font-bold mt-6 mb-4">{eventPool.title}</h1>
           <div className="col-auto flex flex-col gap-x-0 gap-y-3">
             <div className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-start justify-start gap-x-1 text-sm">
               <Hourglass className="w-3.5 h-3.5 mt-1" />
-              {formatTimes(available_times)}
+              {formatTimes(eventPool.available_times)}
             </div>
             <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1">
               <Map className="w-3.5 h-3.5" />
-              {location}
+              {eventPool.location}
             </div>
           </div>
         </CardContent>
       </Card>
+    </div>
+  );
+});
 
-      {/* Conditionally render the EventDetail popup */}
-      {showDetail && (
-        <div className="absolute top-0 left-0 z-10 w-[350px] bg-white shadow-lg rounded-lg">
-          <EventDetail
-            title={title}
-            description={description}
-            location={location}
-            available_times={available_times}
-            value={value}
-            preparation_task={preparation_task}
-            notes={notes}
-          />
-        </div>
-      )}
+export default function Draggable(props: Props) {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: props.id,
+  });
+
+  return (
+    <div className={clsx(isDragging && "opacity-50")}>
+      <Component ref={setNodeRef} {...attributes} {...listeners} {...props} />
     </div>
   );
 }
