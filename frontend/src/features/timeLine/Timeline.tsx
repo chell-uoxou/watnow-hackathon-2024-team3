@@ -1,12 +1,12 @@
 import { TimelineGridLine } from "./components/TimelineGridLine";
 
 interface TimelineProps {
-  hourHeight: number;
-  interval: 1 | 0.5 | 0.25;
+  itemHeight: number;
+  interval: 1 | 0.5 | 0.25; //１時間毎、３０分毎、１５分に区切りを追加
 }
 
-export const Timeline = ({ hourHeight, interval }: TimelineProps) => {
-  // Function to return minutes based on the interval type
+export const Timeline = ({ itemHeight, interval }: TimelineProps) => {
+  //インターバル毎に区切る時間の設定
   function getDividedMinutes(intervalType: 1 | 0.5 | 0.25): number[] {
     let minutes = [0];
 
@@ -22,20 +22,17 @@ export const Timeline = ({ hourHeight, interval }: TimelineProps) => {
     }
     return minutes;
   }
-
-  // Generate the list of minutes for the provided interval
   const minutes = getDividedMinutes(interval);
 
   return (
     <div className="flex flex-col items-left w-full">
-      {/* Loop through each hour (0 to 23) */}
+      {/* １つ１時間、計２４時間の繰り返し */}
       {[...Array(24)].map((_, hour) => (
-        <div key={hour}>
-          {/* Loop through each minute interval for the current hour */}
+        <div>
+          {/* ミニッツを用い１時間あたりのグリットの生成*/}
           {minutes.map((minute, index) => (
             <TimelineGridLine
-              key={`${hour}-${index}`}
-              itemHeight={hourHeight}
+              itemHeight={itemHeight}
               interval={interval}
               hour={hour}
               minutes={minute}
