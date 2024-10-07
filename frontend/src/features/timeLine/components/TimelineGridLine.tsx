@@ -1,9 +1,7 @@
 interface TimelineGridProps {
   itemHeight: number;
-  interval: 1 | 0.5 | 0.25;
   hour: number;
   minutes: number;
-  isLast?: boolean;
 }
 
 export const TimelineGridLine = (props: TimelineGridProps) => {

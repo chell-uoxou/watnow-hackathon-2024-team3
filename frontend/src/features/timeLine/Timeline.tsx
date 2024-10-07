@@ -28,12 +28,12 @@ export const Timeline = ({ itemHeight, interval }: TimelineProps) => {
     <div className="flex flex-col items-left w-full">
       {/* １つ１時間、計２４時間の繰り返し */}
       {[...Array(24)].map((_, hour) => (
-        <div>
+        <div key={hour}>
           {/* ミニッツを用い１時間あたりのグリットの生成*/}
           {minutes.map((minute, index) => (
             <TimelineGridLine
+              key={index}
               itemHeight={itemHeight}
-              interval={interval}
               hour={hour}
               minutes={minute}
             />
