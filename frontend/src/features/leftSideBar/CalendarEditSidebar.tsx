@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { collection, doc } from "firebase/firestore";
-import { Pen, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { EventInputDialog } from "~/features/eventPool/EventInputDialog";
 import { EventPoolList } from "~/features/eventPool/EventPoolList";
@@ -42,7 +42,7 @@ export default function CalendarEditSidebar({
         }
       });
     }
-  }, [listEventPool]);
+  }, [listEventPool, setEvents]);
 
   if (currentDBAccount === "loading") {
     return <div>Loading...</div>;

@@ -11,7 +11,6 @@ const BackButton = (props: BackButtonProps) => {
     <div className="flex gap-1 -translate-x-2">
       <Button
         variant="ghost"
-        // className="size-6 font-bold text-base"
         className="flex font-bold text-base h-8 "
         onClick={props.onClick}
       >
