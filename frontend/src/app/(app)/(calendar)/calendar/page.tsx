@@ -1,4 +1,5 @@
 import { CardBodyWithLeftSidebar } from "~/features/appLayout/CardBodyWithLeftSidebar";
+import PrivateScheduleDayTimeline from "~/features/dayTimeline/PrivateScheduleDayTimeline";
 import { ViewerLeftSideBar } from "~/features/leftSideBar/ViewerLeftSidebar";
 
 export default function Page() {
@@ -6,7 +7,7 @@ export default function Page() {
     <CardBodyWithLeftSidebar
       leftSidebar={<ViewerLeftSideBar title="カレンダー" subTitle="あなたの" />}
     >
-      <div>カレンダー</div>
+      <PrivateScheduleDayTimeline />
     </CardBodyWithLeftSidebar>
   );
 }
