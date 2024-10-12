@@ -5,7 +5,7 @@ import { Button } from "~/components/ui/button";
 import { SheetHandleButton } from "~/features/appLayout/components/SheetHandleButton";
 
 export default function Layout({ children }: PropsWithChildren) {
-  const [showRightPanel, setShowRightPanel] = useState(true);
+  const [showRightPanel, setShowRightPanel] = useState(false);
 
   return (
     <div className="flex gap-0 w-full h-full">
