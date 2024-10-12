@@ -6,22 +6,24 @@ import {
   DragOverEvent,
   DragOverlay,
   DragStartEvent,
+  Modifier,
   useDroppable,
 } from "@dnd-kit/core";
 import { Timestamp } from "firebase/firestore";
 import { useCallback, useState } from "react";
 import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import EventPoolItem from "~/features/eventPool/EventsPoolItem";
+import { Timeline } from "~/features/timeline/Timeline";
 import { EventPool } from "~/models/types/event_pool";
 
 const Droppable = () => {
   const { setNodeRef } = useDroppable({ id: "dnd-practice-droppable" });
   return (
     <div
-      className="w-96 h-96 bg-gray-200 flex items-center justify-center rounded-lg"
+      className="flex items-center justify-center rounded-lg"
       ref={setNodeRef}
     >
-      Drop here
+      <Timeline itemHeight={80} interval={1} />
     </div>
   );
 };
@@ -56,7 +58,6 @@ export default function Page() {
     max_participants: 0,
     notes: "notes",
   };
-
   const dummyEventPool2: EventPool = {
     uid: "2",
     title: "京都タワー",
@@ -112,12 +113,18 @@ export default function Page() {
     setIsOverDraggable(false);
   };
 
+  const eventItemModifier: Modifier = (modifier) => {
+    console.log(modifier);
+    return modifier.transform;
+  };
+
   return (
     <DndContext
       onDragStart={handleStartDrag}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
       onDragCancel={handleDragCancel}
+      modifiers={[eventItemModifier]}
     >
       <div className="flex">
         <div className="p-10 flex flex-col gap-4">
