@@ -6,18 +6,15 @@ import { LoadingSpinner } from "~/components/ui/spinner";
 function MyAvatar() {
   const { currentDBAccount } = useCurrentAccount();
 
-  if (currentDBAccount === "loading") {
-    return null;
-  }
+  const isLoading = currentDBAccount === "loading";
 
-  const avatar = currentDBAccount?.avatar_url;
+  const avatar =
+    !isLoading && currentDBAccount !== null ? currentDBAccount.avatar_url : "";
 
   return (
     <Avatar className="rounded-xl size-8">
       <AvatarImage src={avatar} />
-      <AvatarFallback>
-        <LoadingSpinner />
-      </AvatarFallback>
+      <AvatarFallback>{isLoading ?? <LoadingSpinner />}</AvatarFallback>
     </Avatar>
   );
 }
