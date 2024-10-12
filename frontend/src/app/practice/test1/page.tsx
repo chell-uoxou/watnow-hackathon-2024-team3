@@ -4,7 +4,7 @@ import { Timestamp } from "firebase/firestore";
 import EventPoolItem from "~/features/eventPool/EventsPoolItem";
 import { EventPool } from "~/models/types/event_pool";
 
-export default function test() {
+export default function Page() {
   const dummyEventPool1: EventPool = {
     uid: "1",
     title: "京都国立博物館",
