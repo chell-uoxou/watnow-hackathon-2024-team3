@@ -1,25 +1,20 @@
-import { Button } from "~/components/ui/button";
-import { Plus, Blocks } from "lucide-react";
+import { Button, ButtonProps } from "~/components/ui/button";
+import { ReactNode } from "react";
 
-interface ButtonProps {
-  color: "default" | "outline";
-  text: string;
-  URL?: string;
-}
+type ButtonTileProps = Omit<ButtonProps, "className"> & {
+  icon: ReactNode;
+  href: string;
+};
 
-export function ButtonTile(props: ButtonProps) {
+export function ButtonTile(props: ButtonTileProps) {
+  const { children, ...rest } = props;
   return (
     <Button
-      variant={props.color}
       className="flex flex-row w-full h-10 gap-1 text-sm items-center justify-center"
+      {...rest}
     >
-      {/* 三項演算子でアイコンを条件分岐 */}
-      {props.text === "イベント候補一覧" ? (
-        <Blocks className="h-5 w-5" />
-      ) : props.text === "予定を追加する" ? (
-        <Plus className="h-5 w-5" />
-      ) : null}
-      {props.text}
+      {props.icon}
+      {children}
     </Button>
   );
 }

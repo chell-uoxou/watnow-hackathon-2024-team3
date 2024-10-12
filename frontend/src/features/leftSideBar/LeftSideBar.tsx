@@ -1,6 +1,7 @@
 import { ViewTitle } from "~/components/common/ViewTitle";
 import { CalendarTile } from "./components/CalendarTile";
 import { ButtonTile } from "./components/ButtonTile";
+import { Blocks, Plus } from "lucide-react";
 
 interface LeftSideBarProps {
   title: string;
@@ -16,15 +17,19 @@ export const LeftSideBar = (props: LeftSideBarProps) => {
       </div>
       <div className="flex flex-col gap-3">
         <ButtonTile
-          color="default"
-          text="イベント候補一覧"
-          URL="/practice/test4"
-        />
+          variant="outline"
+          href="/practice/test4"
+          icon={<Blocks className="size-5" />}
+        >
+          イベント候補一覧
+        </ButtonTile>
         <ButtonTile
-          color="outline"
-          text="予定を追加する"
-          URL="/practice/test4"
-        />
+          variant="default"
+          href="/practice/test4"
+          icon={<Plus className="size-5" />}
+        >
+          予定を追加する
+        </ButtonTile>
       </div>
     </div>
   );
