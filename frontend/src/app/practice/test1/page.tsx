@@ -1,10 +1,35 @@
 "use client";
 
+import {
+  defaultDropAnimationSideEffects,
+  DndContext,
+  DragOverEvent,
+  DragOverlay,
+  DragStartEvent,
+  useDroppable,
+} from "@dnd-kit/core";
 import { Timestamp } from "firebase/firestore";
+import { useCallback, useState } from "react";
+import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import EventPoolItem from "~/features/eventPool/EventsPoolItem";
 import { EventPool } from "~/models/types/event_pool";
 
+const Droppable = () => {
+  const { setNodeRef } = useDroppable({ id: "dnd-practice-droppable" });
+  return (
+    <div
+      className="w-96 h-96 bg-gray-200 flex items-center justify-center rounded-lg"
+      ref={setNodeRef}
+    >
+      Drop here
+    </div>
+  );
+};
+
 export default function Page() {
+  const [activeId, setActiveId] = useState<string | number | null>(null);
+  const [isOverDraggable, setIsOverDraggable] = useState(false);
+
   const dummyEventPool1: EventPool = {
     uid: "1",
     title: "京都国立博物館",
@@ -59,10 +84,64 @@ export default function Page() {
     notes: "",
   };
 
+  const events = [dummyEventPool1, dummyEventPool2];
+  const handleStartDrag = useCallback(
+    (event: DragStartEvent) => {
+      setActiveId(event.active.id);
+    },
+    [setActiveId]
+  );
+
+  const handleDragOver = useCallback((event: DragOverEvent) => {
+    console.log("drag over");
+    console.log(event);
+    if (event.over === null) {
+      setIsOverDraggable(false);
+    } else {
+      setIsOverDraggable(true);
+    }
+  }, []);
+
+  const handleDragCancel = () => {
+    console.log("drag cancel");
+    setIsOverDraggable(false);
+  };
+
+  const handleDragEnd = () => {
+    console.log("drag end");
+    setIsOverDraggable(false);
+  };
+
   return (
-    <div>
-      <EventPoolItem id="1" eventPool={dummyEventPool1} />
-      <EventPoolItem id="1" eventPool={dummyEventPool2} />
-    </div>
+    <DndContext
+      onDragStart={handleStartDrag}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDragCancel={handleDragCancel}
+    >
+      <div className="flex">
+        <div className="p-10 flex flex-col gap-4">
+          <EventPoolItem id="1" eventPool={dummyEventPool1} />
+          <EventPoolItem id="2" eventPool={dummyEventPool2} />
+        </div>
+        <div className="p-10 flex-1">
+          <Droppable />
+        </div>
+      </div>
+      <DragOverlay
+        dropAnimation={{
+          sideEffects: defaultDropAnimationSideEffects({}),
+          duration: 0,
+        }}
+        className={isOverDraggable ? "cursor-copy" : ""}
+      >
+        {activeId ? (
+          <DayTimelineEvent
+            isDragging
+            event={events.find((event) => event.uid === activeId) as EventPool}
+          />
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   );
 }
