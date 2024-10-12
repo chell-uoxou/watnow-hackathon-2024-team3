@@ -1,8 +1,9 @@
+import { TimelineSettings } from "~/app/stores/timelineSettings";
 import { TimelineGridLine } from "./components/TimelineGridLine";
 
-interface TimelineProps {
+export interface TimelineProps {
   itemHeight: number;
-  interval: 1 | 0.5 | 0.25; //１時間毎、３０分毎、１５分に区切りを追加
+  interval: TimelineSettings["gridInterval"]; //１時間毎、３０分毎、１５分に区切りを追加
 }
 
 export const Timeline = ({ itemHeight, interval }: TimelineProps) => {
