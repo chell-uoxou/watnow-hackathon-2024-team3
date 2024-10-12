@@ -1,5 +1,5 @@
 import { ViewTitle } from "~/components/common/ViewTitle";
-import { CalendarTile } from "./components/calendarTile";
+import { CalendarTile } from "./components/CalendarTile";
 import { ButtonTile } from "./components/ButtonTile";
 
 interface LeftSideBarProps {
