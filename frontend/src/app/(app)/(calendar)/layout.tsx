@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, useState } from "react";
 import { Button } from "~/components/ui/button";
-import { SheetHandleButton } from "~/components/common/SheetHandleButton";
+import { SheetHandleButton } from "~/features/appLayout/components/SheetHandleButton";
 
 export default function Layout({ children }: PropsWithChildren) {
   const [showRightPanel, setShowRightPanel] = useState(true);
