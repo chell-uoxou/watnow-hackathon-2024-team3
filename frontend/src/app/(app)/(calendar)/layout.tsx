@@ -1,8 +1,8 @@
 "use client";
 
 import { PropsWithChildren, useState } from "react";
-import { Button } from "~/components/ui/button";
 import { SheetHandleButton } from "~/features/appLayout/components/SheetHandleButton";
+import MapDrawer from "~/features/googleMap/MapDrawer";
 
 export default function Layout({ children }: PropsWithChildren) {
   const [showRightPanel, setShowRightPanel] = useState(false);
@@ -30,8 +30,7 @@ export default function Layout({ children }: PropsWithChildren) {
           />
           {/* 以下がシートの内容 */}
           <div className="h-full w-full bg-gray-200">
-            <h1>Right Panel</h1>
-            <Button onClick={() => setShowRightPanel(false)}>Close</Button>
+            <MapDrawer />
           </div>
         </div>
       )}
