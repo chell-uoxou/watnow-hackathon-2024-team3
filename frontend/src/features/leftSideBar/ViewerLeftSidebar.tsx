@@ -3,12 +3,12 @@ import { CalendarTile } from "./components/CalendarTile";
 import { ButtonTile } from "./components/ButtonTile";
 import { Blocks, Plus } from "lucide-react";
 
-interface LeftSideBarProps {
+interface ViewerSideBarProps {
   title: string;
   subTitle?: string;
 }
 
-export const LeftSideBar = (props: LeftSideBarProps) => {
+export const ViewerLeftSideBar = (props: ViewerSideBarProps) => {
   return (
     <div className="flex flex-col p-6 justify-between">
       <div className="flex flex-col gap-3">
