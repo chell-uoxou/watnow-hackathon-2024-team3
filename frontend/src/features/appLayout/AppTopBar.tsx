@@ -11,7 +11,7 @@ import { Button } from "~/components/ui/button";
 
 export const AppTopBar = () => {
   const [groups, setGroups] = useState<Group[] | null | "loading">("loading");
-  const { getGroupsByAccount, currentDBAccount } = useCurrentAccount();
+  const { getGroupsByAccount } = useCurrentAccount();
 
   useEffect(() => {
     getGroupsByAccount().then((groups) => {
@@ -29,9 +29,9 @@ export const AppTopBar = () => {
       <div className="flex w-22 h-5.5">
         <LogoIcon />
       </div>
-      <div className="flex flex-row-reverse w-[200px]">
+      <div className="flex flex-row-reverse w-[200px] items-center gap-3">
         <MyAvatar />
-        <Button variant="ghost">
+        <Button variant="ghost" size="icon" className="size-8">
           <Bell size={20} />
         </Button>
       </div>

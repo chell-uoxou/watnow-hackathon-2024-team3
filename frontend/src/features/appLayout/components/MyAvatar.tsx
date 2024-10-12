@@ -3,13 +3,8 @@ import useCurrentAccount from "~/hooks/useCurrentAccount";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { LoadingSpinner } from "~/components/ui/spinner";
 
-interface Account {
-  avatar?: string;
-}
-
 function MyAvatar() {
   const { currentDBAccount } = useCurrentAccount();
-  console.log(currentDBAccount);
 
   if (currentDBAccount === "loading") {
     return null;
@@ -18,14 +13,12 @@ function MyAvatar() {
   const avatar = currentDBAccount?.avatar_url;
 
   return (
-    <div>
-      <Avatar className="rounded-xl">
-        <AvatarImage src={avatar} />
-        <AvatarFallback>
-          <LoadingSpinner />
-        </AvatarFallback>
-      </Avatar>
-    </div>
+    <Avatar className="rounded-xl size-8">
+      <AvatarImage src={avatar} />
+      <AvatarFallback>
+        <LoadingSpinner />
+      </AvatarFallback>
+    </Avatar>
   );
 }
 
