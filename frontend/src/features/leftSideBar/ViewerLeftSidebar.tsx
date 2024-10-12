@@ -10,7 +10,7 @@ interface ViewerSideBarProps {
 
 export const ViewerLeftSideBar = (props: ViewerSideBarProps) => {
   return (
-    <div className="flex flex-col p-6 justify-between">
+    <div className="flex flex-col p-6 justify-between h-full">
       <div className="flex flex-col gap-3">
         <ViewTitle title={props.title} subTitle={props.subTitle} />
         <CalendarTile />
