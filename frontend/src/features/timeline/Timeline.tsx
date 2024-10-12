@@ -7,8 +7,10 @@ interface TimelineProps {
 
 export const Timeline = ({ itemHeight, interval }: TimelineProps) => {
   //インターバル毎に区切る時間の設定
-  function getDividedMinutes(intervalType: 1 | 0.5 | 0.25): number[] {
-    let minutes = [0];
+  function getDividedMinutes(
+    intervalType: TimelineProps["interval"]
+  ): number[] {
+    const minutes = [0];
 
     switch (intervalType) {
       case 0.25:
