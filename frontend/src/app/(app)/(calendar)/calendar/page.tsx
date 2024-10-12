@@ -6,6 +6,7 @@ import {
   defaultDropAnimationSideEffects,
 } from "@dnd-kit/core";
 import { useState } from "react";
+import { CardBodyWithLeftSidebar } from "~/features/appLayout/CardBodyWithLeftSidebar";
 import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import CalendarEditSidebar from "~/features/leftSidebar/CalendarEditSidebar";
 import { EventPool } from "~/models/types/event_pool";
@@ -20,28 +21,26 @@ export default function Page() {
 
   return (
     <DndContext onDragStart={handleStartDrag}>
-      <div className="flex">
-        {/* 表示部分を別コンポーネントに分離 */}
-        <CalendarEditSidebar events={events} setEvents={setEvents} />
-
-        <div className="flex-1"></div>
-
-        <DragOverlay
-          dropAnimation={{
-            sideEffects: defaultDropAnimationSideEffects({}),
-            duration: 0,
-          }}
-        >
-          {activeId ? (
-            <DayTimelineEvent
-              isDragging
-              event={
-                events.find((event) => event.uid === activeId) as EventPool
-              }
-            />
-          ) : null}
-        </DragOverlay>
-      </div>
+      <CardBodyWithLeftSidebar
+        leftSidebar={
+          <CalendarEditSidebar events={events} setEvents={setEvents} />
+        }
+      >
+        <div>カレンダー</div>
+      </CardBodyWithLeftSidebar>
+      <DragOverlay
+        dropAnimation={{
+          sideEffects: defaultDropAnimationSideEffects({}),
+          duration: 0,
+        }}
+      >
+        {activeId ? (
+          <DayTimelineEvent
+            isDragging
+            event={events.find((event) => event.uid === activeId) as EventPool}
+          />
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 }
