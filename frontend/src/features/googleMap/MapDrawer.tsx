@@ -1,4 +1,4 @@
-"use client"; // これを最初に追加
+"use client";
 
 import { useState, useEffect } from "react";
 import Map from "~/features/googleMap/components/Map";
@@ -8,7 +8,11 @@ interface Location {
   lng: number | null;
 }
 
-const MapDrawer = () => {
+interface MapDrawerProps {
+  show: boolean;
+}
+
+const MapDrawer = (props: MapDrawerProps) => {
   const [currentLocation, setCurrentLocation] = useState<Location>({
     lat: null,
     lng: null,
@@ -35,7 +39,11 @@ const MapDrawer = () => {
   };
 
   return (
-    <div className="flex flex-col w-screen h-full" style={{ width: "33.33vw" }}>
+    <div
+      className={`transition-all duration-300 ease-in-out overflow-hidden flex flex-col h-full ${
+        props.show ? "w-[33.33vw]" : "w-0"
+      }`}
+    >
       <div>地図</div>
       <Map currentLocation={currentLocation} defaultCenter={defaultCenter} />
     </div>

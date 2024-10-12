@@ -22,18 +22,19 @@ export default function Layout({ children }: PropsWithChildren) {
       )}
 
       {/* パネルが表示されているときに右矢印ボタンとパネルを表示 */}
-      {showRightPanel && (
-        <div className="flex flex-row h-full items-center">
+      <div className="flex flex-row h-full items-center">
+        {showRightPanel && (
           <SheetHandleButton
             direction={true} // 右矢印を表示
             onClick={() => setShowRightPanel(false)}
           />
-          {/* 以下がシートの内容 */}
-          <div className="h-full w-full bg-gray-200">
-            <MapDrawer />
-          </div>
+        )}
+        {/* 以下がシートの内容 */}
+        <div className="h-full bg-gray-200">
+          {/* マップの表示 */}
+          <MapDrawer show={showRightPanel} />
         </div>
-      )}
+      </div>
     </div>
   );
 }
