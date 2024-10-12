@@ -1,4 +1,4 @@
-import { TimelineSettings } from "~/app/stores/timelineSettings";
+import { TimelineSettings } from "~/stores/timelineSettings";
 import { TimelineGridLine } from "./components/TimelineGridLine";
 
 export interface TimelineProps {
