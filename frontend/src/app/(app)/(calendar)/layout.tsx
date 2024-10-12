@@ -28,6 +28,7 @@ export default function Layout({ children }: PropsWithChildren) {
             direction={true} // 右矢印を表示
             onClick={() => setShowRightPanel(false)}
           />
+          {/* 以下がシートの内容 */}
           <div className="h-full w-full bg-gray-200">
             <h1>Right Panel</h1>
             <Button onClick={() => setShowRightPanel(false)}>Close</Button>
