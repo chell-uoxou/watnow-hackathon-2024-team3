@@ -8,14 +8,15 @@ interface BackButtonProps {
 
 const BackButton = (props: BackButtonProps) => {
   return (
-    <div className="flex gap-1 h-5">
+    <div className="flex gap-1 -translate-x-2">
       <Button
         variant="ghost"
-        className="size-6 font-bold text-base"
+        // className="size-6 font-bold text-base"
+        className="flex font-bold text-base h-8 "
         onClick={props.onClick}
       >
-        <div className="flex items-center">
-          <ChevronLeft className="size-5" />
+        <div className="flex items-center gap-1">
+          <ChevronLeft className="-ml-2" />
           戻る
         </div>
       </Button>

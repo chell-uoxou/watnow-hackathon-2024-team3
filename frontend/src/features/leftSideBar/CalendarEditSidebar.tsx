@@ -52,10 +52,8 @@ export default function CalendarEditSidebar({
 
   return (
     <div className="p-6 flex flex-col gap-4 h-svh border-r border-brand-border-color w-[402px]">
-      <div>
-        <BackButton onClick={() => router.forward()} />
-      </div>
-      <div>
+      <div className="flex flex-col gap-1">
+        <BackButton onClick={() => router.back()} />
         <ViewTitle title="予定を編集" subTitle="あなたのカレンダー"></ViewTitle>
       </div>
       <div className="flex justify-between">
