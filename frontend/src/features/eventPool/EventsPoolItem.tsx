@@ -19,13 +19,10 @@ const Component = forwardRef<HTMLDivElement, Props>(function EventPoolItem(
 ) {
   // TODO　現状は開始時間と終了時間から時間帯を表示しているが、今後は平日は何時やいつは何時と表形式にしたい。
   const formatTimes = (times: TimeRange[]) => {
-    console.log(times);
     const { start_time, end_time } = times[0] ?? {
       start_time: Timestamp.now(),
       end_time: Timestamp.now(),
     };
-
-    console.log(start_time);
 
     const startDate = start_time.toDate();
     const endDate = end_time.toDate();
