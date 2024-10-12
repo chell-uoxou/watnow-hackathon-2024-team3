@@ -9,7 +9,7 @@ interface SmallTitleWithIconProps {
 const SmallTitleWithIcon = (props: SmallTitleWithIconProps) => {
   return (
     <div className="flex gap-2">
-      <Blend className="size-6" />
+      <div className="size-6">{props.icon}</div>
       <h2 className="text-xl font-bold">{props.title}</h2>
     </div>
   );

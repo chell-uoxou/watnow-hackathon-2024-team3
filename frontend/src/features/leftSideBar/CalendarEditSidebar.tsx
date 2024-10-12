@@ -9,6 +9,11 @@ import useCurrentAccount from "~/hooks/useCurrentAccount";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
 import { EventPool } from "~/models/types/event_pool";
+import { ViewTitle } from "~/components/common/ViewTitle";
+import SmallTitleWithIcon from "~/components/common/SmallTitleWithIcon";
+import { Blocks } from "lucide-react";
+import BackButton from "~/components/common/BackButton";
+import { useRouter } from "next/navigation";
 
 export default function CalendarEditSidebar({
   events,
@@ -24,6 +29,7 @@ export default function CalendarEditSidebar({
       : null
   );
   const [openDialog, setOpenDialog] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (listEventPool) {
@@ -45,33 +51,27 @@ export default function CalendarEditSidebar({
   }
 
   return (
-    <div className="p-6 flex flex-col gap-6 h-svh border-r border-brand-border-color w-[402px]">
-      <div className="flex items-start gap-4 text-slate-900 text-sm justify-between">
-        <div className="flex flex-col gap-2">
-          <h1 className="flex-1 text-2xl font-bold">イベント候補</h1>
-        </div>
-        <div className="flex gap-2 flex-row-reverse">
-          <Button
-            onClick={() => setOpenDialog(true)}
-            className="flex items-center gap-1 pr-4 h-8"
-            size={"sm"}
-          >
-            <Plus strokeWidth={"1.5px"} size={20} />
-            追加
-          </Button>
-          <Button
-            className="flex items-center gap-1 pr-4 h-8"
-            size={"sm"}
-            variant={"outline"}
-          >
-            <Pen strokeWidth={"1.5px"} size={16} />
-            編集
-          </Button>
-        </div>
+    <div className="p-6 flex flex-col gap-4 h-svh border-r border-brand-border-color w-[402px]">
+      <div>
+        <BackButton onClick={() => router.forward()} />
       </div>
-      <p>
-        予定タイムラインにイベントをドラッグ&ドロップして、予定を組むことができます。
-      </p>
+      <div>
+        <ViewTitle title="予定を編集" subTitle="あなたのカレンダー"></ViewTitle>
+      </div>
+      <div className="flex justify-between">
+        <SmallTitleWithIcon
+          icon={<Blocks />}
+          title="イベント候補"
+        ></SmallTitleWithIcon>
+        <Button
+          onClick={() => setOpenDialog(true)}
+          className="flex items-center gap-1 pr-4 h-8"
+          size={"sm"}
+        >
+          <Plus strokeWidth={"1.5px"} size={20} />
+          作成
+        </Button>
+      </div>
       <EventPoolList events={events} />
       <EventInputDialog isOpen={openDialog} onOpenChange={setOpenDialog} />
     </div>
