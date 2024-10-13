@@ -8,7 +8,7 @@ export default function App({ children }: PropsWithChildren) {
   return (
     <main className="flex flex-col h-svh w-full">
       <AppTopBar />
-      <div className="h-full w-full">{children}</div>
+      <div className="flex-1 size-full pt-14">{children}</div>
     </main>
   );
 }
