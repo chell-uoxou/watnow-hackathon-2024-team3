@@ -52,10 +52,11 @@ export default function CalendarEditSidebar({
         <BackButton onClick={() => router.back()} />
         <ViewTitle title="予定を編集" subTitle="あなたのカレンダー"></ViewTitle>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <SmallTitleWithIcon
           icon={<Blocks />}
           title="イベント候補"
+          isLoading={currentDBAccount === "loading"}
         ></SmallTitleWithIcon>
         <Button
           onClick={() => setOpenDialog(true)}
