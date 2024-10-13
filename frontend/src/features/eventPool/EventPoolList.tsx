@@ -8,7 +8,7 @@ interface EventPoolProps {
 
 export const EventPoolList = ({ events }: EventPoolProps) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-full">
       {events.map((event: EventPool) => (
         <EventPoolItem id={event.uid} key={event.uid} eventPool={event} />
       ))}
