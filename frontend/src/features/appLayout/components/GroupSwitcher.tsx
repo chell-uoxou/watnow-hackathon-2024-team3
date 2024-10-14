@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import MenuItemWithIcon from "./MenuItemWithIcon";
 import { ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import { Button } from "~/components/ui/button";
@@ -86,7 +87,6 @@ export function GroupSwitcher({
           ) : (
             <>
               <div className="flex items-center">
-                {/* 常に selectedFramework のアイコンと名前を表示、選択されていない場合はデフォルト */}
                 <Image
                   src={selectedGroup?.icon_url || current_icon_url}
                   alt="Selected Icon"
@@ -104,18 +104,18 @@ export function GroupSwitcher({
       <DropdownMenuContent className="w-[200px]">
         {selectedGroup && (
           <>
-            <DropdownMenuItem className="font-bold ">
-              <UserRoundPlus className="mr-2 h-4 w-4" />
-              友達を招待
-            </DropdownMenuItem>
-            <DropdownMenuItem className="font-bold ">
-              <UsersRound className="mr-2 h-4 w-4" />
-              メンバーリスト
-            </DropdownMenuItem>
-            <DropdownMenuItem className="font-bold ">
-              <Settings className="mr-2 h-4 w-4" />
-              グループ設定
-            </DropdownMenuItem>
+            <MenuItemWithIcon
+              icon={<UserRoundPlus className="mr-2 h-4 w-4" />}
+              title="友達を招待"
+            />
+            <MenuItemWithIcon
+              icon={<UsersRound className="mr-2 h-4 w-4" />}
+              title="メンバーリスト"
+            />
+            <MenuItemWithIcon
+              icon={<Settings className="mr-2 h-4 w-4" />}
+              title="グループ設定"
+            />
             <DropdownMenuSeparator className="border" />
           </>
         )}
@@ -128,7 +128,7 @@ export function GroupSwitcher({
             className="font-bold"
           >
             <UserRound className="mr-2 h-4 w-4" />
-            プライベート
+            個人のカレンダー
           </DropdownMenuItem>
           <DropdownMenuSeparator className="border" />
           <DropdownMenuLabel>参加中のグループ</DropdownMenuLabel>
@@ -161,15 +161,15 @@ export function GroupSwitcher({
             )
           )}
         </DropdownMenuGroup>
-        <DropdownMenuItem className="font-bold ">
-          <List className="mr-2 h-4 w-4" />
-          グループ一覧
-        </DropdownMenuItem>
-        <DropdownMenuItem className="font-bold ">
-          {/* 新規作成画面に遷移 */}
-          <CirclePlus className="mr-2 h-4 w-4" />
-          新規作成
-        </DropdownMenuItem>
+        <MenuItemWithIcon
+          icon={<List className="mr-2 h-4 w-4" />}
+          title="グループ一覧"
+        />
+        <MenuItemWithIcon
+          // {/* ここに新規作成の処理を追加 */}
+          icon={<CirclePlus className="mr-2 h-4 w-4" />}
+          title="新規作成"
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );
