@@ -8,7 +8,7 @@ interface MenuItemWithIconProps {
 
 const MenuItemWithIcon = (props: MenuItemWithIconProps) => {
   return (
-    <DropdownMenuItem className="font-bold ">
+    <DropdownMenuItem className="font-bold">
       <div>{props.icon}</div>
       {props.title}
     </DropdownMenuItem>
