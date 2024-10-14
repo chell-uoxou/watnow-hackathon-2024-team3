@@ -17,7 +17,7 @@ interface MapProps {
 }
 
 export default function Map({ currentLocation, defaultCenter }: MapProps) {
-  const [map, setMap] = useState<google.maps.Map | null>(null); // Google Mapsインスタンスを保持するための状態
+  const map = useRef<google.maps.Map | null>(null); // Google Mapsインスタンスを保持するための状態
   const [center, setCenter] = useState(defaultCenter); // 地図の中心位置を管理するための状態
   const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null); // SearchBoxの参照を保持
 
@@ -33,12 +33,12 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
 
   // マップがロードされたときに呼ばれる関数
   const onLoad = (mapInstance: google.maps.Map) => {
-    setMap(mapInstance); // マップインスタンスを状態にセット
+    map.current = mapInstance; // マップインスタンスを状態にセット
   };
 
   // マップがアンロードされたときに呼ばれる関数
   const onUnmount = () => {
-    setMap(null); // マップインスタンスをクリア
+    map.current = null; // マップインスタンスをクリア
   };
 
   // SearchBoxがロードされたときに呼ばれる関数
@@ -58,7 +58,7 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
           lat: location.lat(),
           lng: location.lng(),
         });
-        map?.panTo({ lat: location.lat(), lng: location.lng() }); // mapの中心をパン
+        map.current?.panTo({ lat: location.lat(), lng: location.lng() });
       }
     }
   };
@@ -85,8 +85,8 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
           onUnmount={onUnmount} // マップアンロード時の処理
           options={mapOptions} // マップオプションを設定
         >
-          {/* 検索ボックスを地図に配置 */}
-          <div className="flex w-full z-10 justify-center absolute top-4">
+          {/* 検索ボックスを地図に配置  現在試行錯誤中につき不可視化 */}
+          <div className="flex w-full z-10 justify-center absolute top-4 invisible">
             <SearchBox
               onLoad={onSearchBoxLoad} // 検索ボックスロード時の処理を設定
               onPlacesChanged={onPlacesChanged} // 検索結果変更時の処理を設定
@@ -96,7 +96,7 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
           {/* 現在位置の表示 */}
           {currentLocation && map && (
             <SetCurrentLocationMaker
-              map={map}
+              map={map.current}
               position={{
                 lat: currentLocation.lat,
                 lng: currentLocation.lng,
