@@ -1,11 +1,11 @@
 "use client";
 import { CardBodyWithLeftSidebar } from "~/features/appLayout/CardBodyWithLeftSidebar";
-import { LeftSideBar } from "~/features/leftSideBar/LeftSideBar";
+import { ViewerLeftSideBar } from "~/features/leftSideBar/ViewerLeftSidebar";
 
 export default function Page() {
   return (
     <CardBodyWithLeftSidebar
-      leftSidebar={<LeftSideBar title="カレンダー" subTitle="あなたの" />}
+      leftSidebar={<ViewerLeftSideBar title="カレンダー" subTitle="あなたの" />}
     >
       <div>カレンダー</div>
     </CardBodyWithLeftSidebar>

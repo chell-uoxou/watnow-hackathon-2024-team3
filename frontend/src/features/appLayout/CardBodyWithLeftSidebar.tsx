@@ -8,7 +8,7 @@ export const CardBodyWithLeftSidebar = (
   props: CardBodyWithLeftSidebarProps
 ) => {
   return (
-    <div className="flex gap-0 w-full h-full">
+    <div className="flex gap-0 size-full">
       <div className="border-r border-brand-border-color h-full">
         {props.leftSidebar}
       </div>

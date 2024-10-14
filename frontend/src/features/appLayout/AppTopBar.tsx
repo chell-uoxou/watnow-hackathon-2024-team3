@@ -21,7 +21,7 @@ export const AppTopBar = () => {
   }, [getGroupsByAccount]);
 
   return (
-    <div className="flex justify-between items-center h-14 px-6 py-2 border-b border-brand-border-color">
+    <div className="flex justify-between items-center h-14 px-6 py-2 border-b border-brand-border-color absolute w-screen">
       <GroupSwitcher
         groups={groups !== "loading" && groups !== null ? groups : []}
         isLoading={groups === "loading"}

@@ -14,6 +14,8 @@ import SmallTitleWithIcon from "~/components/common/SmallTitleWithIcon";
 import { Blocks } from "lucide-react";
 import BackButton from "~/components/common/BackButton";
 import { useRouter } from "next/navigation";
+import { ScrollArea } from "~/components/ui/scroll-area";
+import EventPoolListSkeleton from "../eventPool/EventPoolListSkeleton";
 
 export default function CalendarEditSidebar({
   events,
@@ -44,22 +46,17 @@ export default function CalendarEditSidebar({
     }
   }, [listEventPool, setEvents]);
 
-  if (currentDBAccount === "loading") {
-    return <div>Loading...</div>;
-  } else if (!currentDBAccount) {
-    return <div>Not logged in</div>;
-  }
-
   return (
-    <div className="p-6 flex flex-col gap-4 h-svh border-r border-brand-border-color w-[402px]">
+    <div className="p-6 flex flex-col gap-4 h-full border-r border-brand-border-color w-[402px]">
       <div className="flex flex-col gap-1">
         <BackButton onClick={() => router.back()} />
         <ViewTitle title="予定を編集" subTitle="あなたのカレンダー"></ViewTitle>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <SmallTitleWithIcon
           icon={<Blocks />}
           title="イベント候補"
+          isLoading={currentDBAccount === "loading"}
         ></SmallTitleWithIcon>
         <Button
           onClick={() => setOpenDialog(true)}
@@ -70,7 +67,15 @@ export default function CalendarEditSidebar({
           作成
         </Button>
       </div>
-      <EventPoolList events={events} />
+
+      {currentDBAccount !== "loading" && events !== null ? (
+        <ScrollArea className="flex-1">
+          <EventPoolList events={events} />
+        </ScrollArea>
+      ) : (
+        <EventPoolListSkeleton />
+      )}
+
       <EventInputDialog isOpen={openDialog} onOpenChange={setOpenDialog} />
     </div>
   );

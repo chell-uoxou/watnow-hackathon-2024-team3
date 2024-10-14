@@ -25,7 +25,7 @@ export const ViewerLeftSideBar = (props: ViewerSideBarProps) => {
         </ButtonTile>
         <ButtonTile
           variant="default"
-          href="/practice/test4"
+          href="/calendar/edit"
           icon={<Plus className="size-5" />}
         >
           予定を追加する
