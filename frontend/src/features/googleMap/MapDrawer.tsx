@@ -1,4 +1,4 @@
-"use client";
+import clsx from "clsx";
 
 import { useState, useEffect } from "react";
 import Map from "~/features/googleMap/components/Map";
@@ -35,9 +35,10 @@ const MapDrawer = (props: MapDrawerProps) => {
 
   return (
     <div
-      className={`transition-all duration-300 ease-in-out overflow-hidden flex flex-col h-full ${
+      className={clsx(
+        "transition-all duration-300 ease-in-out overflow-hidden flex flex-col h-full",
         props.show ? "w-[33.33vw]" : "w-0"
-      }`}
+      )}
     >
       <div>地図</div>
       <Map
