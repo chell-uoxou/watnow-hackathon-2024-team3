@@ -19,7 +19,6 @@ interface MapProps {
 export default function Map({ currentLocation, defaultCenter }: MapProps) {
   const map = useRef<google.maps.Map | null>(null); // Google Mapsインスタンスを保持
   const [center, setCenter] = useState(defaultCenter); // 地図の中心を管理する状態
-  const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null); // SearchBoxの参照
 
   // currentLocationが変更されたときに地図の中心を更新
   useEffect(() => {
@@ -39,27 +38,6 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
   // マップがアンロードされたときの処理
   const onUnmount = () => {
     map.current = null;
-  };
-
-  // SearchBoxがロードされたときの処理
-  const onSearchBoxLoad = (ref: google.maps.places.SearchBox) => {
-    searchBoxRef.current = ref;
-  };
-
-  // 検索ボックスで場所が変更されたときの処理
-  const onPlacesChanged = () => {
-    const places = searchBoxRef.current?.getPlaces();
-    if (places && places.length > 0) {
-      const place = places[0];
-      const location = place.geometry?.location;
-      if (location) {
-        setCenter({
-          lat: location.lat(),
-          lng: location.lng(),
-        });
-        map.current?.panTo({ lat: location.lat(), lng: location.lng() });
-      }
-    }
   };
 
   const mapOptions = {
@@ -90,10 +68,8 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
           options={mapOptions}
         >
           <div className="flex w-full z-10 justify-center absolute top-4 invisible">
-            <SearchBox
-              onLoad={onSearchBoxLoad}
-              onPlacesChanged={onPlacesChanged}
-            />
+            {/* サーチボックスのハリボテで機能していない */}
+            <SearchBox />
           </div>
         </GoogleMap>
       </LoadScript>
