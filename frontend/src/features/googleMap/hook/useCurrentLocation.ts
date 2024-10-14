@@ -1,16 +1,13 @@
 import { useEffect } from "react";
 
-interface SetCurrentLocationMakerProps {
+interface UseCurrentLocationProps {
   map: google.maps.Map | null;
   position: google.maps.LatLngLiteral;
 }
 
-export function SetCurrentLocationMaker({
-  map,
-  position,
-}: SetCurrentLocationMakerProps) {
+export function useCurrentLocation({ map, position }: UseCurrentLocationProps) {
   useEffect(() => {
-    if (!map) return;
+    if (!map) return; // マップがnullの場合は何もしない
 
     // 薄い青色の円を描画
     const circle = new google.maps.Circle({
@@ -38,12 +35,10 @@ export function SetCurrentLocationMaker({
       },
     });
 
-    // コンポーネントのクリーンアップ時に円とマーカーを削除
+    // クリーンアップ時に円とマーカーを削除する
     return () => {
       circle.setMap(null);
       marker.setMap(null);
     };
-  }, [map, position]);
-
-  return null;
+  }, [map, position]); // 依存配列にmapとpositionを指定
 }
