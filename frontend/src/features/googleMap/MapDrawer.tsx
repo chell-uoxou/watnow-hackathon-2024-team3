@@ -1,33 +1,31 @@
-"use client"; // これを最初に追加
+import clsx from "clsx";
 import { useState, useEffect } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-} from "~/components/ui/sheet";
-import { Menu } from "lucide-react";
-import { Button } from "~/components/ui/button";
-import Map from "~/features/googleMap/Map";
+import Map from "~/features/googleMap/components/Map";
+import { Location } from "./types/location";
 
-interface Location {
-  lat: number | null;
-  lng: number | null;
+interface MapDrawerProps {
+  show: boolean;
 }
 
-const MapDrawer = () => {
-  const [currentLocation, setCurrentLocation] = useState<Location>({
-    lat: null,
-    lng: null,
+const MapDrawer = (props: MapDrawerProps) => {
+  const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
+  // 初期のデフォルト位置（OICの緯度）
+  const [mapCenter, setMapCenter] = useState<Location>({
+    lat: 34.809897,
+    lng: 135.561208,
   });
-
+  // 初回表示を追跡するための状態
+  const [hasShown, setHasShown] = useState(false);
+  // ブラウザのAPIから現在位置を取得し状態MapCenterを更新
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setCurrentLocation({
+        const newLocation: Location = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
-        });
+        };
+        setCurrentLocation(newLocation);
+        setMapCenter(newLocation);
         console.log(position.coords);
       },
       (err) => {
@@ -35,26 +33,30 @@ const MapDrawer = () => {
       }
     );
   }, []);
-
-  const side = "bottom";
-
-  const defaultCenter = {
-    lat: 35.69575,
-    lng: 139.77521,
-  };
+  // `show`がtrueになったタイミングで`hasShown`をtrueに設定
+  useEffect(() => {
+    if (props.show && !hasShown) {
+      setHasShown(true);
+      console.log("表示する");
+    }
+  }, [props.show, hasShown]);
 
   return (
-    <Sheet key={side}>
-      <SheetTrigger asChild>
-        <Button>
-          <Menu />
-        </Button>
-      </SheetTrigger>
-      <SheetContent side={side} className="flex flex-col min-w-screen h-3/4 ">
-        <SheetHeader>地図</SheetHeader>
-        <Map currentLocation={currentLocation} defaultCenter={defaultCenter} />
-      </SheetContent>
-    </Sheet>
+    <div
+      className={clsx(
+        "transition-all duration-300 ease-in-out overflow-hidden flex flex-col h-full",
+        props.show ? "w-[33.33vw]" : "w-0"
+      )}
+    >
+      <div>地図</div>
+      {/* hasShownがtrueになったらMapを表示 */}
+      {hasShown && (
+        <Map
+          currentLocation={currentLocation ?? undefined}
+          defaultCenter={currentLocation ? currentLocation : mapCenter}
+        />
+      )}
+    </div>
   );
 };
 
