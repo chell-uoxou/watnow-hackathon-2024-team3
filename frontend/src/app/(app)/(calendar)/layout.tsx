@@ -12,7 +12,7 @@ export default function Layout({ children }: PropsWithChildren) {
       <div className="flex-1">{children}</div>
 
       {!showRightPanel && (
-        <div className="flex flex-row items-center">
+        <div className="relative flex flex-row items-center ">
           <SheetHandleButton
             direction="left"
             onClick={() => setShowRightPanel(true)}
@@ -20,7 +20,7 @@ export default function Layout({ children }: PropsWithChildren) {
         </div>
       )}
 
-      <div className="flex flex-row h-full items-center">
+      <div className="relative flex flex-row h-full items-center">
         {showRightPanel && (
           <SheetHandleButton
             direction="right"
