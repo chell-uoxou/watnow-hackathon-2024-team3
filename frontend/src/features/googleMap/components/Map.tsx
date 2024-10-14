@@ -1,15 +1,14 @@
-// Map.tsx
 "use client";
-import { useState, useEffect, useRef } from "react"; // useRefをインポート
+import { useState, useEffect, useRef } from "react";
 import { LoadScript, GoogleMap } from "@react-google-maps/api";
 import { SetCurrentLocationMaker } from "./SetCurrentLocationMaker";
-import SearchBox from "./SearchBox"; // SearchBoxコンポーネントをインポート
+import SearchBox from "./SearchBox";
 import { Location } from "../types/location";
 
 const containerStyle = {
-  width: "100%", // 地図コンテナの幅を100%に設定
-  height: "100%", // 地図コンテナの高さを100%に設定
-  borderRadius: "0.5rem", // 地図コンテナの角を丸くするスタイル
+  width: "100%",
+  height: "100%",
+  borderRadius: "0.5rem",
 };
 
 interface MapProps {

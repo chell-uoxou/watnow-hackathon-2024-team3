@@ -10,12 +10,12 @@ interface MapDrawerProps {
 
 const MapDrawer = (props: MapDrawerProps) => {
   const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
-
+  // 初期のデフォルト位置（OICの緯度）
   const [mapCenter, setMapCenter] = useState<Location>({
-    lat: 34.809897, // 初期のデフォルト位置（OICの緯度）
-    lng: 135.561208, // 初期のデフォルト位置（OICの経度）
+    lat: 34.809897,
+    lng: 135.561208,
   });
-
+  // ブラウザのAPIから現在位置を取得し状態MapCenterを更新
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -24,7 +24,7 @@ const MapDrawer = (props: MapDrawerProps) => {
           lng: position.coords.longitude,
         };
         setCurrentLocation(newLocation);
-        setMapCenter(newLocation); // 現在位置を地図の中心に設定
+        setMapCenter(newLocation);
         console.log(position.coords);
       },
       (err) => {
