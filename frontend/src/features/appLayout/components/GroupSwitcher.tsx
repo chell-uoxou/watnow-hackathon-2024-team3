@@ -19,6 +19,7 @@ import { UsersRound } from "lucide-react";
 import { Settings } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { List } from "lucide-react";
+import { UserRound } from "lucide-react";
 
 type Props = {
   current_icon_url?: string;
@@ -103,38 +104,33 @@ export function GroupSwitcher({
       <DropdownMenuContent className="w-[200px]">
         {selectedGroup && (
           <>
-            <DropdownMenuItem
-              onSelect={() => {
-                setSelectedGroup(null);
-                setOpenGroupSwitcher(false);
-              }}
-            >
-              <Image
-                src={current_icon_url}
-                alt="Private Icon"
-                width={24}
-                height={24}
-                className="mr-2"
-              />
-              プライベート
-            </DropdownMenuItem>
-            <DropdownMenuSeparator className="border" />
-            <DropdownMenuItem className="font-bold justify-between">
+            <DropdownMenuItem className="font-bold ">
+              <UserRoundPlus className="mr-2 h-4 w-4" />
               友達を招待
-              <UserRoundPlus className="ml-2 h-4 w-4" />
             </DropdownMenuItem>
-            <DropdownMenuItem className="font-bold justify-between">
+            <DropdownMenuItem className="font-bold ">
+              <UsersRound className="mr-2 h-4 w-4" />
               メンバーリスト
-              <UsersRound className="ml-2 h-4 w-4" />
             </DropdownMenuItem>
-            <DropdownMenuItem className="font-bold justify-between">
+            <DropdownMenuItem className="font-bold ">
+              <Settings className="mr-2 h-4 w-4" />
               グループ設定
-              <Settings className="ml-2 h-4 w-4" />
             </DropdownMenuItem>
             <DropdownMenuSeparator className="border" />
           </>
         )}
         <DropdownMenuGroup>
+          <DropdownMenuItem
+            onSelect={() => {
+              setSelectedGroup(null);
+              setOpenGroupSwitcher(false);
+            }}
+            className="font-bold"
+          >
+            <UserRound className="mr-2 h-4 w-4" />
+            プライベート
+          </DropdownMenuItem>
+          <DropdownMenuSeparator className="border" />
           <DropdownMenuLabel>参加中のグループ</DropdownMenuLabel>
           {allGroups.length === 0 ? (
             <DropdownMenuItem disabled>
@@ -165,14 +161,14 @@ export function GroupSwitcher({
             )
           )}
         </DropdownMenuGroup>
-        <DropdownMenuItem className="font-bold justify-between">
+        <DropdownMenuItem className="font-bold ">
+          <List className="mr-2 h-4 w-4" />
           グループ一覧
-          <List className="ml-2 h-4 w-4" />
         </DropdownMenuItem>
-        <DropdownMenuItem className="font-bold justify-between">
+        <DropdownMenuItem className="font-bold ">
           {/* 新規作成画面に遷移 */}
+          <CirclePlus className="mr-2 h-4 w-4" />
           新規作成
-          <CirclePlus className="ml-2 h-4 w-4" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
