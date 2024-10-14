@@ -1,37 +1,30 @@
+// Map.tsx
 "use client";
-import { useState, useRef, useEffect } from "react";
-import {
-  LoadScript,
-  GoogleMap,
-  StandaloneSearchBox,
-} from "@react-google-maps/api";
+import { useState, useEffect, useRef } from "react"; // useRefをインポート
+import { LoadScript, GoogleMap } from "@react-google-maps/api";
 import { SetCurrentLocationMaker } from "./SetCurrentLocationMaker";
+import SearchBox from "./SearchBox"; // SearchBoxコンポーネントをインポート
+import { Location } from "../types/location";
 
 const containerStyle = {
-  width: "100%",
-  height: "100%",
-  borderRadius: "0.5rem",
+  width: "100%", // 地図コンテナの幅を100%に設定
+  height: "100%", // 地図コンテナの高さを100%に設定
+  borderRadius: "0.5rem", // 地図コンテナの角を丸くするスタイル
 };
 
 interface MapProps {
-  currentLocation: {
-    lat: number | null;
-    lng: number | null;
-  };
-  defaultCenter: {
-    lat: number;
-    lng: number;
-  };
+  currentLocation?: Location;
+  defaultCenter: Location;
 }
 
 export default function Map({ currentLocation, defaultCenter }: MapProps) {
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [center, setCenter] = useState(defaultCenter);
-  const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null); // Google Mapsインスタンスを保持するための状態
+  const [center, setCenter] = useState(defaultCenter); // 地図の中心位置を管理するための状態
+  const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null); // SearchBoxの参照を保持
 
   useEffect(() => {
-    // currentLocationが変更されたときにmap centerを更新する
-    if (currentLocation.lat !== null && currentLocation.lng !== null) {
+    // currentLocationが変更されたときに地図の中心を更新
+    if (currentLocation) {
       setCenter({
         lat: currentLocation.lat,
         lng: currentLocation.lng,
@@ -39,86 +32,78 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
     }
   }, [currentLocation]);
 
-  // マップインスタンスをセットする
+  // マップがロードされたときに呼ばれる関数
   const onLoad = (mapInstance: google.maps.Map) => {
-    setMap(mapInstance);
+    setMap(mapInstance); // マップインスタンスを状態にセット
   };
 
-  // マップアンロード時にインスタンスをクリア
+  // マップがアンロードされたときに呼ばれる関数
   const onUnmount = () => {
-    setMap(null);
+    setMap(null); // マップインスタンスをクリア
   };
 
-  // 検索ボックスのロード時にインスタンスをセット
+  // SearchBoxがロードされたときに呼ばれる関数
   const onSearchBoxLoad = (ref: google.maps.places.SearchBox) => {
-    searchBoxRef.current = ref;
+    searchBoxRef.current = ref; // SearchBoxのインスタンスを保存
   };
 
-  // 検索結果の処理
+  // 検索ボックスで場所が変更されたときの処理
   const onPlacesChanged = () => {
-    const places = searchBoxRef.current?.getPlaces();
+    const places = searchBoxRef.current?.getPlaces(); // 検索結果の取得
     if (places && places.length > 0) {
-      const place = places[0];
-      const location = place.geometry?.location;
+      const place = places[0]; // 最初の場所を取得
+      const location = place.geometry?.location; // 場所の位置情報を取得
       if (location) {
         // 検索結果の位置に地図の中心を移動
         setCenter({
           lat: location.lat(),
           lng: location.lng(),
         });
-        map?.panTo({ lat: location.lat(), lng: location.lng() });
+        map?.panTo({ lat: location.lat(), lng: location.lng() }); // mapの中心をパン
       }
     }
   };
 
-  // Google Map のオプションを定義
+  // Google Maps APIのオプションを設定
   const mapOptions = {
     disableDefaultUI: true, // デフォルトのUIを無効化
     zoomControl: true, // ズームコントロールを有効化
     streetViewControl: false, // ストリートビューコントロールを無効化
-    mapTypeControl: false, // マップタイプ（航空写真）コントロールを無効化
+    mapTypeControl: false, // マップタイプコントロールを無効化
   };
 
   return (
     <div className="grow rounded-lg bg-clip-border relative">
       <LoadScript
         googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string}
-        libraries={["places"]} // "places" ライブラリをロード
+        libraries={["places"]} // "places"ライブラリをロード
       >
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
-          zoom={17}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-          options={mapOptions} // オプションを設定
+          zoom={17} // ズームレベルの設定
+          onLoad={onLoad} // マップロード時の処理
+          onUnmount={onUnmount} // マップアンロード時の処理
+          options={mapOptions} // マップオプションを設定
         >
-          {/* 検索ボックス */}
-          <div className="absolute top-4 left-4 z-10 w-80">
-            <StandaloneSearchBox
-              onLoad={onSearchBoxLoad} // 検索ボックスのロード時の処理
-              onPlacesChanged={onPlacesChanged} // 検索結果変更時の処理
-            >
-              <input
-                type="text"
-                placeholder="地名を検索"
-                className="w-full p-2 rounded-lg border border-gray-300"
-              />
-            </StandaloneSearchBox>
+          {/* 検索ボックスを地図に配置 */}
+          <div className="flex w-full z-10 justify-center absolute top-4">
+            <SearchBox
+              onLoad={onSearchBoxLoad} // 検索ボックスロード時の処理を設定
+              onPlacesChanged={onPlacesChanged} // 検索結果変更時の処理を設定
+            />
           </div>
 
           {/* 現在位置の表示 */}
-          {currentLocation.lat !== null &&
-            currentLocation.lng !== null &&
-            map && (
-              <SetCurrentLocationMaker
-                map={map}
-                position={{
-                  lat: currentLocation.lat,
-                  lng: currentLocation.lng,
-                }}
-              />
-            )}
+          {currentLocation && map && (
+            <SetCurrentLocationMaker
+              map={map}
+              position={{
+                lat: currentLocation.lat,
+                lng: currentLocation.lng,
+              }}
+            />
+          )}
         </GoogleMap>
       </LoadScript>
     </div>
