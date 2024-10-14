@@ -100,8 +100,7 @@ export function GroupSwitcher({
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[200px] p-0">
-        {/* <CommandInput placeholder="Search framework..." /> */}
+      <DropdownMenuContent className="w-[200px]">
         <div className="h-full">
           {selectedGroup && (
             <>
