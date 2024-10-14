@@ -101,81 +101,79 @@ export function GroupSwitcher({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[200px]">
-        <div className="h-full">
-          {selectedGroup && (
-            <>
-              <DropdownMenuItem
-                onSelect={() => {
-                  setSelectedGroup(null);
-                  setOpenGroupSwitcher(false);
-                }}
-              >
-                <Image
-                  src={current_icon_url}
-                  alt="Private Icon"
-                  width={24}
-                  height={24}
-                  className="mr-2"
-                />
-                プライベート
-              </DropdownMenuItem>
-              <DropdownMenuSeparator className="border" />
-              <DropdownMenuItem className="font-bold justify-between">
-                友達を招待
-                <UserRoundPlus className="ml-2 h-4 w-4" />
-              </DropdownMenuItem>
-              <DropdownMenuItem className="font-bold justify-between">
-                メンバーリスト
-                <UsersRound className="ml-2 h-4 w-4" />
-              </DropdownMenuItem>
-              <DropdownMenuItem className="font-bold justify-between">
-                グループ設定
-                <Settings className="ml-2 h-4 w-4" />
-              </DropdownMenuItem>
-              <DropdownMenuSeparator className="border" />
-            </>
-          )}
-          <DropdownMenuGroup>
-            <DropdownMenuLabel>参加中のグループ</DropdownMenuLabel>
-            {allGroups.length === 0 ? (
-              <DropdownMenuItem disabled>
-                まだグループに参加していません。
-              </DropdownMenuItem>
-            ) : (
-              allGroups.map(
-                //実装時、allGroupsをgroupsに変更
-                (group) => (
-                  <DropdownMenuItem
-                    key={group.uid}
-                    onSelect={() => {
-                      setSelectedGroup(group);
-                      setOpenGroupSwitcher(false);
-                    }}
-                    className="flex"
-                  >
-                    <Image
-                      src={group.icon_url}
-                      alt={group.name}
-                      width={24}
-                      height={24}
-                      className="flex mr-2"
-                    />
-                    {group.name}
-                  </DropdownMenuItem>
-                )
+        {selectedGroup && (
+          <>
+            <DropdownMenuItem
+              onSelect={() => {
+                setSelectedGroup(null);
+                setOpenGroupSwitcher(false);
+              }}
+            >
+              <Image
+                src={current_icon_url}
+                alt="Private Icon"
+                width={24}
+                height={24}
+                className="mr-2"
+              />
+              プライベート
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="border" />
+            <DropdownMenuItem className="font-bold justify-between">
+              友達を招待
+              <UserRoundPlus className="ml-2 h-4 w-4" />
+            </DropdownMenuItem>
+            <DropdownMenuItem className="font-bold justify-between">
+              メンバーリスト
+              <UsersRound className="ml-2 h-4 w-4" />
+            </DropdownMenuItem>
+            <DropdownMenuItem className="font-bold justify-between">
+              グループ設定
+              <Settings className="ml-2 h-4 w-4" />
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="border" />
+          </>
+        )}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>参加中のグループ</DropdownMenuLabel>
+          {allGroups.length === 0 ? (
+            <DropdownMenuItem disabled>
+              まだグループに参加していません。
+            </DropdownMenuItem>
+          ) : (
+            allGroups.map(
+              //実装時、allGroupsをgroupsに変更
+              (group) => (
+                <DropdownMenuItem
+                  key={group.uid}
+                  onSelect={() => {
+                    setSelectedGroup(group);
+                    setOpenGroupSwitcher(false);
+                  }}
+                  className="flex"
+                >
+                  <Image
+                    src={group.icon_url}
+                    alt={group.name}
+                    width={24}
+                    height={24}
+                    className="flex mr-2"
+                  />
+                  {group.name}
+                </DropdownMenuItem>
               )
-            )}
-          </DropdownMenuGroup>
-          <DropdownMenuItem className="font-bold justify-between">
-            グループ一覧
-            <List className="ml-2 h-4 w-4" />
-          </DropdownMenuItem>
-          <DropdownMenuItem className="font-bold justify-between">
-            {/* 新規作成画面に遷移 */}
-            新規作成
-            <CirclePlus className="ml-2 h-4 w-4" />
-          </DropdownMenuItem>
-        </div>
+            )
+          )}
+        </DropdownMenuGroup>
+        <DropdownMenuItem className="font-bold justify-between">
+          グループ一覧
+          <List className="ml-2 h-4 w-4" />
+        </DropdownMenuItem>
+        <DropdownMenuItem className="font-bold justify-between">
+          {/* 新規作成画面に遷移 */}
+          新規作成
+          <CirclePlus className="ml-2 h-4 w-4" />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
