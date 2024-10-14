@@ -5,7 +5,7 @@ export type TimelineSettings = {
   gridInterval: 1 | 0.5 | 0.25; // hours
 };
 
-export const timelineSettingsAtom = atom({
+export const timelineSettingsAtom = atom<TimelineSettings>({
   gridHeight: 80,
   gridInterval: 1,
 });
