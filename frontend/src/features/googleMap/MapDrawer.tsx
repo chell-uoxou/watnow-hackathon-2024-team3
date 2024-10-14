@@ -1,5 +1,4 @@
 import clsx from "clsx";
-
 import { useState, useEffect } from "react";
 import Map from "~/features/googleMap/components/Map";
 import { Location } from "./types/location";
@@ -15,6 +14,8 @@ const MapDrawer = (props: MapDrawerProps) => {
     lat: 34.809897,
     lng: 135.561208,
   });
+  // 初回表示を追跡するための状態
+  const [hasShown, setHasShown] = useState(false);
   // ブラウザのAPIから現在位置を取得し状態MapCenterを更新
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -32,6 +33,13 @@ const MapDrawer = (props: MapDrawerProps) => {
       }
     );
   }, []);
+  // `show`がtrueになったタイミングで`hasShown`をtrueに設定
+  useEffect(() => {
+    if (props.show && !hasShown) {
+      setHasShown(true);
+      console.log("表示する");
+    }
+  }, [props.show, hasShown]);
 
   return (
     <div
@@ -41,10 +49,13 @@ const MapDrawer = (props: MapDrawerProps) => {
       )}
     >
       <div>地図</div>
-      <Map
-        currentLocation={currentLocation ?? undefined}
-        defaultCenter={currentLocation ? currentLocation : mapCenter}
-      />
+      {/* hasShownがtrueになったらMapを表示 */}
+      {hasShown && (
+        <Map
+          currentLocation={currentLocation ?? undefined}
+          defaultCenter={currentLocation ? currentLocation : mapCenter}
+        />
+      )}
     </div>
   );
 };
