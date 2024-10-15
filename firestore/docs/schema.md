@@ -10,7 +10,7 @@
 - `first_name` (string): 名
 - `phone_number` (string): 電話番号
 - `address` (string): 住所
-- `groups` (Array of Reference): 所属している[グループ](#groups)への参照の配列(`groups/{groupId}`)
+- `groups` (Array of Reference): 所属している[グループ](#groups)への参照の配列(`groups/{group_id}`)
 
 ## サブコレクション
 <a name="accounts/event_pool"></a>
@@ -22,9 +22,9 @@
 - `location_coordinates` (string): イベントの開催場所
 - `attached_image` (string, URL): イベント候補添付画像
 - `available_times` (array): 行ける時間（配列）
-  - **各要素のフィールド**
-    - `start_time` (timestamp): 行ける時間開始日時
-    - `end_time` (timestamp): 行ける時間終了日時
+  **各要素のフィールド**
+  - `start_time` (timestamp): 行ける時間開始日時
+  - `end_time` (timestamp): 行ける時間終了日時
 - `default_duration` (integer, minutes): デフォルト所要時間
 - `default_budget` (object): デフォルト予算
   - `mode` (string): デフォルト予算モード（`per_person` / `total`）
@@ -48,13 +48,12 @@
 <a name="accounts/schedules"></a>
 
 ### schedules
-- `event_reference` (Reference): 予定イベント候補への参照（`accounts/{accountId}/event_pool/{eventId}`）
-- `start_time` (timestamp): 予定開始日時
-- `end_time` (timestamp): 予定終了日時
-- `members` (array of References): 予定メンバー（`accounts/{accountId}/members/{memberId}`）
-- `actual_budget` (object): 予定実際の予算
-  - `mode` (string): 予定実際の予算モード（`per_person` / `total`）
-  - `value` (integer): 予定実際の予算値
+- `event_reference` (Reference): [予定イベント候補](#accounts/event_pool)への参照（`accounts/{account_id}/event_pool/{event_id}`）
+- `start_time` (timestamp): 開始日時
+- `end_time` (timestamp): 終了日時
+- `actual_budget` (object): 実際の予算
+  - `mode` (string): 実際の予算モード（`per_person` / `total`）
+  - `value` (integer): 実際の予算値
 - `did_prepare` (boolean): 参加準備をしたかどうか
 
 ---
@@ -71,20 +70,20 @@
 <a name="groups/event_pool"></a>
 
 ### event_pool
-accounts/event_poolサブコレクションと同じスキーマ
+[accounts/event_poolサブコレクション](#accounts/event_pool)と同じスキーマ
 
 <a name="groups/schedule_memos"></a>
 
 ### schedule_memos
-accounts/schedule_memosサブコレクションと同じスキーマ
+[accounts/schedule_memosサブコレクション](#accounts/schedule_memos)と同じスキーマ
 
 <a name="groups/common_schedules"></a>
 
 ### common_schedules
-- `event_reference` (Reference): グループの[イベント候補](#groups/schedule_memos)への参照（`groups/{groupId}/event_pool/{eventId}`）
+- `event_reference` (Reference): グループの[イベント候補](#groups/schedule_memos)への参照（`groups/{groupId}/event_pool/{event_id}`）
 - `start_time` (timestamp): 開始日時
 - `end_time` (timestamp): 終了日時
-- `members` (array of References): メンバーへの参照（`groups/{groupId}/members/{memberId}`）
+- `participant_members` (array of References): 参加メンバーへの参照の配列（`groups/{groupId}/members/{memberId}`）
 - `actual_budget` (object): 実際の予算
   - `mode` (string): 実際の予算モード（`per_person` / `total`）
   - `value` (integer): 実際の予算値
@@ -93,12 +92,12 @@ accounts/schedule_memosサブコレクションと同じスキーマ
 <a name="groups/open_schedules"></a>
 
 ### open_schedules
-groups/{group_id}/common_schedulesと同じスキーマ
+[groups/common_schedulesサブコレクション](#groups/common_schedules)と同じスキーマ
 
 <a name="groups/members"></a>
 
 ### members
-- `account_reference` (Reference): [所属グループ](#groups)への参照（`groups/`）
+- `account_reference` (Reference): [所属グループ](#groups)への参照（`groups/{group_id}`）
 - `display_name` (string): グループメンバー表示名
 - `editing_permission_scopes` (array): グループメンバー権限（`common_schedules`、`open_schedules`、`event_pool`、`group_settings`）
 - `notes` (string): グループメンバー備考
