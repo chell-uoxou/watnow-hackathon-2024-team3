@@ -4,7 +4,7 @@ import MenuItemWithIcon from "./MenuItemWithIcon";
 import { ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import { Button } from "~/components/ui/button";
-import { Group } from "~/models/types/groups";
+import { Group } from "~/models/types/group";
 import { LoadingSpinner } from "~/components/ui/spinner";
 import {
   DropdownMenu,

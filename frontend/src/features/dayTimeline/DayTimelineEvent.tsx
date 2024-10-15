@@ -1,11 +1,11 @@
 import { Card, CardContent } from "~/components/ui/card";
-import { EventPool } from "~/models/types/event_pool";
+import { EventPoolItem } from "~/models/types/event_pool_item";
 import { PropsWithIcon } from "./components/PropsWithIcon";
 import { CalendarRange, Map } from "lucide-react";
 import clsx from "clsx";
 
 interface DayTimelineEventProps {
-  event: EventPool;
+  event: EventPoolItem;
   isDragging?: boolean;
 }
 

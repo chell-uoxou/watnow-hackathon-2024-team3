@@ -15,10 +15,10 @@ import { Timestamp } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
-import EventPoolItem from "~/features/eventPool/EventsPoolItem";
+import EventPoolListItem from "~/features/eventPool/EventsPoolListItem";
 import { Timeline } from "~/features/timeline/Timeline";
 import { useTimelineSettings } from "~/hooks/useTimelineSettings";
-import { EventPool } from "~/models/types/event_pool";
+import { EventPoolItem } from "~/models/types/event_pool_item";
 
 const Droppable = () => {
   const { timelineSettings } = useTimelineSettings();
@@ -50,7 +50,7 @@ export default function Page() {
 
   const { timelineSettings } = useTimelineSettings();
 
-  const dummyEventPool1: EventPool = {
+  const dummyEventPool1: EventPoolItem = {
     uid: "1",
     title: "京都国立博物館",
     description: "特別展を見学",
@@ -76,7 +76,7 @@ export default function Page() {
     max_participants: 0,
     notes: "notes",
   };
-  const dummyEventPool2: EventPool = {
+  const dummyEventPool2: EventPoolItem = {
     uid: "2",
     title: "京都タワー",
     description: "展望台に登る",
@@ -195,8 +195,8 @@ export default function Page() {
     >
       <div className="flex h-svh">
         <div className="p-10 flex flex-col gap-4">
-          <EventPoolItem id="1" eventPool={dummyEventPool1} />
-          <EventPoolItem id="2" eventPool={dummyEventPool2} />
+          <EventPoolListItem id="1" eventPool={dummyEventPool1} />
+          <EventPoolListItem id="2" eventPool={dummyEventPool2} />
         </div>
         <ScrollArea
           className="size-full"
@@ -276,7 +276,9 @@ export default function Page() {
         {activeId ? (
           <DayTimelineEvent
             isDragging
-            event={events.find((event) => event.uid === activeId) as EventPool}
+            event={
+              events.find((event) => event.uid === activeId) as EventPoolItem
+            }
           />
         ) : null}
       </DragOverlay>

@@ -8,7 +8,7 @@ import { EventPoolList } from "~/features/eventPool/EventPoolList";
 import useCurrentAccount from "~/hooks/useCurrentAccount";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
-import { EventPool } from "~/models/types/event_pool";
+import { EventPoolItem } from "~/models/types/event_pool_item";
 import { ViewTitle } from "~/components/common/ViewTitle";
 import SmallTitleWithIcon from "~/components/common/SmallTitleWithIcon";
 import { Blocks } from "lucide-react";
@@ -21,11 +21,11 @@ export default function CalendarEditSidebar({
   events,
   setEvents,
 }: {
-  events: EventPool[];
-  setEvents: React.Dispatch<React.SetStateAction<EventPool[]>>;
+  events: EventPoolItem[];
+  setEvents: React.Dispatch<React.SetStateAction<EventPoolItem[]>>;
 }) {
   const { currentDBAccount } = useCurrentAccount();
-  const { list: listEventPool } = useFirestoreCollection<EventPool>(
+  const { list: listEventPool } = useFirestoreCollection<EventPoolItem>(
     currentDBAccount !== "loading" && currentDBAccount?.uid
       ? collection(doc(db, "accounts", currentDBAccount.uid), "event_pool")
       : null

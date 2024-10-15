@@ -12,7 +12,7 @@ import { db } from "~/lib/firebase";
 import useAuthUser from "./useAuthUser";
 import { useCallback, useEffect, useState } from "react";
 import useDBGroup, { getGroupDocRef } from "./useDBGroup";
-import { Group } from "~/models/types/groups";
+import { Group } from "~/models/types/group";
 
 const undefinedDefaultName = "名無しさん";
 const temporaryGroupIdForDemo = "YqPvZW6JKURIcTjCR9FA"; // デモ用に新規登録したアカウントを放り込むグループのID
