@@ -1,3 +1,5 @@
+<a name="accounts"></a>
+
 # accounts コレクション
 
 ## フィールド
@@ -12,6 +14,7 @@
 - `address` (string): 住所
 
 ## サブコレクション
+<a name="accounts/event_pool"></a>
 
 ### event_pool
 
@@ -32,6 +35,8 @@
 - `max_participants` (integer): 最大人数
 - `notes` (string): 備考欄
 
+<a name="accounts/schedule_memos"></a>
+
 ### schedule_memos
 
 - `title` (string): 予定メモタイトル
@@ -39,6 +44,8 @@
 - `start_time` (timestamp): 予定メモ開始日時
 - `end_time` (timestamp): 予定メモ終了日時
 - `location` (string): 予定メモ場所
+
+<a name="accounts/schedules"></a>
 
 ### schedules
 
@@ -53,6 +60,8 @@
 
 ---
 
+<a name="groups"></a>
+
 # groups コレクション
 
 - `name` (string): グループ名
@@ -60,6 +69,8 @@
 - `icon_url` (string, URL): グループアイコンURL
 
 ## サブコレクション
+
+<a name="groups/event_pool"></a>
 
 ### event_pool
 
@@ -80,6 +91,8 @@
 - `max_participants` (integer): 最大人数
 - `notes` (string): 備考欄
 
+<a name="groups/schedule_memos"></a>
+
 ### schedule_memos
 
 - `title` (string): グループ予定メモタイトル
@@ -87,6 +100,8 @@
 - `start_time` (timestamp): グループ予定メモ開始日時
 - `end_time` (timestamp): グループ予定メモ終了日時
 - `location` (string): グループ予定メモ場所
+- 
+<a name="groups/common_schedules"></a>
 
 ### common_schedules
 
@@ -99,6 +114,8 @@
   - `value` (integer): 実際の予算値
 - `did_prepare` (boolean): 参加準備をしたかどうか
 
+<a name="groups/open_schedules"></a>
+
 ### open_schedules
 
 - `event_reference` (Reference): グループ自由予定イベント候補への参照（`groups/{groupId}/event_pool/{eventId}`）
@@ -109,6 +126,8 @@
   - `mode` (string): 実際の予算モード（`per_person` / `total`）
   - `value` (integer): 実際の予算値
 - `did_prepare` (boolean): 参加準備をしたかどうか
+
+<a name="groups/members"></a>
 
 ### members
 
