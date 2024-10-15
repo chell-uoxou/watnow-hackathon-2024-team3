@@ -53,6 +53,10 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
     position: currentLocation || defaultCenter,
   });
 
+  const handleAddressSelect = (lat: number, lng: number) => {
+    setCenter({ lat, lng }); // 中心を更新
+  };
+
   return (
     <div className="grow rounded-lg bg-clip-border relative">
       <LoadScript
@@ -67,9 +71,8 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
           onUnmount={onUnmount}
           options={mapOptions}
         >
-          <div className="flex w-full z-10 justify-center absolute top-4 invisible">
-            {/* サーチボックスのハリボテで機能していない */}
-            <SearchBox />
+          <div className="flex w-full z-10 justify-center absolute top-4 px-2">
+            <SearchBox onAddressSelect={handleAddressSelect} />
           </div>
         </GoogleMap>
       </LoadScript>
