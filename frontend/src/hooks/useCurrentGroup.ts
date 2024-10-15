@@ -4,7 +4,7 @@ import { collection } from "firebase/firestore";
 import { useFirestoreCollection } from "./useFirestoreCollection";
 import useGroupRouter from "./useGroupRouter";
 import { useEffect, useState } from "react";
-import { Group } from "~/models/types/groups";
+import { Group } from "~/models/types/group";
 import { db } from "~/lib/firebase";
 
 export default function useCurrentGroup() {

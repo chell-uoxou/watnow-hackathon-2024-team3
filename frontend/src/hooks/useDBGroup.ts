@@ -7,7 +7,7 @@ import {
   where,
 } from "firebase/firestore";
 import { Account } from "~/models/types/account";
-import Member from "~/models/types/members";
+import Member from "~/models/types/member";
 import { useFirestoreCollection } from "./useFirestoreCollection";
 import useFirestoreRefMemo from "./useFirestoreRefMemo";
 import { useCallback } from "react";

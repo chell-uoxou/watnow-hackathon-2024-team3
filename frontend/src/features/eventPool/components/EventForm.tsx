@@ -15,7 +15,7 @@ import { Button } from "~/components/ui/button";
 import { collection, Timestamp } from "firebase/firestore";
 import { db } from "~/lib/firebase";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
-import { EventPool } from "~/models/types/event_pool";
+import { EventPoolItem } from "~/models/types/event_pool_item";
 import { BudgetMode } from "~/models/types/common";
 import useCurrentAccount, { isReady } from "~/hooks/useCurrentAccount";
 import { InputWithLabel } from "~/components/common/InputWithLabel";
@@ -28,7 +28,7 @@ function EventForm() {
   const eventsCollection = isReady(currentDBAccount)
     ? collection(db, "accounts", currentDBAccount.uid, "event_pool")
     : null;
-  const { add } = useFirestoreCollection<EventPool>(eventsCollection);
+  const { add } = useFirestoreCollection<EventPoolItem>(eventsCollection);
 
   // 各入力フィールドの状態を管理
   const [name, setName] = useState("");

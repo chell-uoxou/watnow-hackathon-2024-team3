@@ -4,13 +4,13 @@ import { Hourglass, Map } from "lucide-react";
 import { Card, CardContent } from "~/components/ui/card";
 import { useDraggable } from "@dnd-kit/core";
 import clsx from "clsx";
-import { EventPool } from "~/models/types/event_pool";
+import { EventPoolItem } from "~/models/types/event_pool_item";
 import { TimeRange } from "~/models/types/common";
 import { Timestamp } from "firebase/firestore";
 
 type Props = {
   id: string;
-  eventPool: EventPool;
+  eventPool: EventPoolItem;
 } & HTMLAttributes<HTMLDivElement>;
 
 const Component = forwardRef<HTMLDivElement, Props>(function EventPoolItem(

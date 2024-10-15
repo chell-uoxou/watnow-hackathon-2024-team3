@@ -1,7 +1,6 @@
-import { WithUid } from "~/lib/firestore";
 import { BudgetMode, TimeRange } from "./common";
 
-export type EventPool = WithUid<{
+export type EventPoolItem = {
   title: string;
   description: string;
   location: string;
@@ -16,4 +15,4 @@ export type EventPool = WithUid<{
   preparation_task: string;
   max_participants: number;
   notes: string;
-}>;
+};

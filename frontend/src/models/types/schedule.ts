@@ -1,17 +1,14 @@
 import { DocumentReference, Timestamp } from "firebase/firestore";
-import { EventPool } from "./event_pool";
+import { EventPoolItem } from "./event_pool_item";
 import { BudgetMode } from "./common";
-import Member from "./members";
-import { WithUid } from "~/lib/firestore";
 
-export type Schedule = WithUid<{
-  event_reference: DocumentReference<EventPool>;
+export type Schedule = {
+  event_reference: DocumentReference<EventPoolItem>;
   start_time: Timestamp;
   end_time: Timestamp;
-  members: DocumentReference<Member>[];
   actual_budget: {
     mode: BudgetMode;
     value: number;
   };
   did_prepare: boolean;
-}>;
+};

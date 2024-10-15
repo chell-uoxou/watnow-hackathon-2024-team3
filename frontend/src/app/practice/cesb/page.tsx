@@ -8,12 +8,11 @@ import {
 import { useState } from "react";
 import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import CalendarEditSidebar from "~/features/leftSidebar/CalendarEditSidebar";
-import { EventPool } from "~/models/types/event_pool";
-
+import { EventPoolItem } from "~/models/types/event_pool_item";
 
 export default function Page() {
   const [activeId, setActiveId] = useState<string | number | null>(null);
-  const [events, setEvents] = useState<EventPool[]>([]);
+  const [events, setEvents] = useState<EventPoolItem[]>([]);
 
   const handleStartDrag = (event: DragStartEvent) => {
     setActiveId(event.active.id);
@@ -37,7 +36,7 @@ export default function Page() {
             <DayTimelineEvent
               isDragging
               event={
-                events.find((event) => event.uid === activeId) as EventPool
+                events.find((event) => event.uid === activeId) as EventPoolItem
               }
             />
           ) : null}
