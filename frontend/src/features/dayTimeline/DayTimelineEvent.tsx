@@ -9,12 +9,7 @@ interface DayTimelineEventProps {
   isDragging?: boolean;
 }
 
-export const DayTimelineEvent = ({
-  event,
-  isDragging,
-}: DayTimelineEventProps) => {
-  console.log(event);
-
+export const DayTimelineEvent = ({ event, isDragging }: DayTimelineEventProps) => {
   return (
     <div>
       <Card className={clsx(isDragging && "shadow-lg")}>
