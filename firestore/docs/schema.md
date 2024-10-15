@@ -10,6 +10,7 @@
 - `first_name` (string): 名
 - `phone_number` (string): 電話番号
 - `address` (string): 住所
+- `groups` (Array of Reference): 所属している[グループ](#groups)への参照の配列(`groups/{groupId}`)
 
 ## サブコレクション
 <a name="accounts/event_pool"></a>
@@ -17,7 +18,8 @@
 ### event_pool
 - `title` (string): イベント候補タイトル
 - `description` (string): イベント候補説明
-- `location` (string): イベント候補場所
+- `location_text` (string): イベント候補場所（住所検索などで選択したらその文字に書き換わる）
+- `location_coordinates` (string): イベントの開催場所
 - `attached_image` (string, URL): イベント候補添付画像
 - `available_times` (array): 行ける時間（配列）
   - **各要素のフィールド**
@@ -31,16 +33,17 @@
 - `preparation_task` (string): 参加準備のタスク
 - `max_participants` (integer): 最大人数
 - `notes` (string): 備考欄
+- `schedule_instances`: (Array of Reference): そのイベント候補を元に作成された[scheduleの実態](#accounts/schedules)への参照の配列
 
 <a name="accounts/schedule_memos"></a>
 
 ### schedule_memos
-
-- `title` (string): 予定メモタイトル
-- `description` (string): 予定メモ説明
-- `start_time` (timestamp): 予定メモ開始日時
-- `end_time` (timestamp): 予定メモ終了日時
-- `location` (string): 予定メモ場所
+- `title` (string): タイトル
+- `description` (string): 説明
+- `start_time` (timestamp): 開始日時
+- `end_time` (timestamp): 終了日時
+- `location_text` (string): 場所のテキスト
+- `location_coordinates` (string): 場所の座標
 
 <a name="accounts/schedules"></a>
 
@@ -78,12 +81,11 @@ accounts/schedule_memosサブコレクションと同じスキーマ
 <a name="groups/common_schedules"></a>
 
 ### common_schedules
-
-- `event_reference` (Reference): グループ共通予定イベント候補への参照（`groups/{groupId}/event_pool/{eventId}`）
-- `start_time` (timestamp): グループ共通予定開始日時
-- `end_time` (timestamp): グループ共通予定終了日時
-- `members` (array of References): グループ共通予定メンバー（`groups/{groupId}/members/{memberId}`）
-- `actual_budget` (object): グループ共通予定実際の予算
+- `event_reference` (Reference): グループの[イベント候補](#groups/schedule_memos)への参照（`groups/{groupId}/event_pool/{eventId}`）
+- `start_time` (timestamp): 開始日時
+- `end_time` (timestamp): 終了日時
+- `members` (array of References): メンバーへの参照（`groups/{groupId}/members/{memberId}`）
+- `actual_budget` (object): 実際の予算
   - `mode` (string): 実際の予算モード（`per_person` / `total`）
   - `value` (integer): 実際の予算値
 - `did_prepare` (boolean): 参加準備をしたかどうか
@@ -96,8 +98,7 @@ groups/{group_id}/common_schedulesと同じスキーマ
 <a name="groups/members"></a>
 
 ### members
-
-- `account_reference` (Reference): グループメンバーへの参照（`accounts/{accountId}`）
+- `account_reference` (Reference): [所属グループ](#groups)への参照（`groups/`）
 - `display_name` (string): グループメンバー表示名
 - `editing_permission_scopes` (array): グループメンバー権限（`common_schedules`、`open_schedules`、`event_pool`、`group_settings`）
 - `notes` (string): グループメンバー備考
