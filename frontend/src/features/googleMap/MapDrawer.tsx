@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useState, useEffect } from "react";
 import Map from "~/features/googleMap/components/Map";
 import { Location } from "./types/location";
+import { Map as LucideMap } from "lucide-react";
 
 interface MapDrawerProps {
   show: boolean;
@@ -37,25 +38,29 @@ const MapDrawer = (props: MapDrawerProps) => {
   useEffect(() => {
     if (props.show && !hasShown) {
       setHasShown(true);
-      console.log("表示する");
     }
   }, [props.show, hasShown]);
 
   return (
     <div
       className={clsx(
-        "transition-all duration-300 ease-in-out overflow-hidden flex flex-col h-full",
+        "transition-all duration-300 ease-in-out overflow-hidden h-full  bg-white gap-2",
         props.show ? "w-[33.33vw]" : "w-0"
       )}
     >
-      <div>地図</div>
-      {/* hasShownがtrueになったらMapを表示 */}
-      {hasShown && (
-        <Map
-          currentLocation={currentLocation ?? undefined}
-          defaultCenter={currentLocation ? currentLocation : mapCenter}
-        />
-      )}
+      <div className="w-[33.33vw] p-6 h-full flex flex-col">
+        <div className="flex flex-row text-xl font-bold transition-opacity overflow-hidden  duration-300 gap-2">
+          <LucideMap className="size-6" />
+          マップ
+        </div>
+        {/* hasShownがtrueになったらMapを表示 */}
+        {hasShown && (
+          <Map
+            currentLocation={currentLocation ?? undefined}
+            defaultCenter={currentLocation ? currentLocation : mapCenter}
+          />
+        )}
+      </div>
     </div>
   );
 };
