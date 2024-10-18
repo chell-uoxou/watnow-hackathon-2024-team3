@@ -52,10 +52,11 @@ function EventForm() {
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
 
-    const sendData = {
+    const sendData: Parameters<typeof add>[0] = {
       title: name,
       description: description,
-      location: location,
+      location_text: location,
+      location_coordinates: null, // TODO: 位置情報の取得
       attached_image: "",
       available_times: [
         {

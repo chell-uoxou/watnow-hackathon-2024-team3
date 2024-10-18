@@ -19,7 +19,7 @@
 - `title` (string): イベント候補タイトル
 - `description` (string): イベント候補説明
 - `location_text` (string): イベント候補場所（住所検索などで選択したらその文字に書き換わる）
-- `location_coordinates` (string): イベントの開催場所
+- `location_coordinates` (GeoPoint): イベントの開催場所
 - `attached_image` (string, URL): イベント候補添付画像
 - `available_times` (array): 行ける時間（配列）
   **各要素のフィールド**
