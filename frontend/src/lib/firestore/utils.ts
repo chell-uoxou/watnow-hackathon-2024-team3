@@ -11,6 +11,8 @@ export type DBSchedule =
   | DBGroupCommonSchedule
   | DBGroupOpenSchedule;
 
+export type DBGroupSchedule = DBGroupCommonSchedule | DBGroupOpenSchedule;
+
 export type DBEventPoolItem = DBAccountEventPoolItem | DBGroupEventPoolItem;
 
 export const isValidAsAccountSchedule = (

@@ -74,6 +74,13 @@ export default function Page() {
     preparation_task: "予習",
     max_participants: 0,
     notes: "notes",
+    created_by_account: doc(db, "accounts/1").withConverter(
+      defaultConverter<DBAccount>()
+    ),
+    created_by_member: doc(db, "members/1").withConverter(
+      defaultConverter<DBGroupMember>()
+    ),
+    schedule_instances: [],
   };
   const dummyEventPool2: DBEventPoolItem = {
     uid: "2",
@@ -100,6 +107,13 @@ export default function Page() {
     preparation_task: "オンラインチケットの購入",
     max_participants: 0,
     notes: "",
+    created_by_account: doc(db, "accounts/1").withConverter(
+      defaultConverter<DBAccount>()
+    ),
+    created_by_member: doc(db, "members/1").withConverter(
+      defaultConverter<DBGroupMember>()
+    ),
+    schedule_instances: [],
   };
 
   const events = [dummyEventPool1, dummyEventPool2];
