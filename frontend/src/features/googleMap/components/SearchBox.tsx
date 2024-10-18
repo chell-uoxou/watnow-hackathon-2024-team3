@@ -97,7 +97,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     (e: React.FormEvent) => {
       e.preventDefault();
 
-      if (selectedPlaceId) {
+      if (suggestions.length !== 0) {
         fetchGeoCode(suggestions[selectedIndex].place_id);
       }
 
@@ -105,7 +105,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
       setSuggestions([]);
       setSelectedPlaceId(null);
     },
-    [fetchGeoCode, selectedIndex, selectedPlaceId, suggestions]
+    [fetchGeoCode, selectedIndex, suggestions]
   );
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
