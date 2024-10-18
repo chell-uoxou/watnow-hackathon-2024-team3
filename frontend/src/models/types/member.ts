@@ -12,7 +12,7 @@ import { Account } from "./account";
  *   なし
  * 
  * #### これを継承するスキーマ
- * - [DBMember](../../lib/firestore/schemas/group/members.ts)
+ * - [DBGroupMember](../../lib/firestore/schemas/group/members.ts)
  * 
  */
 export interface Member {
