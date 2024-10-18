@@ -48,6 +48,7 @@ export default function useCurrentAccount() {
             first_name: "",
             phone_number: "",
             address: "",
+            groups: [],
           });
         }
 
