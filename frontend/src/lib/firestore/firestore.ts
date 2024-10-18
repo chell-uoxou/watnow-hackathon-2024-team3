@@ -6,7 +6,7 @@ export type WithUid<T> = {
 
 /**
  * 作成時に使うConverter
- * db書き込み時: uidを取り除き、createdAtを追加します。
+ * db書き込み時: uidを取り除き、created_atを追加します。
  * db読み取り時: uidを追加します。
  */
 export const createConverter = <
@@ -17,7 +17,7 @@ export const createConverter = <
     const { uid, ...rest } = data;
     return {
       ...rest,
-      createdAt: new Date(),
+      created_at: new Date(),
     };
   },
 
@@ -32,7 +32,7 @@ export const createConverter = <
 
 /**
  * デフォルトのConverter。
- * db書き込み時: uidを取り除きますが、createdAtは追加しません。
+ * db書き込み時: uidを取り除きますが、created_atは追加しません。
  * db読み取り時: uidを追加します。
  */
 export const defaultConverter = <
