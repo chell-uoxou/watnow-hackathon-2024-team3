@@ -6,12 +6,11 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { Account } from "~/models/types/account";
-import Member from "~/models/types/member";
 import { useFirestoreCollection } from "./useFirestoreCollection";
 import useFirestoreRefMemo from "./useFirestoreRefMemo";
 import { useCallback } from "react";
 import { db } from "~/lib/firebase";
+import { DBAccount, DBGroupMember } from "~/lib/firestore/schemas";
 
 export const getGroupDocRef = (groupId: string) => {
   return doc(db, "groups", groupId);
@@ -24,7 +23,7 @@ export default function useDBGroup(groupRef: DocumentReference) {
   );
 
   const existAccount = useCallback(
-    async (accountRef: DocumentReference<Account>) => {
+    async (accountRef: DocumentReference<DBAccount>) => {
       if (!memoizedGroup) return false;
       const snapshot = await getDocs(
         query(
@@ -40,13 +39,13 @@ export default function useDBGroup(groupRef: DocumentReference) {
 
   const addMemberToGroup = useCallback(
     async (
-      accountRef: DocumentReference<Account>,
+      accountRef: DocumentReference<DBAccount>,
       memberInfo: Omit<
-        Member,
-        "account_reference" | "editing_permission_scopes"
+        DBGroupMember,
+        "account_reference" | "editing_permission_scopes" | "uid"
       >
     ) => {
-      const member: Member = {
+      const member = {
         account_reference: accountRef,
         editing_permission_scopes: [
           "common_schedules",

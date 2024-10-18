@@ -1,6 +1,5 @@
 import { DocumentReference } from "firebase/firestore";
-import { Account } from "./account";
-import { Member } from "./member";
+import { DBAccount, DBGroupMember } from "~/lib/firestore/schemas";
 
 /**
  * ## Group
@@ -16,6 +15,6 @@ export type Group = {
   name: string;
   description: string;
   icon_url: string;
-  crated_by_account: DocumentReference<Account>;
-  created_by_member: DocumentReference<Member>;
+  created_by_account: DocumentReference<DBAccount>;
+  created_by_member: DocumentReference<DBGroupMember>;
 };

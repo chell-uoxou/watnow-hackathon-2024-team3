@@ -40,7 +40,7 @@ export const createConverter = <
  * db読み取り時: uidを追加します。
  */
 export const defaultConverter = <
-  T extends Record<string, Primitive>
+  T extends object
 >(): FirestoreDataConverter<T> => ({
   toFirestore: (data: WithUid<WithFieldValue<T>>) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -8,11 +8,11 @@ import {
 import { useState } from "react";
 import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import CalendarEditSidebar from "~/features/leftSidebar/CalendarEditSidebar";
-import { EventPoolItem } from "~/models/types/event_pool_item";
+import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 export default function Page() {
   const [activeId, setActiveId] = useState<string | number | null>(null);
-  const [events, setEvents] = useState<EventPoolItem[]>([]);
+  const [events, setEvents] = useState<DBEventPoolItem[]>([]);
 
   const handleStartDrag = (event: DragStartEvent) => {
     setActiveId(event.active.id);
@@ -36,7 +36,9 @@ export default function Page() {
             <DayTimelineEvent
               isDragging
               event={
-                events.find((event) => event.uid === activeId) as EventPoolItem
+                events.find(
+                  (event) => event.uid === activeId
+                ) as DBEventPoolItem
               }
             />
           ) : null}
