@@ -5,7 +5,6 @@ import { Button } from "~/components/ui/button";
 import { useDebouncedCallback } from "use-debounce";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
@@ -143,8 +142,8 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative w-full max-w-sm">
-      <div className="flex w-full items-center space-x-2">
+    <form onSubmit={handleSubmit} className="relative w-full">
+      <div className="flex w-full items-center gap-3">
         <Input
           type="text"
           placeholder="地名を検索"
@@ -164,7 +163,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
         </Button>
       </div>
       {isOpen && (
-        <div className="absolute mt-1 w-full z-10">
+        <div className="absolute mt-3 w-full z-10">
           <Command>
             <CommandList>
               <CommandGroup>
@@ -179,9 +178,9 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
                   </CommandItem>
                 ))}
               </CommandGroup>
-              {suggestions.length === 0 && (
+              {/* {suggestions.length === 0 && (
                 <CommandEmpty>見つかりませんでした</CommandEmpty>
-              )}
+              )} */}
             </CommandList>
           </Command>
         </div>

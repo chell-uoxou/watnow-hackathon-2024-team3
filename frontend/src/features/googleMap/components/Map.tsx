@@ -83,7 +83,7 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
           onUnmount={onUnmount}
           options={mapOptions}
         >
-          <div className="flex w-full z-10 justify-center absolute top-4 px-2">
+          <div className="flex w-full z-10 absolute top-4 px-3">
             <SearchBox onAddressSelect={handleAddressSelect} />
           </div>
         </GoogleMap>
