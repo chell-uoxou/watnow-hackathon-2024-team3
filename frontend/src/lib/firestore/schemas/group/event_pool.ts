@@ -1,4 +1,4 @@
 import { WithUid } from "~/lib/firestore/firestore";
-import { EventPoolItem } from "~/models/types/event_pool_item";
+import { GroupEventPoolItem } from "~/models/types/group_event_pool_item";
 
-export type DBGroupEventPoolItem = WithUid<EventPoolItem>;
+export type DBGroupEventPoolItem = WithUid<GroupEventPoolItem>;
