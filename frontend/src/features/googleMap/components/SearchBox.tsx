@@ -74,7 +74,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
         }
       });
     }
-    console.log("Submitted:", inputValue); // 送信された住所をコンソールに表示
+    console.log("Submitted:", inputValue);
 
     // 検索窓をリセット
     setInputValue("");
