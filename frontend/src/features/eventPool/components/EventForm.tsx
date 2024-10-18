@@ -72,6 +72,7 @@ function EventForm() {
       preparation_task: isPreparationChecked ? preparationDetails : "",
       max_participants: Number(participants),
       notes: memo,
+      schedule_instances: [],
     };
 
     try {

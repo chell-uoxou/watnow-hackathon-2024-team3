@@ -1,4 +1,6 @@
+import { DBAccountSchedule } from "~/lib/firestore/schemas";
 import { EventPoolItem } from "./event_pool_item";
+import { DocumentReference } from "firebase/firestore";
 
 /**
  * ## AccountEventPoolItem
@@ -14,4 +16,6 @@ import { EventPoolItem } from "./event_pool_item";
  * - [DBAccountEventPoolItem](../../lib/firestore/schemas/account/event_pool.ts)
  */
 
-export type AccountEventPoolItem = EventPoolItem;
+export type AccountEventPoolItem = EventPoolItem & {
+  schedule_instances: DocumentReference<DBAccountSchedule>[];
+};

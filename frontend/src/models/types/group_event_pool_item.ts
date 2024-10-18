@@ -1,7 +1,7 @@
 import { DocumentReference } from "firebase/firestore";
 import { EventPoolItem } from "./event_pool_item";
-import { Account } from "./account";
-import { Member } from "./member";
+import { DBAccount, DBGroupMember } from "~/lib/firestore/schemas";
+import { DBGroupSchedule } from "~/lib/firestore/utils";
 
 /**
  * ## AccountEventPoolItem
@@ -18,6 +18,7 @@ import { Member } from "./member";
  */
 
 export type GroupEventPoolItem = EventPoolItem & {
-  created_by_account: DocumentReference<Account>;
-  created_by_member: DocumentReference<Member>;
+  created_by_account: DocumentReference<DBAccount>;
+  created_by_member: DocumentReference<DBGroupMember>;
+  schedule_instances: DocumentReference<DBGroupSchedule>[];
 };
