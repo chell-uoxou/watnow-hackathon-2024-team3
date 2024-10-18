@@ -1,7 +1,7 @@
 import { DocumentReference } from "firebase/firestore";
 import { Member } from "./member";
 import { Schedule } from "./schedule";
-
+import { Account } from "./account";
 
 /**
  * ## GroupOpenSchedule
@@ -9,7 +9,7 @@ import { Schedule } from "./schedule";
  *
  * #### 継承元のモデル
  * - [Schedule](./schedule.ts)
- * 
+ *
  * #### これを継承するモデル
  *   なし
  *
@@ -18,4 +18,6 @@ import { Schedule } from "./schedule";
  */
 export type GroupOpenSchedule = Schedule & {
   members: DocumentReference<Member>[];
+  created_by_member: DocumentReference<Member>;
+  created_by_account: DocumentReference<Account>;
 };
