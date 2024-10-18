@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, KeyboardEvent } from "react";
+import { useState, useEffect, useRef, KeyboardEvent, useCallback } from "react";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { useDebouncedCallback } from "use-debounce";
@@ -35,7 +35,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
   }, [inputValue, suggestions]);
 
   // Google Places APIで候補を取得する処理
-  const fetchSuggestions = (inputValue: string) => {
+  const fetchSuggestions = useCallback((inputValue: string) => {
     if (inputValue) {
       const service = new google.maps.places.AutocompleteService();
       service.getPlacePredictions(
@@ -51,7 +51,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     } else {
       setSuggestions([]);
     }
-  };
+  }, []);
 
   const debouncedFetchSuggestions = useDebouncedCallback(
     (inputValue: string) => {
@@ -68,6 +68,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
   const handleSuggestionClick = (place: PlacePrediction) => {
     setInputValue(place.description); // 入力フィールドに住所を設定
     setSelectedPlaceId(place.place_id); // 選択したプレースIDを保存
+    setIsOpen(false); // 候補リストを閉じる
     inputRef.current?.focus(); // 入力フィールドにフォーカス
   };
 
@@ -110,6 +111,8 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
         e.preventDefault();
         if (selectedIndex >= 0) {
           handleSuggestionClick(suggestions[selectedIndex]);
+        } else if (!selectedPlaceId) {
+          setIsOpen(false);
         } else {
           handleSubmit(e);
         }
