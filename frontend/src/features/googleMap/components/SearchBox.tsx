@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, KeyboardEvent } from "react";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { useDebouncedCallback } from "use-debounce";
@@ -27,9 +27,11 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false); // 候補表示のフラグ
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null); // 選択した候補のプレースID
   const inputRef = useRef<HTMLInputElement>(null); // 入力フィールドの参照
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1); // 選択中のインデックス
 
   useEffect(() => {
     setIsOpen(inputValue.length > 0 && suggestions.length > 0);
+    setSelectedIndex(-1); // 新しい候補が表示されたら選択をリセット
   }, [inputValue, suggestions]);
 
   // Google Places APIで候補を取得する処理
@@ -87,9 +89,35 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     setSuggestions([]);
     setSelectedPlaceId(null);
   };
-  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.nativeEvent.isComposing || e.key !== "Enter") return;
-    handleSubmit(e);
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (!isOpen || suggestions.length === 0) return;
+
+    switch (e.key) {
+      case "ArrowUp":
+        e.preventDefault();
+        setSelectedIndex((prevIndex) =>
+          prevIndex > 0 ? prevIndex - 1 : prevIndex
+        );
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        setSelectedIndex((prevIndex) =>
+          prevIndex < suggestions.length - 1 ? prevIndex + 1 : prevIndex
+        );
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (selectedIndex >= 0) {
+          handleSuggestionClick(suggestions[selectedIndex]);
+        } else {
+          handleSubmit(e);
+        }
+        break;
+      case "Escape":
+        setIsOpen(false);
+        break;
+    }
   };
 
   return (
@@ -101,7 +129,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
           value={inputValue}
           onChange={handleInputChange}
           ref={inputRef}
-          onKeyDown={handleEnter}
+          onKeyDown={handleKeyDown}
         />
         <Button type="submit">検索</Button>
       </div>
@@ -110,10 +138,11 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
           <Command>
             <CommandList>
               <CommandGroup>
-                {suggestions.map((place) => (
+                {suggestions.map((place, index) => (
                   <CommandItem
                     key={place.place_id}
                     onSelect={() => handleSuggestionClick(place)}
+                    className={selectedIndex === index ? "bg-accent" : ""}
                   >
                     {place.structured_formatting?.main_text ||
                       place.description}{" "}
