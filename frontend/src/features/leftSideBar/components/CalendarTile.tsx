@@ -4,15 +4,20 @@ import * as React from "react";
 
 import { Calendar } from "~/components/ui/calendar";
 
+import { useCalendarSession } from "~/hooks/useCalendarSession";
+
 export function CalendarTile() {
-  // コンポーネント名をPascalCaseに変更
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const { calendarSession, setCalendarSession } = useCalendarSession();
 
   return (
     <Calendar
       mode="single"
-      selected={date}
-      onSelect={setDate}
+      selected={calendarSession.currentDate}
+      onSelect={(date) => {
+        if (date) {
+          setCalendarSession({ ...calendarSession, currentDate: date });
+        }
+      }}
       className="rounded-md border"
     />
   );
