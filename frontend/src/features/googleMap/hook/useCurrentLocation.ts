@@ -7,8 +7,7 @@ interface UseCurrentLocationProps {
 
 export function useCurrentLocation({ map, position }: UseCurrentLocationProps) {
   useEffect(() => {
-    if (!map) return; // マップがnullの場合は何もしない
-
+    if (!map) return;
     // 薄い青色の円を描画
     const circle = new google.maps.Circle({
       strokeColor: "#115EC3",
@@ -35,10 +34,9 @@ export function useCurrentLocation({ map, position }: UseCurrentLocationProps) {
       },
     });
 
-    // クリーンアップ時に円とマーカーを削除する
     return () => {
       circle.setMap(null);
       marker.setMap(null);
     };
-  }, [map, position]); // 依存配列にmapとpositionを指定
+  }, [map, position]);
 }

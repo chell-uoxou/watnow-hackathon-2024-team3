@@ -4,6 +4,7 @@ import { LoadScript, GoogleMap } from "@react-google-maps/api";
 import SearchBox from "./SearchBox";
 import { Location } from "../types/location";
 import { useCurrentLocation } from "../hook/useCurrentLocation";
+import { useMarker } from "../hook/useMarker";
 
 const containerStyle = {
   width: "100%",
@@ -47,10 +48,26 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
     mapTypeControl: false, // マップタイプコントロールを無効化
   };
 
-  // 現在地を表すアイコンをカスタムフックで表示
+  // 現在地を表すアイコンを表示
   useCurrentLocation({
     map: map.current,
     position: currentLocation || defaultCenter,
+  });
+
+  // でもデータ
+  useMarker({
+    map: map.current,
+    positions: [
+      { lat: 34.809, lng: 135.5613 },
+      { lat: 34.80944, lng: 135.561444 },
+      { lat: 34.80989, lng: 135.561208 },
+    ],
+    group: "decided",
+  });
+  useMarker({
+    map: map.current,
+    positions: [{ lat: 34.809897, lng: 135.5612 }],
+    group: "undecided",
   });
 
   const handleAddressSelect = (lat: number, lng: number) => {
