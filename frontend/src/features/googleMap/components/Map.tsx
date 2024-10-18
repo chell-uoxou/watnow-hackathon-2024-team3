@@ -4,6 +4,7 @@ import { LoadScript, GoogleMap } from "@react-google-maps/api";
 import SearchBox from "./SearchBox";
 import { Location } from "../types/location";
 import { useCurrentLocation } from "../hook/useCurrentLocation";
+import { useMarker } from "../hook/useMarker";
 
 const containerStyle = {
   width: "100%",
@@ -47,11 +48,26 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
     mapTypeControl: false, // マップタイプコントロールを無効化
   };
 
-  // 現在地を表すアイコンをカスタムフックで表示
+  // 現在地を表すアイコンを表示
   useCurrentLocation({
     map: map.current,
     position: currentLocation || defaultCenter,
   });
+
+  // でもデータ
+  useMarker({
+    map: map.current,
+    positions: [
+      { lat: 34.809, lng: 135.5613, isDecided: true },
+      { lat: 34.80944, lng: 135.561444, isDecided: true },
+      { lat: 34.80989, lng: 135.561208, isDecided: false },
+      { lat: 34.809999, lng: 135.59999, isDecided: false },
+    ],
+  });
+
+  const handleAddressSelect = (lat: number, lng: number) => {
+    setCenter({ lat, lng }); // 中心を更新
+  };
 
   return (
     <div className="grow rounded-lg bg-clip-border relative">
@@ -67,9 +83,8 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
           onUnmount={onUnmount}
           options={mapOptions}
         >
-          <div className="flex w-full z-10 justify-center absolute top-4 invisible">
-            {/* サーチボックスのハリボテで機能していない */}
-            <SearchBox />
+          <div className="flex w-full z-10 absolute top-4 px-3">
+            <SearchBox onAddressSelect={handleAddressSelect} />
           </div>
         </GoogleMap>
       </LoadScript>
