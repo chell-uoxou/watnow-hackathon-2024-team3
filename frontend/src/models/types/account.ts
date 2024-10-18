@@ -1,3 +1,6 @@
+import { DocumentReference } from "firebase/firestore";
+import { DBGroup } from "~/lib/firestore/schemas";
+
 /**
  * ## Account
  * ユーザー個人の情報を保持する型
@@ -20,4 +23,5 @@ export type Account = {
   first_name: string;
   phone_number: string;
   address: string;
+  groups: DocumentReference<DBGroup>[];
 };

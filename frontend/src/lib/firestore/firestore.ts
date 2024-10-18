@@ -1,8 +1,4 @@
-import {
-  FirestoreDataConverter,
-  Primitive,
-  WithFieldValue,
-} from "firebase/firestore";
+import { FirestoreDataConverter, WithFieldValue } from "firebase/firestore";
 
 export type WithUid<T> = {
   uid: string;
@@ -14,7 +10,7 @@ export type WithUid<T> = {
  * db読み取り時: uidを追加します。
  */
 export const createConverter = <
-  T extends Record<string, Primitive>
+  T extends object
 >(): FirestoreDataConverter<T> => ({
   toFirestore: (data: WithUid<WithFieldValue<T>>) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
