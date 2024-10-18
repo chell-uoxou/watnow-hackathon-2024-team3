@@ -9,7 +9,8 @@ import {
   CommandItem,
   CommandList,
 } from "~/components/ui/command";
-import { Search } from "lucide-react";
+import { MoveRight, Search } from "lucide-react";
+import clsx from "clsx";
 
 interface PlacePrediction {
   place_id: string;
@@ -171,10 +172,17 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
                   <CommandItem
                     key={place.place_id}
                     onSelect={() => handleSuggestionClick(place)}
-                    className={selectedIndex === index ? "bg-accent" : ""}
+                    className={clsx(
+                      "flex justify-between group cursor-pointer",
+                      selectedIndex === index ? "bg-accent" : ""
+                    )}
                   >
                     {place.structured_formatting?.main_text ||
-                      place.description}{" "}
+                      place.description}
+
+                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 items-center">
+                      <MoveRight className="size-4" />
+                    </div>
                   </CommandItem>
                 ))}
               </CommandGroup>
