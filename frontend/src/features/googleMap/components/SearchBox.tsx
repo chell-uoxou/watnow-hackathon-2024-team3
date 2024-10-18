@@ -95,10 +95,8 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      console.log("Submit");
 
       if (selectedPlaceId) {
-        console.log("Submitted:", selectedPlaceId);
         fetchGeoCode(selectedPlaceId);
       }
 
