@@ -1,15 +1,18 @@
 import { Card, CardContent } from "~/components/ui/card";
-import { EventPoolItem } from "~/models/types/event_pool_item";
 import { PropsWithIcon } from "./components/PropsWithIcon";
 import { CalendarRange, Map } from "lucide-react";
 import clsx from "clsx";
+import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 interface DayTimelineEventProps {
-  event: EventPoolItem;
+  event: DBEventPoolItem;
   isDragging?: boolean;
 }
 
-export const DayTimelineEvent = ({ event, isDragging }: DayTimelineEventProps) => {
+export const DayTimelineEvent = ({
+  event,
+  isDragging,
+}: DayTimelineEventProps) => {
   return (
     <div>
       <Card className={clsx(isDragging && "shadow-lg")}>

@@ -4,13 +4,13 @@ import { GroupSwitcher } from "./components/GroupSwitcher";
 import { LogoIcon } from "~/components/common/LogoIcon";
 import useCurrentAccount from "~/hooks/useCurrentAccount";
 import { useEffect, useState } from "react";
-import { Group } from "~/models/types/group";
 import MyAvatar from "./components/MyAvatar";
 import { Bell } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { DBGroup } from "~/lib/firestore/schemas";
 
 export const AppTopBar = () => {
-  const [groups, setGroups] = useState<Group[] | null | "loading">("loading");
+  const [groups, setGroups] = useState<DBGroup[] | null | "loading">("loading");
   const { getGroupsByAccount } = useCurrentAccount();
 
   useEffect(() => {

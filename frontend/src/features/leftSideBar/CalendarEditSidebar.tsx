@@ -8,7 +8,6 @@ import { EventPoolList } from "~/features/eventPool/EventPoolList";
 import useCurrentAccount from "~/hooks/useCurrentAccount";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
-import { EventPoolItem } from "~/models/types/event_pool_item";
 import { ViewTitle } from "~/components/common/ViewTitle";
 import SmallTitleWithIcon from "~/components/common/SmallTitleWithIcon";
 import { Blocks } from "lucide-react";
@@ -16,16 +15,17 @@ import BackButton from "~/components/common/BackButton";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import EventPoolListSkeleton from "../eventPool/EventPoolListSkeleton";
+import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 export default function CalendarEditSidebar({
   events,
   setEvents,
 }: {
-  events: EventPoolItem[];
-  setEvents: React.Dispatch<React.SetStateAction<EventPoolItem[]>>;
+  events: DBEventPoolItem[];
+  setEvents: React.Dispatch<React.SetStateAction<DBEventPoolItem[]>>;
 }) {
   const { currentDBAccount } = useCurrentAccount();
-  const { list: listEventPool } = useFirestoreCollection<EventPoolItem>(
+  const { list: listEventPool } = useFirestoreCollection<DBEventPoolItem>(
     currentDBAccount !== "loading" && currentDBAccount?.uid
       ? collection(doc(db, "accounts", currentDBAccount.uid), "event_pool")
       : null

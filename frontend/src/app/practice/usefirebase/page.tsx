@@ -5,10 +5,10 @@ import React from "react";
 import { Button } from "~/components/ui/button";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
 import { db } from "~/lib/firebase";
-import { Account } from "~/models/types/account";
+import { DBAccount } from "~/lib/firestore/schemas";
 
 export default function Page() {
-  const accountDB = useFirestoreCollection<Account>(
+  const accountDB = useFirestoreCollection<DBAccount>(
     collection(db, "accounts")
   );
 

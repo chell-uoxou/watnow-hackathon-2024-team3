@@ -9,7 +9,6 @@ import {
   Modifier,
   useDroppable,
 } from "@dnd-kit/core";
-import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import clsx from "clsx";
 import { Timestamp } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -18,7 +17,7 @@ import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import EventPoolListItem from "~/features/eventPool/EventsPoolListItem";
 import { Timeline } from "~/features/timeline/Timeline";
 import { useTimelineSettings } from "~/hooks/useTimelineSettings";
-import { EventPoolItem } from "~/models/types/event_pool_item";
+import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 const Droppable = () => {
   const { timelineSettings } = useTimelineSettings();
@@ -50,7 +49,7 @@ export default function Page() {
 
   const { timelineSettings } = useTimelineSettings();
 
-  const dummyEventPool1: EventPoolItem = {
+  const dummyEventPool1: DBEventPoolItem = {
     uid: "1",
     title: "京都国立博物館",
     description: "特別展を見学",
@@ -76,7 +75,7 @@ export default function Page() {
     max_participants: 0,
     notes: "notes",
   };
-  const dummyEventPool2: EventPoolItem = {
+  const dummyEventPool2: DBEventPoolItem = {
     uid: "2",
     title: "京都タワー",
     description: "展望台に登る",
@@ -277,7 +276,7 @@ export default function Page() {
           <DayTimelineEvent
             isDragging
             event={
-              events.find((event) => event.uid === activeId) as EventPoolItem
+              events.find((event) => event.uid === activeId) as DBEventPoolItem
             }
           />
         ) : null}
