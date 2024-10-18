@@ -109,6 +109,8 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
         break;
       case "Enter":
         e.preventDefault();
+        if (e.nativeEvent.isComposing || e.key !== "Enter") return;
+
         if (selectedIndex >= 0) {
           handleSuggestionClick(suggestions[selectedIndex]);
         } else if (!selectedPlaceId) {
