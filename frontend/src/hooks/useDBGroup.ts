@@ -19,21 +19,21 @@ export const getGroupDocRef = (groupId: string) => {
 };
 
 export default function useDBGroup(groupRef: DocumentReference) {
-  const memoizedGroup = useFirestoreRefMemo(groupRef);
+  const memoizedGroupRef = useFirestoreRefMemo(groupRef);
 
   const existAccount = useCallback(
     async (accountRef: DocumentReference<DBAccount>) => {
-      if (!memoizedGroup) return false;
+      if (!memoizedGroupRef) return false;
       const snapshot = await getDocs(
         query(
-          collection(memoizedGroup, "members"),
+          collection(memoizedGroupRef, "members"),
           where("account_reference", "==", accountRef)
         )
       );
       console.log(snapshot);
       return snapshot.size > 0;
     },
-    [memoizedGroup]
+    [memoizedGroupRef]
   );
 
   const addMemberToGroup = useCallback(
@@ -48,7 +48,7 @@ export default function useDBGroup(groupRef: DocumentReference) {
         await runTransaction(db, async (transaction) => {
           console.log("transaction start: addMemberToGroup");
           const newMemberRef = doc(
-            collection(groupRef, "members")
+            collection(memoizedGroupRef!, "members")
           ).withConverter(createConverter<DBGroupMember>());
           const newMemberData = {
             account_reference: accountRef,
@@ -61,14 +61,16 @@ export default function useDBGroup(groupRef: DocumentReference) {
             ...memberInfo,
           };
           transaction.set(newMemberRef, newMemberData);
-          transaction.update(accountRef, { groups: arrayUnion(memoizedGroup) });
+          transaction.update(accountRef, {
+            groups: arrayUnion(memoizedGroupRef),
+          });
           console.log("transaction end: addMemberToGroup");
         });
       } catch (e) {
         console.error(e);
       }
     },
-    [groupRef, memoizedGroup]
+    [memoizedGroupRef]
   );
 
   return { existAccount, addMemberToGroup };
