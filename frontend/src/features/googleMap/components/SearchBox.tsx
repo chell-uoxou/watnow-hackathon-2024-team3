@@ -60,36 +60,54 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     500
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    debouncedFetchSuggestions(e.target.value);
-  };
-
-  const handleSuggestionClick = (place: PlacePrediction) => {
-    setInputValue(place.description); // 入力フィールドに住所を設定
-    setSelectedPlaceId(place.place_id); // 選択したプレースIDを保存
-    setIsOpen(false); // 候補リストを閉じる
-    inputRef.current?.focus(); // 入力フィールドにフォーカス
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (selectedPlaceId) {
+  const fetchGeoCode = useCallback(
+    (placeId: string) => {
       const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ placeId: selectedPlaceId }, (results, status) => {
+      geocoder.geocode({ placeId: placeId }, (results, status) => {
         if (status === "OK" && results && results[0]) {
           const location = results[0].geometry.location; // 緯度と経度を取得
           onAddressSelect(location.lat(), location.lng()); // 親コンポーネントに選択した住所を通知
         }
       });
-    }
+    },
+    [onAddressSelect]
+  );
 
-    console.log("Submitted:", inputValue);
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(e.target.value);
+      debouncedFetchSuggestions(e.target.value);
+    },
+    [debouncedFetchSuggestions]
+  );
 
-    // 検索候補をリセット
-    setSuggestions([]);
-    setSelectedPlaceId(null);
-  };
+  const handleSuggestionClick = useCallback(
+    (place: PlacePrediction) => {
+      setInputValue(place.description); // 入力フィールドに住所を設定
+      setSelectedPlaceId(place.place_id); // 選択したプレースIDを保存
+      setIsOpen(false); // 候補リストを閉じる
+      inputRef.current?.focus(); // 入力フィールドにフォーカス
+      fetchGeoCode(place.place_id); // 住所を選択したときに緯度経度を取得
+    },
+    [fetchGeoCode]
+  );
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log("Submit");
+
+      if (selectedPlaceId) {
+        console.log("Submitted:", selectedPlaceId);
+        fetchGeoCode(selectedPlaceId);
+      }
+
+      // 検索候補をリセット
+      setSuggestions([]);
+      setSelectedPlaceId(null);
+    },
+    [fetchGeoCode, selectedPlaceId]
+  );
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!isOpen || suggestions.length === 0) return;
