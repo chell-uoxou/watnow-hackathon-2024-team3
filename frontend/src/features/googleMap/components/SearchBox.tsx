@@ -31,7 +31,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
 
   useEffect(() => {
     setIsOpen(inputValue.length > 0 && suggestions.length > 0);
-    setSelectedIndex(-1); // 新しい候補が表示されたら選択をリセット
+    setSelectedIndex(0); // 新しい候補が表示されたら選択をリセット
   }, [inputValue, suggestions]);
 
   // Google Places APIで候補を取得する処理
