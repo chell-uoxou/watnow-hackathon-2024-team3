@@ -10,6 +10,7 @@ import {
   CommandItem,
   CommandList,
 } from "~/components/ui/command";
+import { Search } from "lucide-react";
 
 interface PlacePrediction {
   place_id: string;
@@ -57,7 +58,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     (inputValue: string) => {
       fetchSuggestions(inputValue);
     },
-    500
+    750
   );
 
   const fetchGeoCode = useCallback(
@@ -152,7 +153,15 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
           ref={inputRef}
           onKeyDown={handleKeyDown}
         />
-        <Button type="submit">検索</Button>
+        <Button
+          type="button"
+          onClick={() => {
+            debouncedFetchSuggestions.flush();
+          }}
+          className="p-3"
+        >
+          <Search className="size-4" />
+        </Button>
       </div>
       {isOpen && (
         <div className="absolute mt-1 w-full z-10">
