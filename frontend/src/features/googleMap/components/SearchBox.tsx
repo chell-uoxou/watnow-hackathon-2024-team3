@@ -76,8 +76,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     }
     console.log("Submitted:", inputValue);
 
-    // 検索窓をリセット
-    setInputValue("");
+    // 検索候補をリセット
     setSuggestions([]);
     setSelectedPlaceId(null);
   };

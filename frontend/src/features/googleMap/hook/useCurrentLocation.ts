@@ -33,7 +33,7 @@ export function useCurrentLocation({ map, position }: UseCurrentLocationProps) {
         scale: 7,
       },
     });
-
+    // クリーンアップ時に円とマーカーを削除する
     return () => {
       circle.setMap(null);
       marker.setMap(null);

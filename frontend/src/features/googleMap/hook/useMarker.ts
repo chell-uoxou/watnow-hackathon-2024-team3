@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 
-interface UseCurrentLocationProps {
+interface UseMarkerProps {
   map: google.maps.Map | null;
   positions: (google.maps.LatLngLiteral & {
     isDecided: boolean;
   })[];
 }
 
-export function useMarker(props: UseCurrentLocationProps) {
+export function useMarker(props: UseMarkerProps) {
   useEffect(() => {
     if (!props.map) return;
 
