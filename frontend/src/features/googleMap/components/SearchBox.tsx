@@ -97,14 +97,14 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
       e.preventDefault();
 
       if (selectedPlaceId) {
-        fetchGeoCode(selectedPlaceId);
+        fetchGeoCode(suggestions[selectedIndex].place_id);
       }
 
       // 検索候補をリセット
       setSuggestions([]);
       setSelectedPlaceId(null);
     },
-    [fetchGeoCode, selectedPlaceId]
+    [fetchGeoCode, selectedIndex, selectedPlaceId, suggestions]
   );
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
