@@ -19,18 +19,18 @@ export const DayTimelineEvent = ({
         <CardContent className="py-4 px-5">
           <div className="flex flex-col gap-2">
             <h1 className="text-sm font-bold">{event.title}</h1>
-            {(event.location !== "" || !isDragging) && (
+            {(event.location_text !== "" || !isDragging) && (
               <div className="flex flex-col gap-1.5 ">
-                {event.location !== "" && (
+                {event.location_text !== "" && (
                   <PropsWithIcon
                     icon={<Map size={14} />}
-                    value={event.location}
+                    value={event.location_text}
                   />
                 )}
                 {!isDragging && (
                   <PropsWithIcon
                     icon={<CalendarRange size={14} />}
-                    value={event.location}
+                    value={event.location_text}
                   />
                 )}
               </div>

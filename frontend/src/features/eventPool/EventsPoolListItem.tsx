@@ -60,7 +60,7 @@ const Component = forwardRef<HTMLDivElement, Props>(function EventPoolItem(
             </div>
             <div className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center justify-start gap-x-1">
               <Map className="w-3.5 h-3.5" />
-              {eventPool.location}
+              {eventPool.location_text}
             </div>
           </div>
         </CardContent>

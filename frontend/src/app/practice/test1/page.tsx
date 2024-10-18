@@ -10,13 +10,16 @@ import {
   useDroppable,
 } from "@dnd-kit/core";
 import clsx from "clsx";
-import { Timestamp } from "firebase/firestore";
+import { doc, GeoPoint, Timestamp } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import EventPoolListItem from "~/features/eventPool/EventsPoolListItem";
 import { Timeline } from "~/features/timeline/Timeline";
 import { useTimelineSettings } from "~/hooks/useTimelineSettings";
+import { db } from "~/lib/firebase";
+import { defaultConverter } from "~/lib/firestore/firestore";
+import { DBAccount, DBGroupMember } from "~/lib/firestore/schemas";
 import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 const Droppable = () => {
@@ -53,7 +56,8 @@ export default function Page() {
     uid: "1",
     title: "京都国立博物館",
     description: "特別展を見学",
-    location: "京都府京都市東山区",
+    location_text: "京都府京都市東山区",
+    location_coordinates: new GeoPoint(35.0116, 135.7681),
     attached_image: "",
     available_times: [
       {
@@ -86,7 +90,8 @@ export default function Page() {
     uid: "2",
     title: "京都タワー",
     description: "展望台に登る",
-    location: "京都府京都市下京区",
+    location_text: "京都府京都市下京区",
+    location_coordinates: new GeoPoint(34.9875, 135.7594),
     attached_image: "",
     available_times: [
       {
