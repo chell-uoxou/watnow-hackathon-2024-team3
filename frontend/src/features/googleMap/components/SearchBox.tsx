@@ -85,7 +85,7 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     (place: PlacePrediction) => {
       setInputValue(place.description); // 入力フィールドに住所を設定
       setSelectedPlaceId(place.place_id); // 選択したプレースIDを保存
-      setIsOpen(false); // 候補リストを閉じる
+      setSuggestions([]); // 候補リストを閉じるために候補をリセット
       inputRef.current?.focus(); // 入力フィールドにフォーカス
       fetchGeoCode(place.place_id); // 住所を選択したときに緯度経度を取得
     },
