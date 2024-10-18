@@ -2,8 +2,9 @@ import { useEffect } from "react";
 
 interface UseCurrentLocationProps {
   map: google.maps.Map | null;
-  positions: google.maps.LatLngLiteral[];
-  group: "undecided" | "decided";
+  positions: (google.maps.LatLngLiteral & {
+    isDecided: boolean;
+  })[];
 }
 
 export function useMarker(props: UseCurrentLocationProps) {
@@ -13,10 +14,10 @@ export function useMarker(props: UseCurrentLocationProps) {
     const markers = props.positions.map((position) => {
       let markerColor = "";
 
-      if (props.group === "undecided") {
-        markerColor = "green-dot.png"; // 候補のイベントの色
-      } else {
+      if (position.isDecided) {
         markerColor = "red-dot.png"; // 日程に追加されイベントの色
+      } else {
+        markerColor = "green-dot.png"; // 候補のイベントの色
       }
 
       // マーカーを作成
@@ -33,5 +34,5 @@ export function useMarker(props: UseCurrentLocationProps) {
     return () => {
       markers.forEach((marker) => marker.setMap(null));
     };
-  }, [props.map, props.positions, props.group]);
+  }, [props.map, props.positions]);
 }

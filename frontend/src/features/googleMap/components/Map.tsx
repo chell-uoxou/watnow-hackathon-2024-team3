@@ -58,16 +58,11 @@ export default function Map({ currentLocation, defaultCenter }: MapProps) {
   useMarker({
     map: map.current,
     positions: [
-      { lat: 34.809, lng: 135.5613 },
-      { lat: 34.80944, lng: 135.561444 },
-      { lat: 34.80989, lng: 135.561208 },
+      { lat: 34.809, lng: 135.5613, isDecided: true },
+      { lat: 34.80944, lng: 135.561444, isDecided: true },
+      { lat: 34.80989, lng: 135.561208, isDecided: false },
+      { lat: 34.809999, lng: 135.59999, isDecided: false },
     ],
-    group: "decided",
-  });
-  useMarker({
-    map: map.current,
-    positions: [{ lat: 34.809897, lng: 135.5612 }],
-    group: "undecided",
   });
 
   const handleAddressSelect = (lat: number, lng: number) => {
