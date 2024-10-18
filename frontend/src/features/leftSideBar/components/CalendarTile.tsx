@@ -7,7 +7,7 @@ import { Calendar } from "~/components/ui/calendar";
 import { useCalendarSession } from "~/hooks/useCalendarSession";
 
 export function CalendarTile() {
-  const { calendarSession, setCalendarSession } = useCalendarSession();
+  const { calendarSession, updateCalendarSession } = useCalendarSession();
 
   return (
     <Calendar
@@ -15,7 +15,7 @@ export function CalendarTile() {
       selected={calendarSession.currentDate}
       onSelect={(date) => {
         if (date) {
-          setCalendarSession({ ...calendarSession, currentDate: date });
+          updateCalendarSession("currentDate", date);
         }
       }}
       className="rounded-md border"

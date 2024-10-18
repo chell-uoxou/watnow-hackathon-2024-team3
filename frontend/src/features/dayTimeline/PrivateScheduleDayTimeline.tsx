@@ -6,7 +6,7 @@ import { Timeline } from "../timeline/Timeline";
 import { useCalendarSession } from "~/hooks/useCalendarSession";
 
 const PrivateScheduleDayTimeline = () => {
-  const { calendarSession, setCalendarSession } = useCalendarSession();
+  const { calendarSession, updateCalendarSession } = useCalendarSession();
   return (
     <div className="relative flex flex-col size-full px-6">
       <ScrollArea className="size-full">
@@ -17,9 +17,7 @@ const PrivateScheduleDayTimeline = () => {
       <div className="absolute top-[14px] left-[17px]">
         <DateSwitcher
           value={calendarSession.currentDate}
-          onChange={(date: Date) =>
-            setCalendarSession((prev) => ({ ...prev, currentDate: date }))
-          }
+          onChange={(date) => updateCalendarSession("currentDate", date)}
         />
       </div>
     </div>
