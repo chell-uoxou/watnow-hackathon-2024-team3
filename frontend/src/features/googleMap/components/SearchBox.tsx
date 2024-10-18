@@ -11,11 +11,10 @@ import {
   CommandList,
 } from "~/components/ui/command";
 
-// 候補の型を定義
 interface PlacePrediction {
-  place_id: string; // プレースID
-  description: string; // プレースの説明
-  structured_formatting?: { main_text: string; secondary_text: string }; // 構造化されたフォーマット
+  place_id: string;
+  description: string;
+  structured_formatting?: { main_text: string; secondary_text: string };
 }
 
 interface SearchBoxProps {
@@ -23,18 +22,17 @@ interface SearchBoxProps {
 }
 
 export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
-  const [inputValue, setInputValue] = useState<string>(""); // 入力値の状態
+  const [inputValue, setInputValue] = useState<string>("");
   const [suggestions, setSuggestions] = useState<PlacePrediction[]>([]); // 候補の状態
   const [isOpen, setIsOpen] = useState<boolean>(false); // 候補表示のフラグ
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null); // 選択した候補のプレースID
   const inputRef = useRef<HTMLInputElement>(null); // 入力フィールドの参照
 
-  // 候補が変更された場合のフラグ
   useEffect(() => {
     setIsOpen(inputValue.length > 0 && suggestions.length > 0);
   }, [inputValue, suggestions]);
 
-  // Google Places APIで候補を取得する処理をデバウンス付きで定義
+  // Google Places APIで候補を取得する処理
   const fetchSuggestions = useDebouncedCallback((inputValue: string) => {
     if (inputValue) {
       const service = new google.maps.places.AutocompleteService();
@@ -51,12 +49,11 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     } else {
       setSuggestions([]);
     }
-  }, 500); // 3秒のデバウンスを設定
+  }, 500);
 
-  // 入力の変更を監視し、fetchSuggestionsを呼び出す
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value); // 入力値を更新
-    fetchSuggestions(e.target.value); // 3秒間隔でGoogle Places APIを呼び出す
+    setInputValue(e.target.value);
+    fetchSuggestions(e.target.value);
   };
 
   const handleSuggestionClick = (place: PlacePrediction) => {
@@ -80,9 +77,9 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
     console.log("Submitted:", inputValue); // 送信された住所をコンソールに表示
 
     // 検索窓をリセット
-    setInputValue(""); // 入力値をリセット
-    setSuggestions([]); // 候補もリセット
-    setSelectedPlaceId(null); // 選択したプレースIDもリセット
+    setInputValue("");
+    setSuggestions([]);
+    setSelectedPlaceId(null);
   };
 
   return (
@@ -105,11 +102,10 @@ export default function SearchBox({ onAddressSelect }: SearchBoxProps) {
                 {suggestions.map((place) => (
                   <CommandItem
                     key={place.place_id}
-                    onSelect={() => handleSuggestionClick(place)} // 候補を選択した際に住所を設定
+                    onSelect={() => handleSuggestionClick(place)}
                   >
                     {place.structured_formatting?.main_text ||
                       place.description}{" "}
-                    {/* 構造化されたフォーマットから施設名を表示 */}
                   </CommandItem>
                 ))}
               </CommandGroup>
