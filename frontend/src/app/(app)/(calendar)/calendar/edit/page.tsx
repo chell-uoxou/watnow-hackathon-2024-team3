@@ -10,11 +10,11 @@ import { CardBodyWithLeftSidebar } from "~/features/appLayout/CardBodyWithLeftSi
 import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
 import PrivateScheduleDayTimeline from "~/features/dayTimeline/PrivateScheduleDayTimeline";
 import CalendarEditSidebar from "~/features/leftSidebar/CalendarEditSidebar";
-import { EventPool } from "~/models/types/event_pool";
+import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 export default function Page() {
   const [activeId, setActiveId] = useState<string | number | null>(null);
-  const [events, setEvents] = useState<EventPool[]>([]);
+  const [events, setEvents] = useState<DBEventPoolItem[]>([]);
 
   const handleStartDrag = (event: DragStartEvent) => {
     setActiveId(event.active.id);
@@ -38,7 +38,9 @@ export default function Page() {
         {activeId ? (
           <DayTimelineEvent
             isDragging
-            event={events.find((event) => event.uid === activeId) as EventPool}
+            event={
+              events.find((event) => event.uid === activeId) as DBEventPoolItem
+            }
           />
         ) : null}
       </DragOverlay>

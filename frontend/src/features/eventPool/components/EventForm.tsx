@@ -15,11 +15,11 @@ import { Button } from "~/components/ui/button";
 import { collection, Timestamp } from "firebase/firestore";
 import { db } from "~/lib/firebase";
 import { useFirestoreCollection } from "~/hooks/useFirestoreCollection";
-import { EventPool } from "~/models/types/event_pool";
 import { BudgetMode } from "~/models/types/common";
 import useCurrentAccount, { isReady } from "~/hooks/useCurrentAccount";
 import { InputWithLabel } from "~/components/common/InputWithLabel";
 import { WithLabel } from "~/components/common/WithLabel";
+import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 function EventForm() {
   const { currentDBAccount } = useCurrentAccount();
@@ -28,7 +28,7 @@ function EventForm() {
   const eventsCollection = isReady(currentDBAccount)
     ? collection(db, "accounts", currentDBAccount.uid, "event_pool")
     : null;
-  const { add } = useFirestoreCollection<EventPool>(eventsCollection);
+  const { add } = useFirestoreCollection<DBEventPoolItem>(eventsCollection);
 
   // 各入力フィールドの状態を管理
   const [name, setName] = useState("");
@@ -52,10 +52,11 @@ function EventForm() {
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
 
-    const sendData = {
+    const sendData: Parameters<typeof add>[0] = {
       title: name,
       description: description,
-      location: location,
+      location_text: location,
+      location_coordinates: null, // TODO: 位置情報の取得
       attached_image: "",
       available_times: [
         {
@@ -72,6 +73,7 @@ function EventForm() {
       preparation_task: isPreparationChecked ? preparationDetails : "",
       max_participants: Number(participants),
       notes: memo,
+      schedule_instances: [],
     };
 
     try {

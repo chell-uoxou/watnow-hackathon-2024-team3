@@ -1,15 +1,15 @@
 import React from "react";
-import EventPoolItem from "./EventsPoolItem";
-import { EventPool } from "~/models/types/event_pool";
+import EventPoolItem from "./EventsPoolListItem";
+import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 interface EventPoolProps {
-  events: EventPool[];
+  events: DBEventPoolItem[];
 }
 
 export const EventPoolList = ({ events }: EventPoolProps) => {
   return (
     <div className="flex flex-col gap-4 w-full">
-      {events.map((event: EventPool) => (
+      {events.map((event: DBEventPoolItem) => (
         <EventPoolItem id={event.uid} key={event.uid} eventPool={event} />
       ))}
     </div>

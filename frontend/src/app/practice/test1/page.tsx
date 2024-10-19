@@ -9,16 +9,18 @@ import {
   Modifier,
   useDroppable,
 } from "@dnd-kit/core";
-import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import clsx from "clsx";
-import { Timestamp } from "firebase/firestore";
+import { doc, GeoPoint, Timestamp } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { DayTimelineEvent } from "~/features/dayTimeline/DayTimelineEvent";
-import EventPoolItem from "~/features/eventPool/EventsPoolItem";
+import EventPoolListItem from "~/features/eventPool/EventsPoolListItem";
 import { Timeline } from "~/features/timeline/Timeline";
 import { useTimelineSettings } from "~/hooks/useTimelineSettings";
-import { EventPool } from "~/models/types/event_pool";
+import { db } from "~/lib/firebase";
+import { defaultConverter } from "~/lib/firestore/firestore";
+import { DBAccount, DBGroupMember } from "~/lib/firestore/schemas";
+import { DBEventPoolItem } from "~/lib/firestore/utils";
 
 const Droppable = () => {
   const { timelineSettings } = useTimelineSettings();
@@ -50,11 +52,12 @@ export default function Page() {
 
   const { timelineSettings } = useTimelineSettings();
 
-  const dummyEventPool1: EventPool = {
+  const dummyEventPool1: DBEventPoolItem = {
     uid: "1",
     title: "京都国立博物館",
     description: "特別展を見学",
-    location: "京都府京都市東山区",
+    location_text: "京都府京都市東山区",
+    location_coordinates: new GeoPoint(35.0116, 135.7681),
     attached_image: "",
     available_times: [
       {
@@ -75,12 +78,20 @@ export default function Page() {
     preparation_task: "予習",
     max_participants: 0,
     notes: "notes",
+    created_by_account: doc(db, "accounts/1").withConverter(
+      defaultConverter<DBAccount>()
+    ),
+    created_by_member: doc(db, "members/1").withConverter(
+      defaultConverter<DBGroupMember>()
+    ),
+    schedule_instances: [],
   };
-  const dummyEventPool2: EventPool = {
+  const dummyEventPool2: DBEventPoolItem = {
     uid: "2",
     title: "京都タワー",
     description: "展望台に登る",
-    location: "京都府京都市下京区",
+    location_text: "京都府京都市下京区",
+    location_coordinates: new GeoPoint(34.9875, 135.7594),
     attached_image: "",
     available_times: [
       {
@@ -101,6 +112,13 @@ export default function Page() {
     preparation_task: "オンラインチケットの購入",
     max_participants: 0,
     notes: "",
+    created_by_account: doc(db, "accounts/1").withConverter(
+      defaultConverter<DBAccount>()
+    ),
+    created_by_member: doc(db, "members/1").withConverter(
+      defaultConverter<DBGroupMember>()
+    ),
+    schedule_instances: [],
   };
 
   const events = [dummyEventPool1, dummyEventPool2];
@@ -195,8 +213,8 @@ export default function Page() {
     >
       <div className="flex h-svh">
         <div className="p-10 flex flex-col gap-4">
-          <EventPoolItem id="1" eventPool={dummyEventPool1} />
-          <EventPoolItem id="2" eventPool={dummyEventPool2} />
+          <EventPoolListItem id="1" eventPool={dummyEventPool1} />
+          <EventPoolListItem id="2" eventPool={dummyEventPool2} />
         </div>
         <ScrollArea
           className="size-full"
@@ -276,7 +294,9 @@ export default function Page() {
         {activeId ? (
           <DayTimelineEvent
             isDragging
-            event={events.find((event) => event.uid === activeId) as EventPool}
+            event={
+              events.find((event) => event.uid === activeId) as DBEventPoolItem
+            }
           />
         ) : null}
       </DragOverlay>

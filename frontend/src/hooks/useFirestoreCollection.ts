@@ -10,7 +10,7 @@ import {
   WithFieldValue,
 } from "firebase/firestore";
 import { useCallback } from "react";
-import { createConverter, defaultConverter } from "~/lib/firestore";
+import { createConverter, defaultConverter } from "~/lib/firestore/firestore";
 import useFirestoreRefMemo from "./useFirestoreRefMemo";
 
 /**

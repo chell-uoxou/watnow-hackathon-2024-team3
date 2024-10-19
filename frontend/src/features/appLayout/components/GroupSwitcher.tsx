@@ -4,7 +4,6 @@ import MenuItemWithIcon from "./MenuItemWithIcon";
 import { ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 import { Button } from "~/components/ui/button";
-import { Group } from "~/models/types/groups";
 import { LoadingSpinner } from "~/components/ui/spinner";
 import {
   DropdownMenu,
@@ -21,11 +20,15 @@ import { Settings } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 import { List } from "lucide-react";
 import { UserRound } from "lucide-react";
+import { DBAccount, DBGroup, DBGroupMember } from "~/lib/firestore/schemas";
+import { doc } from "firebase/firestore";
+import { db } from "~/lib/firebase";
+import { defaultConverter } from "~/lib/firestore/firestore";
 
 type Props = {
   current_icon_url?: string;
   current_name?: string;
-  groups: Group[];
+  groups: DBGroup[];
   isLoading: boolean;
 };
 
@@ -36,33 +39,59 @@ export function GroupSwitcher({
   groups,
 }: Props) {
   const [openGroupSwitcher, setOpenGroupSwitcher] = React.useState(false);
-  const [selectedGroup, setSelectedGroup] = React.useState<Group | null>(null);
+  const [selectedGroup, setSelectedGroup] = React.useState<DBGroup | null>(
+    null
+  );
 
-  const dummyGroup1: Group = {
+  const dummyGroup1: DBGroup = {
     uid: "1",
     name: "グループ1",
     description: "グループ1の説明",
     icon_url: "/images/defaultIcon.png",
+    created_by_account: doc(db, "accounts", "1").withConverter(
+      defaultConverter<DBAccount>()
+    ),
+    created_by_member: doc(db, "members", "1").withConverter(
+      defaultConverter<DBGroupMember>()
+    ),
   };
-  const dummyGroup2: Group = {
+  const dummyGroup2: DBGroup = {
     uid: "2",
     name: "グループ2",
     description: "グループ2の説明",
     icon_url: "/images/defaultIcon.png",
+    created_by_account: doc(db, "accounts", "1").withConverter(
+      defaultConverter<DBAccount>()
+    ),
+    created_by_member: doc(db, "members", "1").withConverter(
+      defaultConverter<DBGroupMember>()
+    ),
   };
 
-  const dummyGroup3: Group = {
+  const dummyGroup3: DBGroup = {
     uid: "3",
     name: "グループ3",
     description: "グループ3の説明",
     icon_url: "/images/defaultIcon.png",
+    created_by_account: doc(db, "accounts", "1").withConverter(
+      defaultConverter<DBAccount>()
+    ),
+    created_by_member: doc(db, "members", "1").withConverter(
+      defaultConverter<DBGroupMember>()
+    ),
   };
 
-  const dummyGroup4: Group = {
+  const dummyGroup4: DBGroup = {
     uid: "4",
     name: "グループ4",
     description: "グループ4の説明",
     icon_url: "/images/defaultIcon.png",
+    created_by_account: doc(db, "accounts", "1").withConverter(
+      defaultConverter<DBAccount>()
+    ),
+    created_by_member: doc(db, "members", "1").withConverter(
+      defaultConverter<DBGroupMember>()
+    ),
   };
 
   const allGroups = [

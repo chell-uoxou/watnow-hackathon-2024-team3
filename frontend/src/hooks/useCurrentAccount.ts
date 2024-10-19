@@ -1,4 +1,3 @@
-import { Account } from "~/models/types/account";
 import { useFirestoreCollection } from "./useFirestoreCollection";
 import {
   collection,
@@ -12,20 +11,20 @@ import { db } from "~/lib/firebase";
 import useAuthUser from "./useAuthUser";
 import { useCallback, useEffect, useState } from "react";
 import useDBGroup, { getGroupDocRef } from "./useDBGroup";
-import { Group } from "~/models/types/groups";
+import { DBAccount, DBGroup } from "~/lib/firestore/schemas";
 
 const undefinedDefaultName = "名無しさん";
 const temporaryGroupIdForDemo = "YqPvZW6JKURIcTjCR9FA"; // デモ用に新規登録したアカウントを放り込むグループのID
 
 export default function useCurrentAccount() {
   const [currentDBAccount, setCurrentDBAccount] = useState<
-    Account | null | "loading"
+    DBAccount | null | "loading"
   >("loading");
   const {
     exists: accountExists,
     set: setAccount,
     get: getAccount,
-  } = useFirestoreCollection<Account>(collection(db, "accounts"));
+  } = useFirestoreCollection<DBAccount>(collection(db, "accounts"));
   const currentAuthUser = useAuthUser();
   const { existAccount, addMemberToGroup } = useDBGroup(
     getGroupDocRef(temporaryGroupIdForDemo)
@@ -49,6 +48,7 @@ export default function useCurrentAccount() {
             first_name: "",
             phone_number: "",
             address: "",
+            groups: [],
           });
         }
 
@@ -65,7 +65,7 @@ export default function useCurrentAccount() {
             db,
             "accounts",
             currentAuthUser.uid
-          ) as DocumentReference<Account>;
+          ) as DocumentReference<DBAccount>;
           existAccount(accountRef).then((exists) => {
             if (!exists) {
               console.log(
@@ -100,7 +100,7 @@ export default function useCurrentAccount() {
         where("members", "array-contains", currentDBAccount)
       )
     );
-    return snapshot.docs.map((doc) => doc.data()) as Group[];
+    return snapshot.docs.map((doc) => doc.data()) as DBGroup[];
   }, [currentDBAccount]);
 
   return { currentDBAccount, getGroupsByAccount };
@@ -108,6 +108,6 @@ export default function useCurrentAccount() {
 
 export const isReady = (
   currentAccount: ReturnType<typeof useCurrentAccount>["currentDBAccount"]
-): currentAccount is Account => {
+): currentAccount is DBAccount => {
   return currentAccount !== "loading" && currentAccount !== null;
 };
