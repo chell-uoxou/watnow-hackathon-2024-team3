@@ -10,7 +10,7 @@ export default function useGroupRouter() {
   const nextRouter = useRouter();
   const pathname = usePathname();
   const groupRegex = useMemo(() => /^\/g\/([^/]+)(\/|$)/, []);
-  const pathInGroupRegex = useMemo(() => /^\/g\/[^/]+(\/.*)/, []);
+  const pathInGroupRegex = useMemo(() => /^\/g\/[^/]+(.*)/, []);
 
   /**
    * 現在グループ内にいるかどうか
@@ -35,7 +35,7 @@ export default function useGroupRouter() {
   const extractPathInGroup = useCallback(
     (pathname: string) => {
       const match = pathname.match(pathInGroupRegex);
-      return match ? match[1] : pathname;
+      return match !== null ? (match[1] === "" ? "/" : match[1]) : pathname;
     },
     [pathInGroupRegex]
   );
@@ -119,10 +119,16 @@ export default function useGroupRouter() {
           ? extractPathInGroup(pathname)
           : "/g/" + groupId + "/" + extractPathInGroup(pathname);
       console.log("pushToChangeGroup!!!!!!!!!!!!!!!! ", realPath);
+      console.log(extractPathInGroup(pathname));
 
       nextRouter.push(realPath, options);
     },
     [extractPathInGroup, nextRouter, pathname]
+  );
+
+  const getPathInGroup = useCallback(
+    () => extractPathInGroup(pathname),
+    [extractPathInGroup, pathname]
   );
 
   return {
@@ -132,5 +138,6 @@ export default function useGroupRouter() {
     pushInGroup,
     replaceInGroup,
     pushToChangeGroup,
+    getPathInGroup,
   };
 }
