@@ -8,23 +8,29 @@ import MyAvatar from "./components/MyAvatar";
 import { Bell } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { DBGroup } from "~/lib/firestore/schemas";
+import useGroupRouter from "~/hooks/useGroupRouter";
 
 export const AppTopBar = () => {
   const [groups, setGroups] = useState<DBGroup[] | null | "loading">("loading");
-  const { getGroupsByAccount } = useCurrentAccount();
+  const { currentDBAccount, getGroupsByAccount } = useCurrentAccount();
+  const { isInGroup, groupId, pushToChangeGroup } = useGroupRouter();
 
   useEffect(() => {
-    getGroupsByAccount().then((groups) => {
-      console.log(groups);
+    if (currentDBAccount === "loading" || currentDBAccount === null) return;
+
+    getGroupsByAccount(currentDBAccount).then((groups) => {
       setGroups(groups);
     });
-  }, [getGroupsByAccount]);
+  }, [currentDBAccount, getGroupsByAccount]);
 
   return (
     <div className="flex justify-between items-center h-14 px-6 py-2 border-b border-brand-border-color absolute w-screen">
       <GroupSwitcher
-        groups={groups !== "loading" && groups !== null ? groups : []}
-        isLoading={groups === "loading"}
+        currentGroupId={isInGroup ? groupId : "personal"}
+        groups={groups}
+        onChange={(groupId) => {
+          pushToChangeGroup(groupId);
+        }}
       />
       <div className="flex w-22 h-5.5">
         <LogoIcon />

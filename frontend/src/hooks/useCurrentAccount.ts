@@ -1,17 +1,11 @@
 import { useFirestoreCollection } from "./useFirestoreCollection";
-import {
-  collection,
-  doc,
-  DocumentReference,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, doc, DocumentReference, getDoc } from "firebase/firestore";
 import { db } from "~/lib/firebase";
 import useAuthUser from "./useAuthUser";
 import { useCallback, useEffect, useState } from "react";
 import useDBGroup, { getGroupDocRef } from "./useDBGroup";
 import { DBAccount, DBGroup } from "~/lib/firestore/schemas";
+import { defaultConverter } from "~/lib/firestore/firestore";
 
 const undefinedDefaultName = "名無しさん";
 const temporaryGroupIdForDemo = "YqPvZW6JKURIcTjCR9FA"; // デモ用に新規登録したアカウントを放り込むグループのID
@@ -93,15 +87,16 @@ export default function useCurrentAccount() {
     addMemberToGroup,
   ]);
 
-  const getGroupsByAccount = useCallback(async () => {
-    const snapshot = await getDocs(
-      query(
-        collection(db, "groups"),
-        where("members", "array-contains", currentDBAccount)
-      )
+  const getGroupsByAccount = useCallback(async (account: DBAccount) => {
+    return await Promise.all(
+      account.groups.map(async (groupRef) => {
+        const snapshot = await getDoc(
+          doc(db, groupRef.path).withConverter(defaultConverter<DBGroup>())
+        );
+        return snapshot.data() as DBGroup;
+      })
     );
-    return snapshot.docs.map((doc) => doc.data()) as DBGroup[];
-  }, [currentDBAccount]);
+  }, []);
 
   return { currentDBAccount, getGroupsByAccount };
 }
